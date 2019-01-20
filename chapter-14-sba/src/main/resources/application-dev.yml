@@ -1,0 +1,29 @@
+# 登陆所需的账号密码
+#spring.security.user.name=battcn
+#spring.security.user.password=battcn
+# 便于客户端可以在受保护的服务器上注册api
+#spring.boot.admin.client.username=battcn
+#spring.boot.admin.client.password=battcn
+# 便服务器可以访问受保护的客户端端点
+#spring.boot.admin.client.instance.metadata.user.name=battcn
+#spring.boot.admin.client.instance.metadata.user.password=battcn
+
+spring:
+  security:
+    user:
+      name: yucong
+      password: 123456
+     
+  boot:
+    admin:
+      client:
+        username: yucong
+        password: 123456
+        instance:
+          metadata:
+            user:
+              name: yucong
+              password: 123456
+              
+            
+        

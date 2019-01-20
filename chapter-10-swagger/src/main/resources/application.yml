@@ -1,0 +1,3 @@
+# 开启swagger
+swagger:
+  enabled: true

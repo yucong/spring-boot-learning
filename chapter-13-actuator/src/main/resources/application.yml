@@ -1,0 +1,23 @@
+server:
+  port: 80
+  servlet:
+    context-path: /chapter13
+
+info:
+  blog-url: http://blog.yucong.com
+  author: yucong
+  version: 1.0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # 加载所有的端点/默认只加载了 info / health
+        include: "*"
+  endpoint:
+    health:
+      show-details: always        
+    shutdown:
+      # 可以关闭制定的端点
+      enabled: false    
+            

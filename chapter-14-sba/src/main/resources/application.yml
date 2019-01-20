@@ -1,0 +1,31 @@
+
+info:
+  blog-url: http://blog.yucong.com
+  author: yucong
+  version: 1.0
+
+logging:
+  file: ./target/admin-server.log
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        # 加载所有的端点/默认只加载了 info / health
+        include: "*"
+  endpoint:
+    health:
+      show-details: always        
+     
+spring:
+  application:
+    name: spring-boot-admin-client
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+        instance:
+          prefer-ip: true
+  profiles:
+    active: dev      
