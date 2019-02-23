@@ -62,6 +62,7 @@ public class RedisLockHelper {
      */
     public boolean lock(String lockKey, final String uuid, long timeout, final TimeUnit unit) {
         final long milliseconds = Expiration.from(timeout, unit).getExpirationTimeInMilliseconds();
+        
         boolean success = stringRedisTemplate.opsForValue()
         		.setIfAbsent(lockKey, (System.currentTimeMillis() + milliseconds) + DELIMITER + uuid);
         if (success) {
@@ -70,6 +71,7 @@ public class RedisLockHelper {
             String oldVal = stringRedisTemplate.opsForValue()
             		.getAndSet(lockKey, (System.currentTimeMillis() + milliseconds) + DELIMITER + uuid);
             final String[] oldValues = oldVal.split(Pattern.quote(DELIMITER));
+            //已经过期了，可能出现了其他jvm设置过期时间失败的情况发生了
             if (Long.parseLong(oldValues[0]) + 1 <= System.currentTimeMillis()) {
                 return true;
             }
@@ -105,6 +107,9 @@ public class RedisLockHelper {
     }
 
     /**
+     * 
+     * 释放锁，根据UUID来判断是由本线程加的锁，不能释放其他线程加的锁
+     * 
      * @param lockKey key
      * @param uuid    client(最好是唯一键的)
      */
