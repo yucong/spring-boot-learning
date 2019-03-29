@@ -1,5 +1,10 @@
 package com.yucong.utils;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
+
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -8,11 +13,6 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.util.StringUtils;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 /**
  * 需要定义成 Bean
@@ -62,6 +62,8 @@ public class RedisLockHelper {
      */
     public boolean lock(String lockKey, final String uuid, long timeout, final TimeUnit unit) {
         final long milliseconds = Expiration.from(timeout, unit).getExpirationTimeInMilliseconds();
+        
+        //HashMap h = null;
         
         boolean success = stringRedisTemplate.opsForValue()
         		.setIfAbsent(lockKey, (System.currentTimeMillis() + milliseconds) + DELIMITER + uuid);

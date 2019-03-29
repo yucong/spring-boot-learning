@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.Serializable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 @RunWith(SpringRunner.class)
@@ -28,9 +29,15 @@ public class ApplicationTest {
     @Autowired
     private RedisTemplate<String, Serializable> redisCacheTemplate;
 
+  
+    
     @Test
     public void get() {
-        // TODO 测试线程安全
+        
+    	AtomicInteger i = new AtomicInteger();
+    	i.incrementAndGet();
+    	
+    	// TODO 测试线程安全
         ExecutorService executorService = Executors.newFixedThreadPool(1000);
         IntStream.range(0, 1000).forEach(i ->
                 executorService.execute(() -> stringRedisTemplate.opsForValue().increment("kk", 1))

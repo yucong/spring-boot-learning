@@ -35,6 +35,13 @@ public class ApplicationTests {
         final int count = userMapper.countByUsername("u1");
         log.info("[调用自己写的SQL] - [{}]", count);
 
+        
+        
+        //userMapper.select(record)
+        
+       // userMapper.selectAll();
+        
+        
         // TODO 模拟分页
         userMapper.insertSelective(new User("u1", "p1"));
         userMapper.insertSelective(new User("u1", "p1"));
