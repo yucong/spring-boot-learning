@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.yucong.config.ShiroConfiguration;
 
 /**
- * @author Levin
+ * @author 喻聪
  * @since 2018/6/28 0028
  */
 @RestController
