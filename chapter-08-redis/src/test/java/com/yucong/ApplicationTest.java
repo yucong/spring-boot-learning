@@ -34,9 +34,6 @@ public class ApplicationTest {
     @Test
     public void get() {
         
-    	AtomicInteger i = new AtomicInteger();
-    	i.incrementAndGet();
-    	
     	// TODO 测试线程安全
         ExecutorService executorService = Executors.newFixedThreadPool(1000);
         IntStream.range(0, 1000).forEach(i ->

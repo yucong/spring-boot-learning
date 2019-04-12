@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * 加上Slf4j后，就可以直接使用log对象了
  * 
  * @author 喻聪
+ * 
  * @date   2018-12-24
  */
 @RestController
