@@ -13,7 +13,7 @@ public class Test {
 		
 		// $2a$10$ofPkBDUezOJp6Sik63Q/0.QlU8a1itEyzldjSXqfn2nDPqXjN0Ljm
 		// $2a$10$ootQb4WmMFaZT8m5xwRqBe3xPeED8aO1lWyuuWi7EiT8sOX9Os4c.
-		String password = "123456a";
+		String password = "alp2019";
 		
 		//加密 【注：每次加密后的值都是不一样的】
 		String pwt = BCrypt.hashpw(password, BCrypt.gensalt());
