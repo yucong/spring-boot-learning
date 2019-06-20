@@ -22,6 +22,9 @@ public class Test {
 		boolean pswFlag = BCrypt.checkpw(password,"$2a$10$ootQb4WmMFaZT8m5xwRqBe3xPeED8aO1lWyuuWi7EiT8sOX9Os4c.");
 
 		System.out.println(pwt+"===="+pswFlag);
+		
+		
+		
 	}
 	
 }
