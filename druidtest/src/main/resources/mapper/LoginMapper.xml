@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.druid.mapper.LoginMapper">
+
+    <sql id="loginUser">
+        id,username,password,phone,real_name,type,create_time,foreign_id,enterprise_id,status,create_user_id,last_login_time
+    </sql>
+
+
+    <select id="searchLoginUserById" resultType="com.druid.entity.LoginUser">
+        select
+        <include refid="loginUser"/>
+        from login_user where id = #{loginUserId}
+    </select>
+
+
+</mapper>

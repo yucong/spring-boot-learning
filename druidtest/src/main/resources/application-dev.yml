@@ -1,0 +1,53 @@
+server:
+  port: 8899
+  servlet:
+    session:
+#      session超时时间单位秒
+      timeout: 1800
+    context-path: /
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.2.166:3306/alieping-dev?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: dev
+    password: qizhi123
+    initialSize: 5
+    minIdle: 5
+    maxActive: 50
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    useGlobalDataSourceStat: true
+
+# mybatis配置
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+      map-underscore-to-camel-case: true
+      #全局映射器启用缓存
+      mybatis.configuration.cache-enabled : true
+      #查询时,关闭关联对象及时加载以提高性能
+      mybatis.configuration.lazy-loading-enabled : false
+      #按需加载字段(加载字段由SQL指定),不会加载关联表的所有字段,以提高性能
+      mybatis.configuration.aggressive-lazy-loading : false
+      #允许返回不同的结果集以达到通用的效果
+      mybatis.configuration.multiple-result-sets-enabled : true
+      #对于批量更新操作缓存SQL以提高性能
+      mybatis.configuration.default-executor-type : REUSE
+      #数据库执行超时时间
+      mybatis.configuration.default-statement-timeout : 25000
+      log-prefix: m_sql.
+
+
+
+
