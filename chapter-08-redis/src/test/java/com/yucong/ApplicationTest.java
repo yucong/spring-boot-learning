@@ -1,5 +1,10 @@
 package com.yucong;
 
+import java.io.Serializable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.yucong.entity.User;
 
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.Serializable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
