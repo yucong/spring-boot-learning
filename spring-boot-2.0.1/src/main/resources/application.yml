@@ -42,4 +42,8 @@ pagehelper:
   reasonable: false
   support-methods-arguments: true
   
+# 开启swagger
+swagger:
+  enabled: true
+  
   
