@@ -10,8 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.java.common.log.model.ServerExceptionLog;
+import com.java.util.http.HttpIpAddress;
+import com.java.util.http.ResponseUtil;
+import com.yucong.constants.ConfigConsts;
+import com.yucong.enums.CodeEnum;
+import com.yucong.producer.LogProducer;
+import com.yucong.vo.common.ExceptionVO;
 
-
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -22,6 +29,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  *
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
 	private static final String MESSAGE_SERVER_EXCEPTION = "服务器内部错误";
@@ -44,7 +52,7 @@ public class GlobalExceptionHandler {
 		returnVO.setErrorCode(500);
 		returnVO.setMessage(MESSAGE_SERVER_EXCEPTION);
 		returnVO.setErrorMsg(e.getMessage());
-		GlobalLog.MY_LOGGER.error("服务器内部异常",e);
+		log.error("服务器内部异常",e);
 		recordLogInMongo(request,response,e);
 		ResponseUtil.write(response, returnVO);
 	}
@@ -62,7 +70,7 @@ public class GlobalExceptionHandler {
 		ExceptionVO returnVO = new ExceptionVO();
 		returnVO.setCode(CodeEnum.SERVER_ERROR.getCode());
 		returnVO.setMessage(MESSAGE_SERVER_EXCEPTION);
-		GlobalLog.MY_LOGGER.error("服务器内部异常",e);
+		log.error("服务器内部异常",e);
 		returnVO.setErrorCode(501);
 		returnVO.setErrorMsg(e.getMessage());
 		recordLogInMongo(request,response,e);

@@ -113,6 +113,13 @@
 			<artifactId>common-log</artifactId>
 			<version>1.0.6</version>
 		</dependency>
+		
+		<!-- 基础公共包 -->
+		<dependency>
+			<groupId>com.java</groupId>
+  			<artifactId>common-util</artifactId>
+  			<version>1.0.1</version>
+		</dependency>
         
         
 		
