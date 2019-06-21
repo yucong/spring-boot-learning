@@ -4,7 +4,11 @@
 
 3 整合logback【OK】
 
-4 
+4 整合swagger【OK】
+
+5 整合tk.mybatis【OK】
+
+
 
  
 
