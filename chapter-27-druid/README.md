@@ -12,7 +12,6 @@ https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
 https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter#如何配置-filter
 
 
-
 32. 如何在 Spring Boot 中配置数据库密码加密？
 先看常见问题#21，如何生成加密后的密码及秘钥：我希望加密我的数据库密码怎么办？
 进行配置
@@ -26,3 +25,14 @@ public-key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIiwHpFrDijV+GzwRTzWJk8D3j3jFfhsMFJ/7
 spring.datasource.druid.connection-properties=config.decrypt=true;config.decrypt.key=${public-key}
 # 启用ConfigFilter
 spring.datasource.druid.filter.config.enabled=true
+
+
+本文参考博客：
+Spring boot整合mysql和druid
+https://blog.csdn.net/sinat_32366329/article/details/84404944
+
+github源代码
+https://github.com/superRabbitMan/spring-boot-mysql/blob/master/pom.xml
+
+ 
+ 

@@ -1,7 +1,12 @@
 package com.example.demo.configuration;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+
+import javax.sql.DataSource;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -9,26 +14,29 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Spring boot整合mysql和druid
- * 
  * https://blog.csdn.net/sinat_32366329/article/details/84404944
  * 
  * github上的一篇博客
- * 
  * https://github.com/superRabbitMan/spring-boot-mysql/blob/master/pom.xml
- * 
- * Created by vip on 2018/10/30.
  */
 @Configuration
 public class DruidConfiguration {
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Bean
-    public ServletRegistrationBean statViewServle() {
-		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
+    @ConfigurationProperties("spring.datasource.druid")
+    public DataSource dataSourceOne(){
+		System.err.println("dataSouce初始化。。。");
+        return DruidDataSourceBuilder.create().build();
+    }
+	
+	@Bean
+    public ServletRegistrationBean<StatViewServlet> statViewServle() {
+		ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<StatViewServlet>(
+				new StatViewServlet(), "/druid/*");
         //IP白名单
-        //servletRegistrationBean.addInitParameter("allow", "127.0.0.1, 127.0.0.1");
+        servletRegistrationBean.addInitParameter("allow", "127.0.0.1, localhost");
         //IP黑名单
-        //servletRegistrationBean.addInitParameter("deny", "127.0.0.1, 127.0.0.1");
+        servletRegistrationBean.addInitParameter("deny", "128.0.0.1, 128.0.0.1");
         servletRegistrationBean.addInitParameter("loginUsername", "druid");
         servletRegistrationBean.addInitParameter("loginPassword", "12345678");
         //是否允许重置数据
@@ -36,10 +44,10 @@ public class DruidConfiguration {
         return servletRegistrationBean;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
 	@Bean
-    public FilterRegistrationBean druidStatFilter() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+    public FilterRegistrationBean<WebStatFilter> druidStatFilter() {
+        FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<WebStatFilter>(
+        		new WebStatFilter());
         //添加过滤规则
         filterRegistrationBean.addUrlPatterns("/*");
         //忽略过滤的格式
