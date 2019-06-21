@@ -20,13 +20,13 @@ public class TestController {
 	private UserMapper userMapper;
 	
 	@GetMapping("/test")
-    public List<User> hello(String username) {
+    public List<User> hello() {
 		String msg = "测试输出日志";
     	log.debug(msg);
     	log.info(msg);
     	log.warn(msg);
     	log.error(msg);
-    	return userMapper.findByUsername(username);
+    	return userMapper.selectAll();
     }
 
 

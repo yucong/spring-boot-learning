@@ -12,3 +12,10 @@ spring:
 # 驼峰命名规范 如：数据库字段是  order_id 那么 实体字段就要写成 orderId
 mybatis:
   mapper-locations: classpath:com/yucong/mapping/*.xml
+
+  
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: false
+  support-methods-arguments: true
