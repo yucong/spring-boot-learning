@@ -7,8 +7,8 @@ spring:
   # mysql配置
   datasource:
     url: jdbc:mysql://192.168.2.166:3306/test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
-    username: dev
-    password: qizhi123
+    username: root
+    password: root
     
     
   # redis配置
@@ -65,5 +65,5 @@ env:
   isVerifySign: false
   isAuthLogin: false
   isProduct: true
-  isSendMQ: true
+  isSendMQ: false
   

@@ -28,7 +28,7 @@ import com.java.util.http.HttpIpAddress;
 import com.java.util.json.FastJsonUtil;
 import com.yucong.constants.ConfigConsts;
 import com.yucong.constants.Env;
-import com.yucong.producer.LogProducer;
+import com.yucong.producer.LogDirectProducer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,7 +46,7 @@ public class HttpServletRequestReplacedFilter implements Filter {
             Arrays.asList("druid","webjars","swagger","api-docs")));
 	
 	@Autowired
-	private LogProducer producer;
+	private LogDirectProducer logDirectProducer;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -123,7 +123,7 @@ public class HttpServletRequestReplacedFilter implements Filter {
 			httpLog.setConsumeTime(consumeTime);
 			log.info("endTime:" + startTime + ",trheadName:" + threadName);
 			if(Env.isSendMQ) {
-				producer.produceRequestLog(httpLog);
+				logDirectProducer.produceRequestLog(httpLog);
 			}
 			response.getOutputStream().write(bytes);
         }

@@ -27,7 +27,7 @@ import com.yucong.exception.ParameterIllegalException;
 public class ValidParamAspect {
 
 	// Controller层切点
-	@Pointcut("execution (* com.lphr.controller..*.*(..))")
+	@Pointcut("execution (* com.yucong.controller..*.*(..))")
 	public void aspect() { }
 
 	@Before("aspect()")

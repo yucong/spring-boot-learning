@@ -1,7 +1,6 @@
 package com.yucong.controller;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -11,12 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageHelper;
 import com.yucong.annotation.ApiVersion;
 import com.yucong.dto.LogDTO;
-import com.yucong.entity.User;
+import com.yucong.dto.MySqlDTO;
+import com.yucong.dto.RedisDTO;
 import com.yucong.manager.RedisManager;
-import com.yucong.mapper.UserMapper;
+import com.yucong.service.DemoService;
+import com.yucong.vo.UserVO;
+import com.yucong.vo.common.CommonVO;
+import com.yucong.vo.common.DataTableVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DemoController {
 
 	@Autowired
-	private UserMapper userMapper;
+	private DemoService demoService;
 	@Autowired
 	private RedisManager redisManager;
 	
@@ -44,16 +46,13 @@ public class DemoController {
 	
 	@ApiVersion(1)
 	@GetMapping("mysql")
-    public List<User> mysql() {
-    	//获取第1页，页面大小为2
-    	PageHelper.startPage(1,2);
-    	List<User> users = userMapper.selectAll();
-    	return users;
+    public CommonVO<DataTableVO<UserVO>> mysql(@Valid MySqlDTO dto,BindingResult result) {
+    	return new CommonVO<>( demoService.list(dto.getUsername(),dto.getPage(),dto.getSize()) );
     }
 	
 	@ApiVersion(1)
 	@GetMapping("redis")
-    public String redis() {
+    public String redis(@Valid RedisDTO dto,BindingResult result) {
 		redisManager.setObject("test", "redis:" + new Date().getTime());
 		return redisManager.getObject("test");
     }
