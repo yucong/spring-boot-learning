@@ -58,6 +58,12 @@ pagehelper:
 swagger:
   enabled: true
   
+# 系统环境参数配置    
 env:
+  verCode: 1.9.0 
+  envName: test
+  isVerifySign: false
+  isAuthLogin: false
   isProduct: true
+  isSendMQ: true
   

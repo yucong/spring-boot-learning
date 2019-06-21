@@ -126,6 +126,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+		
+		<!-- jodd -->
+		<dependency>  
+			<groupId>org.jodd</groupId>  
+			<artifactId>jodd-core</artifactId>  
+			<version>3.4.8</version>  
+		</dependency>
         
         
 		
