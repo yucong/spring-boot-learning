@@ -1,6 +1,6 @@
 chapter-01:第一个springboot工程搭建
 
-chapter-02:lombol使用
+chapter-02:lombok使用
 
 chapter-03:日志配置
 
