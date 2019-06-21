@@ -8,7 +8,7 @@ public class Env {
 
 	public static Boolean isProduct;
 	
-	@Value("${isProduct}")
+	@Value("${env.isProduct}")
 	public void setProduct(Boolean isProduct){
 		Env.isProduct = isProduct;
 	}

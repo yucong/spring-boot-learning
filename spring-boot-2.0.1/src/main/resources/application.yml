@@ -58,4 +58,6 @@ pagehelper:
 swagger:
   enabled: true
   
+env:
+  isProduct: true
   
