@@ -16,8 +16,6 @@ import org.springframework.context.annotation.Configuration;
  * Spring boot整合mysql和druid
  * https://blog.csdn.net/sinat_32366329/article/details/84404944
  * 
- * github上的一篇博客
- * https://github.com/superRabbitMan/spring-boot-mysql/blob/master/pom.xml
  */
 @Configuration
 public class DruidConfiguration {
