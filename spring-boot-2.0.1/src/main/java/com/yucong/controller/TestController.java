@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
 import com.yucong.entity.User;
 import com.yucong.mapper.UserMapper;
 
@@ -26,7 +27,12 @@ public class TestController {
     	log.info(msg);
     	log.warn(msg);
     	log.error(msg);
-    	return userMapper.selectAll();
+    	
+    	//获取第1页，页面大小为2
+    	PageHelper.startPage(1,2);
+    	List<User> users = userMapper.selectAll();
+    	
+    	return users;
     }
 
 
