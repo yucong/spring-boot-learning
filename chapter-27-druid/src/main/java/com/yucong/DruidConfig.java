@@ -37,8 +37,8 @@ public class DruidConfig {
     }
  
     @Bean
-    public ServletRegistrationBean statViewServle(){
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(
+    public ServletRegistrationBean<StatViewServlet> statViewServle(){
+        ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<StatViewServlet>(
                 new StatViewServlet(),"/druid/*");
         // IP白名单
         servletRegistrationBean.addInitParameter("allow","127.0.0.1");
@@ -54,8 +54,8 @@ public class DruidConfig {
  
  
     @Bean
-    public FilterRegistrationBean statFilter(){
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+    public FilterRegistrationBean<WebStatFilter> statFilter(){
+        FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<WebStatFilter>(new WebStatFilter());
         filterRegistrationBean.setFilter(new WebStatFilter());
         // 添加过滤规则
         filterRegistrationBean.addUrlPatterns("/*");
