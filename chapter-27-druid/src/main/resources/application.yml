@@ -3,12 +3,12 @@ server:
   servlet:
     context-path: /chapter27
 
-    
+# 第一种配置方式：测试通过    
 spring:
   datasource:
-    url: jdbc:mysql://111.231.99.72:3306/bm_test?characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useUnicode=true
-    username: root
-    password: wdmm224126
+    url: jdbc:mysql://192.168.2.166:3306/alieping-test?characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useUnicode=true
+    username: dev
+    password: qizhi123
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -28,3 +28,35 @@ spring:
       filters: stat
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       use-global-data-source-stat: true
+
+# 第二种配置方式，测试也通过
+#spring:
+#  datasource:
+#    url: jdbc:mysql://192.168.2.166:3306/alieping-test?characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&useUnicode=true
+#    username: dev
+#    password: qizhi123
+#    driver-class-name: com.mysql.jdbc.Driver
+#
+#    # druid,更多属性可以看官网
+#    druid:
+#      initial-size: 5
+#      max-active: 20
+#      min-idle: 5
+#      max-wait: 60000
+#      
+#      # 配置StatFilter
+#      filter:
+#        config:
+#          enabled: true
+#        stat:
+#          db-type: mysql
+#          log-slow-sql: true
+#          slow-sql-millis: 2000
+#
+#        # 配置WallFilter
+#        wall:
+#          enabled: true
+#          db-type: mysql
+#          config:
+#            delete-allow: false
+#            drop-table-allow: false

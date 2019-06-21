@@ -21,15 +21,19 @@ public class ApplicationTests {
 	@Autowired
 	private DataSource dataSource;
 	
+	/**
+	 * spring boot 2.0.6 测试可以通过
+	 * spring boot 2.1.0 测试可以通过
+	 */
 	@Test
 	public void contextLoads() throws SQLException {
 		
 		Connection connection = dataSource.getConnection();
-        PreparedStatement prepareStatement = connection.prepareStatement("select * from t_user where id=-1");
+        PreparedStatement prepareStatement = connection.prepareStatement("select * from login_user where id=3");
         ResultSet resultSet = prepareStatement.executeQuery();
         while (resultSet.next()) {
-            String cityName = resultSet.getString("nick_name");
-            System.out.println(cityName);
+            String realName = resultSet.getString("real_name");
+            System.out.println(realName);
         }
 
 	}
