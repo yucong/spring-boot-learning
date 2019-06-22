@@ -42,4 +42,15 @@ public class DemoService {
 	}
 	
 	
+	public User test() {
+		/*userMapper.delete(null);
+		userMapper.select(null)
+		userMapper.selectAll();
+		userMapper.sele*/
+		
+		User user = new User();
+		user.setId(1);
+		return userMapper.selectOne(user);
+	}
+	
 }

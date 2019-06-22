@@ -6,16 +6,16 @@ server:
 spring:
   # mysql配置
   datasource:
-    url: jdbc:mysql://192.168.2.166:3306/test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://111.231.99.72:3306/test?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
     username: root
-    password: root
+    password: wdmm224126
     
     
   # redis配置
   redis:
-    host: 192.168.2.166
+    host: 111.231.99.72
     port: 6379
-    password: 123456
+    password: redis@2018@yucong
     # 连接超时时间
     timeout: 6000
     # Redis默认情况下有16个分片，这里配置具体使用的分片
@@ -33,10 +33,13 @@ spring:
    
   # rabbitmq配置 
   rabbitmq:
-    host: 192.168.2.167
+    #host: 192.168.2.167
+    host: 111.231.99.72
     port: 5672
-    username: lieping
-    password: Lieping@123  
+    #username: lieping
+    #password: Lieping@123
+    username: yucong
+    password: wdmm224126  
 #    virtual-host: /
 #    listener:
 #      direct:
@@ -65,5 +68,5 @@ env:
   isVerifySign: false
   isAuthLogin: false
   isProduct: true
-  isSendMQ: false
+  isSendMQ: true
   

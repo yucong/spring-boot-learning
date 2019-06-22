@@ -9,6 +9,7 @@ import com.java.common.log.model.BusinessAbnormalLog;
 import com.java.common.log.model.HttpRequestLog;
 import com.java.common.log.model.ServerExceptionLog;
 import com.java.common.log.producer.LogAbstractProducer;
+import com.java.util.json.FastJsonUtil;
 
 @Component
 public class LogDirectProducer extends LogAbstractProducer {
@@ -19,7 +20,7 @@ public class LogDirectProducer extends LogAbstractProducer {
 	@Override
 	public void produceRequestLog(HttpRequestLog log) {
 		log.setPlatform(LogConstants.Platform.APP);
-		rabbitTemplate.convertAndSend(LogConstants.Routing.EXCHANGE, LogConstants.Routing.REQUEST, log);
+		rabbitTemplate.convertAndSend(LogConstants.Routing.EXCHANGE, LogConstants.Routing.REQUEST, FastJsonUtil.toJson(log));
 	}
 	
 	@Override

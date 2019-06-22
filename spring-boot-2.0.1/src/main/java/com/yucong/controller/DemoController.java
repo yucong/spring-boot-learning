@@ -14,6 +14,7 @@ import com.yucong.annotation.ApiVersion;
 import com.yucong.dto.LogDTO;
 import com.yucong.dto.MySqlDTO;
 import com.yucong.dto.RedisDTO;
+import com.yucong.entity.User;
 import com.yucong.manager.RedisManager;
 import com.yucong.service.DemoService;
 import com.yucong.vo.UserVO;
@@ -48,6 +49,12 @@ public class DemoController {
 	@GetMapping("mysql")
     public CommonVO<DataTableVO<UserVO>> mysql(@Valid MySqlDTO dto,BindingResult result) {
     	return new CommonVO<>( demoService.list(dto.getUsername(),dto.getPage(),dto.getSize()) );
+    }
+	
+	@ApiVersion(1)
+	@GetMapping("mysql2")
+    public CommonVO<User> mysql() {
+    	return new CommonVO<>( demoService.test() );
     }
 	
 	@ApiVersion(1)
