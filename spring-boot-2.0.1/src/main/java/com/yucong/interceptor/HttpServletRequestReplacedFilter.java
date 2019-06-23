@@ -58,13 +58,13 @@ public class HttpServletRequestReplacedFilter implements Filter {
 			throws IOException, ServletException {
 
 		//如果是OPTIONS请求，不需要抓包
-		BodyReaderHttpServletRequestWrapper	requestWrapper = new BodyReaderHttpServletRequestWrapper((HttpServletRequest) request);
-		String method = requestWrapper.getMethod();
+		HttpServletRequest	httpRequest = (HttpServletRequest) request;
+		String method = httpRequest.getMethod();
 		if(method.equals("OPTIONS")) {
 	    	return ;
 	    }
 		
-		String requestURI = requestWrapper.getRequestURI();
+		String requestURI = httpRequest.getRequestURI();
 		log.info("查看请求的URL：" + requestURI);
         
 		if (isIgore(requestURI)) {
@@ -73,6 +73,7 @@ public class HttpServletRequestReplacedFilter implements Filter {
         
         } else {
         	
+        	BodyReaderHttpServletRequestWrapper	requestWrapper = new BodyReaderHttpServletRequestWrapper((HttpServletRequest) request);
 			long startTime = System.currentTimeMillis();
 			String threadName = Thread.currentThread().getName();
 			log.info("startTime:" + startTime + ",trheadName:" + threadName);
