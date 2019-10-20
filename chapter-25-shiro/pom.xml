@@ -22,11 +22,14 @@
 
 
     <dependencies>
+        
+        <!-- spring mvc -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- shiro 相关包 -->
+        
+        <!-- shiro 1.4.0 相关包 -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
@@ -43,6 +46,7 @@
             <version>${shiro.version}</version>
         </dependency>
         <!-- End  -->
+        
     </dependencies>
 
     <build>

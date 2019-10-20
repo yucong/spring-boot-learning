@@ -38,8 +38,7 @@ public class AuthRealm extends AuthorizingRealm {
             throws AuthenticationException {
         String principal = (String) token.getPrincipal();
         User u = DBCache.USERS_CACHE.get(principal);
-        User user = Optional.ofNullable(u)
-        					.orElseThrow(UnknownAccountException::new);
+        User user = Optional.ofNullable(u).orElseThrow(UnknownAccountException::new);
         if (!user.isLocked()) {
             throw new LockedAccountException();
         }
