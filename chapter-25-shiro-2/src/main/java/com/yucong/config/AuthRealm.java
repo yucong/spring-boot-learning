@@ -1,6 +1,10 @@
 package com.yucong.config;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -10,6 +14,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -66,21 +71,15 @@ public class AuthRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-//        Session session = SecurityUtils.getSubject().getSession();
-//        User user = (User) session.getAttribute("USER_SESSION");
-//        // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
-//        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-//        // 用户的角色集合
-//        Set<String> roles = new HashSet<>();
-//        roles.add(user.getRoleName());
-//        info.setRoles(roles);
-//        // 用户的角色对应的所有权限，如果只使用角色定义访问权限，下面可以不要
-//        // 只有角色并没有颗粒度到每一个按钮 或 是操作选项  PERMISSIONS 是可选项
-//        final Map<String, Collection<String>> permissionsCache = DBCache.PERMISSIONS_CACHE;
-//        final Collection<String> permissions = permissionsCache.get(user.getRoleName());
-//        info.addStringPermissions(permissions);
-//        return info;
-    	return null;
+        Session session = SecurityUtils.getSubject().getSession();
+        User user = (User) session.getAttribute("USER_SESSION");
+        // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        // 用户的角色集合
+        info.setRoles(userService.findRoles(user.getUsername()));
+        // 用户的角色对应的所有权限
+        info.addStringPermissions(userService.findPermissions(user.getUsername()));
+        return info;
     }
 
 }

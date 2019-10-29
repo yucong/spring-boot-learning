@@ -8,9 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.yucong.entity.Resource;
+import com.yucong.entity.Permission;
 import com.yucong.entity.User;
-import com.yucong.service.ResourceService;
+import com.yucong.service.PermissionService;
 import com.yucong.service.UserService;
 
 
@@ -18,14 +18,14 @@ import com.yucong.service.UserService;
 public class IndexController {
 
     @Autowired
-    private ResourceService resourceService;
+    private PermissionService resourceService;
     @Autowired
     private UserService userService;
 
     @RequestMapping("/")
     public String index(/*@CurrentUser*/ User loginUser, Model model) {
         Set<String> permissions = userService.findPermissions(loginUser.getUsername());
-        List<Resource> menus = resourceService.findMenus(permissions);
+        List<Permission> menus = resourceService.findMenus(permissions);
         model.addAttribute("menus", menus);
         return "index";
     }

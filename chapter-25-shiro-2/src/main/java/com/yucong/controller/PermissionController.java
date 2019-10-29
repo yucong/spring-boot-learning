@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.yucong.entity.Resource;
-import com.yucong.service.ResourceService;
+import com.yucong.entity.Permission;
+import com.yucong.service.PermissionService;
 
 @Controller
-@RequestMapping("/resource")
-public class ResourceController {
+@RequestMapping("/permission")
+public class PermissionController {
 
     @Autowired
-    private ResourceService resourceService;
+    private PermissionService resourceService;
 
     @ModelAttribute("types")
-    public Resource.ResourceType[] resourceTypes() {
-        return Resource.ResourceType.values();
+    public Permission.ResourceType[] resourceTypes() {
+        return Permission.ResourceType.values();
     }
 
     @RequiresPermissions("resource:view")
@@ -35,9 +35,9 @@ public class ResourceController {
     @RequiresPermissions("resource:create")
     @RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.GET)
     public String showAppendChildForm(@PathVariable("parentId") Long parentId, Model model) {
-        Resource parent = resourceService.findOne(parentId);
+        Permission parent = resourceService.findOne(parentId);
         model.addAttribute("parent", parent);
-        Resource child = new Resource();
+        Permission child = new Permission();
         child.setParentId(parentId);
         ////child.setParentIds(parent.makeSelfAsParentIds());
         model.addAttribute("resource", child);
@@ -47,7 +47,7 @@ public class ResourceController {
 
     @RequiresPermissions("resource:create")
     @RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.POST)
-    public String create(Resource resource, RedirectAttributes redirectAttributes) {
+    public String create(Permission resource, RedirectAttributes redirectAttributes) {
         resourceService.createResource(resource);
         redirectAttributes.addFlashAttribute("msg", "新增子节点成功");
         return "redirect:/resource";
@@ -63,7 +63,7 @@ public class ResourceController {
 
     @RequiresPermissions("resource:update")
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
-    public String update(Resource resource, RedirectAttributes redirectAttributes) {
+    public String update(Permission resource, RedirectAttributes redirectAttributes) {
         resourceService.updateResource(resource);
         redirectAttributes.addFlashAttribute("msg", "修改成功");
         return "redirect:/resource";

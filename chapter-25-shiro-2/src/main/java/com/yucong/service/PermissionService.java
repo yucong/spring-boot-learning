@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.yucong.entity.Resource;
-import com.yucong.mapper.ResourceMapper;
+import com.yucong.entity.Permission;
+import com.yucong.mapper.PermissionMapper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,35 +14,35 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class ResourceService {
+public class PermissionService {
 
     @Autowired
-    private ResourceMapper resourceDao;
+    private PermissionMapper permissionDao;
 
-    public Resource createResource(Resource resource) {
-        return resourceDao.createResource(resource);
+    public Permission createResource(Permission resource) {
+        return permissionDao.createResource(resource);
     }
 
-    public Resource updateResource(Resource resource) {
-        return resourceDao.updateResource(resource);
+    public Permission updateResource(Permission resource) {
+        return permissionDao.updateResource(resource);
     }
 
     public void deleteResource(Long resourceId) {
-        resourceDao.deleteResource(resourceId);
+        permissionDao.deleteResource(resourceId);
     }
 
-    public Resource findOne(Long resourceId) {
-        return resourceDao.findOne(resourceId);
+    public Permission findOne(Long resourceId) {
+        return permissionDao.findOne(resourceId);
     }
 
-    public List<Resource> findAll() {
-        return resourceDao.findAll();
+    public List<Permission> findAll() {
+        return permissionDao.findAll();
     }
 
     public Set<String> findPermissions(Set<Long> resourceIds) {
         Set<String> permissions = new HashSet<String>();
         for(Long resourceId : resourceIds) {
-            Resource resource = findOne(resourceId);
+            Permission resource = findOne(resourceId);
             if(resource != null && !StringUtils.isEmpty(resource.getPermission())) {
                 permissions.add(resource.getPermission());
             }
@@ -50,10 +50,10 @@ public class ResourceService {
         return permissions;
     }
 
-    public List<Resource> findMenus(Set<String> permissions) {
-        List<Resource> allResources = findAll();
-        List<Resource> menus = new ArrayList<Resource>();
-        for(Resource resource : allResources) {
+    public List<Permission> findMenus(Set<String> permissions) {
+        List<Permission> allResources = findAll();
+        List<Permission> menus = new ArrayList<Permission>();
+        for(Permission resource : allResources) {
             /*if(resource.isRootNode()) {
                 continue;
             }
@@ -68,7 +68,7 @@ public class ResourceService {
         return menus;
     }
 
-    private boolean hasPermission(Set<String> permissions, Resource resource) {
+    private boolean hasPermission(Set<String> permissions, Permission resource) {
         if(StringUtils.isEmpty(resource.getPermission())) {
             return true;
         }

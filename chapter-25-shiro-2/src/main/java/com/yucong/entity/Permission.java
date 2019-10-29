@@ -11,11 +11,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "sys_resource")
+@Table(name = "sys_permission")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Resource implements Serializable {
+public class Permission implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

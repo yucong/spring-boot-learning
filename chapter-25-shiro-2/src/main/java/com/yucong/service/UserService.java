@@ -20,8 +20,8 @@ public class UserService {
     private UserMapper userDao;
     @Autowired
     private PasswordHelper passwordHelper;
-    /*@Autowired
-    private RoleService roleService;*/
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 创建用户
@@ -103,7 +103,13 @@ public class UserService {
         if(user == null) {
             return Collections.EMPTY_SET;
         }
-        // return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
+        
+        
+        
+        
+        
+        //return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
+        
         return null;
     }
 

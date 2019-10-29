@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yucong.entity.Role;
-import com.yucong.service.ResourceService;
+import com.yucong.service.PermissionService;
 import com.yucong.service.RoleService;
 
 @Controller
@@ -21,7 +21,7 @@ public class RoleController {
     private RoleService roleService;
 
     @Autowired
-    private ResourceService resourceService;
+    private PermissionService resourceService;
 
     @RequiresPermissions("role:view")
     @RequestMapping(method = RequestMethod.GET)
