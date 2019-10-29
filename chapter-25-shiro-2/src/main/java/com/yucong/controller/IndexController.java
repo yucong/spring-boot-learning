@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.yucong.entity.Permission;
 import com.yucong.entity.User;
@@ -14,7 +15,7 @@ import com.yucong.service.PermissionService;
 import com.yucong.service.UserService;
 
 
-@Controller
+@RestController
 public class IndexController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String index(/*@CurrentUser*/ User loginUser, Model model) {
         Set<String> permissions = userService.findPermissions(loginUser.getUsername());
         List<Permission> menus = resourceService.findMenus(permissions);
