@@ -1,4 +1,4 @@
-package com.yucong.aop;
+package com.yucong.core.aop;
 
 import java.lang.reflect.Method;
 
