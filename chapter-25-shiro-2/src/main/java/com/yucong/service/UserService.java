@@ -1,5 +1,6 @@
 package com.yucong.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yucong.entity.User;
+import com.yucong.entity.UserRole;
 import com.yucong.mapper.UserMapper;
+import com.yucong.mapper.UserRoleMapper;
 import com.yucong.vo.common.DataTableVO;
 
 @Service
@@ -18,6 +21,8 @@ public class UserService {
 
     @Autowired
     private UserMapper userDao;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
     @Autowired
     private PasswordHelper passwordHelper;
     @Autowired
@@ -82,14 +87,21 @@ public class UserService {
     /**
      * 根据用户名查找其角色
      */
-    @SuppressWarnings("unchecked")
 	public Set<String> findRoles(String username) {
-        User user =findByUsername(username);
+        User user = findByUsername(username);
         if(user == null) {
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
-        // return roleService.findRoles(user.getRoleIds().toArray(new Long[0]));
-        return null;
+        
+        UserRole userRole = new UserRole();
+        userRole.setUserId(user.getId());
+        List<UserRole> userRoles = userRoleMapper.select(userRole);
+        
+        List<Long> roleIds = new ArrayList<>();
+        for(UserRole item : userRoles) {
+        	roleIds.add(item.getRoleId());
+        }
+        return roleService.findRoles(roleIds);
     }
 
     /**
@@ -97,11 +109,10 @@ public class UserService {
      * @param username
      * @return
      */
-    @SuppressWarnings("unchecked")
 	public Set<String> findPermissions(String username) {
         User user =findByUsername(username);
         if(user == null) {
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
         
         

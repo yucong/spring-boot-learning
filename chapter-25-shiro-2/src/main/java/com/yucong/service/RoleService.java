@@ -38,7 +38,7 @@ public class RoleService {
         return roleDao.findAll();
     }
 
-    public Set<String> findRoles(Long... roleIds) {
+    public Set<String> findRoles(List<Long> roleIds) {
         Set<String> roles = new HashSet<String>();
         for(Long roleId : roleIds) {
             Role role = findOne(roleId);

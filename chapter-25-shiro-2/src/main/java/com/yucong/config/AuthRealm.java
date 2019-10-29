@@ -1,10 +1,6 @@
 package com.yucong.config;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
