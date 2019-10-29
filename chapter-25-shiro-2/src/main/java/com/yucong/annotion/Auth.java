@@ -5,13 +5,13 @@ import java.lang.annotation.*;
 /**
  * 权限注解 用于检查权限 规定访问权限
  *
- * @example @Permission({role1,role2})
- * @example @Permission
+ * @example @Auth({role1,role2})
+ * @example @Auth
  */
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
-public @interface Permission {
+public @interface Auth {
 
     /**
      * 角色英文名称
