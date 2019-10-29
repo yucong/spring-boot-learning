@@ -1,6 +1,7 @@
 package com.yucong.mapper;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,4 +20,9 @@ public interface RoleMapper  extends BaseMapper<Role> {
     Role findOne(Long roleId);
     
     List<Role> findAll();
+
+    /**
+     * 根据角色ID获取权限集合
+     */
+	Set<String> findByRoleIds(List<Long> roleIds);
 }

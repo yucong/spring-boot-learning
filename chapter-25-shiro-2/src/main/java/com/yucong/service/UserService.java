@@ -92,17 +92,11 @@ public class UserService {
         if(user == null) {
             return Collections.emptySet();
         }
-        
-        UserRole userRole = new UserRole();
-        userRole.setUserId(user.getId());
-        List<UserRole> userRoles = userRoleMapper.select(userRole);
-        
-        List<Long> roleIds = new ArrayList<>();
-        for(UserRole item : userRoles) {
-        	roleIds.add(item.getRoleId());
-        }
+        List<Long> roleIds = findRoleIds(user.getId());
         return roleService.findRoles(roleIds);
     }
+	
+	
 
     /**
      * 根据用户名查找其权限
@@ -110,18 +104,28 @@ public class UserService {
      * @return
      */
 	public Set<String> findPermissions(String username) {
-        User user =findByUsername(username);
+        User user = findByUsername(username);
         if(user == null) {
             return Collections.emptySet();
         }
-        
-        
-        
-        
-        
-        //return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
-        
-        return null;
+        List<Long> roleIds = findRoleIds(user.getId());
+        return roleService.findPermissions(roleIds);
     }
+	
+	
+	/*
+	 * 根据用户ID获取角色ID
+	 */
+	private List<Long> findRoleIds(Long userId) {
+		UserRole userRole = new UserRole();
+        userRole.setUserId(userId);
+        List<UserRole> userRoles = userRoleMapper.select(userRole);
+        
+        List<Long> roleIds = new ArrayList<>();
+        for(UserRole item : userRoles) {
+        	roleIds.add(item.getRoleId());
+        }
+        return roleIds;
+	}
 
 }

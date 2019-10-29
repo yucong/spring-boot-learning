@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yucong.mapper.RoleMapper">
+
+  <select id="findByRoleIds" resultType="java.lang.String">
+	SELECT
+		p.permission
+	FROM
+		sys_role_permission rp
+	INNER JOIN sys_role r ON r.id = rp.role_id
+	INNER JOIN sys_permission p ON p.id = rp.permission_id
+	WHERE r.id IN
+		<foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
+		  #{id}
+		</foreach>
+  </select>
+
+</mapper>

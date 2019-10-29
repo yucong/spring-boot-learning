@@ -16,7 +16,7 @@ public class RoleService {
     @Autowired
     private RoleMapper roleDao;
     @Autowired
-    private PermissionService resourceService;
+    private PermissionService permissionService;
 
     public Role createRole(Role role) {
         return roleDao.createRole(role);
@@ -49,15 +49,7 @@ public class RoleService {
         return roles;
     }
 
-    public Set<String> Permission(Long[] roleIds) {
-        Set<Long> pesourceIds = new HashSet<Long>();
-        for(Long roleId : roleIds) {
-            Role role = findOne(roleId);
-            if(role != null) {
-                // resourceIds.addAll(role.getResourceIds());
-            }
-        }
-        // return resourceService.findPermissions(resourceIds);
-        return null;
+    public Set<String> findPermissions(List<Long> roleIds) {
+        return roleDao.findByRoleIds(roleIds);
     }
 }

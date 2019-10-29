@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import com.yucong.entity.Permission;
 import com.yucong.mapper.PermissionMapper;
+import com.yucong.mapper.RolePermissionMapper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,6 +19,8 @@ public class PermissionService {
 
     @Autowired
     private PermissionMapper permissionDao;
+    //@Autowired
+    //private RolePermissionMapper rolePermissionMapper;
 
     public Permission createResource(Permission resource) {
         return permissionDao.createResource(resource);
@@ -39,12 +42,12 @@ public class PermissionService {
         return permissionDao.findAll();
     }
 
-    public Set<String> findPermissions(Set<Long> resourceIds) {
+    public Set<String> findPermissions(Set<Long> permissionIds) {
         Set<String> permissions = new HashSet<String>();
-        for(Long resourceId : resourceIds) {
-            Permission resource = findOne(resourceId);
-            if(resource != null && !StringUtils.isEmpty(resource.getPermission())) {
-                permissions.add(resource.getPermission());
+        for(Long permissionId : permissionIds) {
+            Permission rermission = findOne(permissionId);
+            if(rermission != null && !StringUtils.isEmpty(rermission.getPermission())) {
+                permissions.add(rermission.getPermission());
             }
         }
         return permissions;
@@ -81,4 +84,5 @@ public class PermissionService {
         }
         return false;
     }
+
 }
