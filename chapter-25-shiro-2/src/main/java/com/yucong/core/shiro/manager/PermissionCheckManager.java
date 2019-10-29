@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.yucong.core.listener.ConfigListener;
 import com.yucong.core.shiro.ShiroKit;
 import com.yucong.core.shiro.ShiroUser;
-import com.yucong.util.HttpContext;
+import com.yucong.core.util.HttpContext;
 
 
 /**

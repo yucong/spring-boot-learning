@@ -1,4 +1,4 @@
-package com.yucong.util;
+package com.yucong.core.util;
 
 import javax.servlet.http.HttpServletRequest;
 
