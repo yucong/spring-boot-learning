@@ -46,6 +46,11 @@ public class LoginController {
         }
         return "success";
     }
+    
+    @GetMapping(value = "/unLogin")
+    public String login() {
+        return "用户未登陆";
+    }
 
 
 }
