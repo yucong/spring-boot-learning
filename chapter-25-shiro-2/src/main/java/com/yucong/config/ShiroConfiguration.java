@@ -13,6 +13,8 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.yucong.core.shiro.ShiroAuthRealm;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -62,14 +64,14 @@ public class ShiroConfiguration {
     }
 
     @Bean(name = "authRealm")
-    public AuthRealm authRealm(EhCacheManager cacheManager) {
-        AuthRealm authRealm = new AuthRealm();
+    public ShiroAuthRealm authRealm(EhCacheManager cacheManager) {
+        ShiroAuthRealm authRealm = new ShiroAuthRealm();
         authRealm.setCacheManager(cacheManager);
         return authRealm;
     }
 
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(AuthRealm authRealm) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(ShiroAuthRealm authRealm) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(authRealm);
         // <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->

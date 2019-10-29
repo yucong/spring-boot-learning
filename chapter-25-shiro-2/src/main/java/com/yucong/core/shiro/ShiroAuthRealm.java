@@ -1,4 +1,4 @@
-package com.yucong.config;
+package com.yucong.core.shiro;
 
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ import com.yucong.service.UserService;
  *
  */
 @Configuration
-public class AuthRealm extends AuthorizingRealm {
+public class ShiroAuthRealm extends AuthorizingRealm {
 
 	@Autowired
 	private UserService userService;
