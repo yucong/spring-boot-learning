@@ -46,7 +46,7 @@ public class AuthRealm extends AuthorizingRealm {
         String principal = (String) token.getPrincipal();
         User u = userService.findByUsername(principal);
         User user = Optional.ofNullable(u).orElseThrow(UnknownAccountException::new);
-        if (!user.getLocked()) {
+        if (user.getLocked()) {
             throw new LockedAccountException();
         }
         // 从数据库查询出来的账号名和密码,与用户输入的账号和密码对比
