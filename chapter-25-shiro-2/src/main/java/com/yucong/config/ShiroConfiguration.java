@@ -86,12 +86,8 @@ public class ShiroConfiguration {
     }
 
     /**
-     * ShiroFilter<br/>
-     * 注意这里参数中的 StudentService 和 IScoreDao 只是一个例子，因为我们在这里可以用这样的方式获取到相关访问数据库的对象，
+     * 只是一个例子，因为我们在这里可以用这样的方式获取到相关访问数据库的对象，
      * 然后读取数据库相关配置，配置到 shiroFilterFactoryBean 的访问规则中。实际项目中，请使用自己的Service来处理业务逻辑。
-     *
-     * @param securityManager 安全管理器
-     * @return ShiroFilterFactoryBean
      */
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
@@ -99,6 +95,7 @@ public class ShiroConfiguration {
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 如果不设置默认会自动寻找Web工程根目录下的"/login"页面
+        // 对于前后端分离的项目，当用户未登陆时，访问了需要登陆的接口，重定向到unLogin接口，返回未登陆提升语
         shiroFilterFactoryBean.setLoginUrl("/unLogin");
         // 登录成功后要跳转的连接
         shiroFilterFactoryBean.setSuccessUrl("/index");
