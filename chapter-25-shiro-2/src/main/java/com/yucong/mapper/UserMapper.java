@@ -1,7 +1,5 @@
 package com.yucong.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.yucong.BaseMapper;
@@ -10,7 +8,7 @@ import com.yucong.entity.User;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
-    User createUser(User user);
+    /*User createUser(User user);
     
     User updateUser(User user);
     
@@ -20,6 +18,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     List<User> findAll();
 
-    User findByUsername(String username);
+    User findByUsername(String username);*/
 
 }

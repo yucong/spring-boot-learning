@@ -13,6 +13,8 @@ import com.yucong.entity.User;
 import com.yucong.service.OrganizationService;
 import com.yucong.service.RoleService;
 import com.yucong.service.UserService;
+import com.yucong.vo.common.CommonVO;
+import com.yucong.vo.common.DataTableVO;
 
 @Controller
 @RequestMapping("/user")
@@ -28,9 +30,8 @@ public class UserController {
 
     @RequiresPermissions("user:view")
     @RequestMapping(method = RequestMethod.GET)
-    public String list(Model model) {
-        model.addAttribute("userList", userService.findAll());
-        return "user/list";
+    public CommonVO<DataTableVO<User>> list(Model model) {
+    	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));
     }
 
     @RequiresPermissions("user:create")

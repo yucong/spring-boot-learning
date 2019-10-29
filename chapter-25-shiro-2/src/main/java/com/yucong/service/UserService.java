@@ -7,8 +7,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yucong.entity.User;
 import com.yucong.mapper.UserMapper;
+import com.yucong.vo.common.DataTableVO;
 
 @Service
 public class UserService {
@@ -32,11 +35,12 @@ public class UserService {
     }
 
     public User updateUser(User user) {
-        return userDao.updateUser(user);
+        /// return userDao.updateUser(user);
+    	return null;
     }
 
     public void deleteUser(Long userId) {
-        userDao.deleteUser(userId);
+        /// userDao.deleteUser(userId);
     }
 
     /**
@@ -45,18 +49,25 @@ public class UserService {
      * @param newPassword
      */
     public void changePassword(Long userId, String newPassword) {
-        User user =userDao.findOne(userId);
+        /*User user =userDao.findOne(userId);
         user.setPassword(newPassword);
         passwordHelper.encryptPassword(user);
-        userDao.updateUser(user);
+        userDao.updateUser(user);*/
     }
 
     public User findOne(Long userId) {
-        return userDao.findOne(userId);
+        /*return userDao.findOne(userId);*/
+    	return null;
     }
 
-    public List<User> findAll() {
-        return userDao.findAll();
+    public DataTableVO<User> findAll(int pageSize,int size) {
+    	PageHelper.startPage(pageSize, size);
+		List<User> entitys = userDao.selectAll();
+		PageInfo<User> page = new PageInfo<>(entitys);
+		long allCount = page.getTotal();
+		int allPage = page.getPages();
+		int currentPage = page.getPageNum();
+		return new DataTableVO<User>(pageSize, allCount, allPage, currentPage, entitys);
     }
 
     /**
