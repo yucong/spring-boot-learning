@@ -11,7 +11,7 @@ import com.yucong.entity.Role;
 @Mapper
 public interface RoleMapper  extends BaseMapper<Role> {
 
-    Role createRole(Role role);
+    /*Role createRole(Role role);
     
     Role updateRole(Role role);
     
@@ -19,7 +19,7 @@ public interface RoleMapper  extends BaseMapper<Role> {
 
     Role findOne(Long roleId);
     
-    List<Role> findAll();
+    List<Role> findAll();*/
 
     /**
      * 根据角色ID获取权限集合

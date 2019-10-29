@@ -15,27 +15,25 @@ public class RoleService {
 
     @Autowired
     private RoleMapper roleDao;
-    @Autowired
-    private PermissionService permissionService;
 
-    public Role createRole(Role role) {
-        return roleDao.createRole(role);
+    public void createRole(Role role) {
+        roleDao.insertSelective(role);
     }
 
-    public Role updateRole(Role role) {
-        return roleDao.updateRole(role);
+    public void updateRole(Role role) {
+        roleDao.updateByPrimaryKeySelective(role);
     }
 
     public void deleteRole(Long roleId) {
-        roleDao.deleteRole(roleId);
+        roleDao.deleteByPrimaryKey(roleId);
     }
 
     public Role findOne(Long roleId) {
-        return roleDao.findOne(roleId);
+        return roleDao.selectByPrimaryKey(roleId);
     }
 
     public List<Role> findAll() {
-        return roleDao.findAll();
+        return roleDao.selectAll();
     }
 
     public Set<String> findRoles(List<Long> roleIds) {

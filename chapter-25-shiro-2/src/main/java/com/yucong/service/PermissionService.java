@@ -1,5 +1,10 @@
 package com.yucong.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.shiro.authz.permission.WildcardPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,20 +12,12 @@ import org.springframework.util.StringUtils;
 
 import com.yucong.entity.Permission;
 import com.yucong.mapper.PermissionMapper;
-import com.yucong.mapper.RolePermissionMapper;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class PermissionService {
 
     @Autowired
     private PermissionMapper permissionDao;
-    //@Autowired
-    //private RolePermissionMapper rolePermissionMapper;
 
     public Permission createResource(Permission resource) {
         return permissionDao.createResource(resource);
