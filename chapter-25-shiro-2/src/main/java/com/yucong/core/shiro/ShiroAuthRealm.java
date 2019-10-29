@@ -1,24 +1,20 @@
 package com.yucong.core.shiro;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Set;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import com.yucong.core.shiro.manager.UserAuthManager;
 import com.yucong.entity.User;
-import com.yucong.service.UserService;
 
 /**
  * 认证领域
@@ -28,7 +24,7 @@ import com.yucong.service.UserService;
 public class ShiroAuthRealm extends AuthorizingRealm {
 
 	@Autowired
-	private UserService userService;
+	private UserAuthManager userAuthManager;
 	
 	
     /**
@@ -44,26 +40,10 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
-    	
-    	if(token.getCredentials() == null) {
-    		throw new UnknownAccountException();
-    	}
-    	
         String principal = (String) token.getPrincipal();
-        User u = userService.findByUsername(principal);
-        User user = Optional.ofNullable(u).orElseThrow(UnknownAccountException::new);
-        if (user.getLocked()) {
-            throw new LockedAccountException();
-        }
-        // 从数据库查询出来的账号名和密码,与用户输入的账号和密码对比
-        // 当用户执行登录时,在方法处理上要实现 user.login(token)
-        // 然后会自动进入这个类进行认证
-        // 交给 AuthenticatingRealm 使用 CredentialsMatcher 进行密码匹配，如果觉得人家的不好可以自定义实现
-        // TODO 如果使用 HashedCredentialsMatcher 这里认证方式就要改一下 SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(principal, "密码", ByteSource.Util.bytes("密码盐"), getName());
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(principal, user.getPassword(), getName());
-        Session session = SecurityUtils.getSubject().getSession();
-        session.setAttribute("USER_SESSION", user);
-        return authenticationInfo;
+        User user = userAuthManager.findByUsername(principal);
+        ShiroUser shiroUser = userAuthManager.initShiroUser(user);
+        return userAuthManager.initSimpleAuthenticationInfo(shiroUser, user, super.getName());
     }
 
     /**
@@ -72,14 +52,13 @@ public class ShiroAuthRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-        Session session = SecurityUtils.getSubject().getSession();
-        User user = (User) session.getAttribute("USER_SESSION");
-        // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
+    	ShiroUser shiroUser = (ShiroUser) principal.getPrimaryPrincipal();
+        List<Long> roleList = shiroUser.getRoleList();
+        List<String> roleNames = shiroUser.getRoleNames();
+        Set<String> permissions = userAuthManager.findPermissionsByRoleId(roleList);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        // 用户的角色集合
-        info.setRoles(userService.findRoles(user.getUsername()));
-        // 用户的角色对应的所有权限
-        info.addStringPermissions(userService.findPermissions(user.getUsername()));
+        info.addRoles(roleNames);
+        info.addStringPermissions(permissions);
         return info;
     }
 

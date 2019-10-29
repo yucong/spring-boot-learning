@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.yucong.annotion.Auth;
 import com.yucong.entity.User;
 import com.yucong.service.OrganizationService;
 import com.yucong.service.RoleService;
@@ -29,7 +30,7 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    @RequiresPermissions("user:view")
+    @Auth
     @GetMapping(value = "/list")
     public CommonVO<DataTableVO<User>> list(Model model) {
     	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));

@@ -22,7 +22,9 @@ public class PermissionCheckManager {
         if (null == user) {
             return false;
         }
-        String requestURI = request.getRequestURI().replaceFirst(ConfigListener.getConf().get("contextPath"), "");
+        String contextPath = ConfigListener.getConf()
+        		.get("contextPath");
+        String requestURI = request.getRequestURI().replaceFirst(contextPath, "");
         String[] str = requestURI.split("/");
         if (str.length > 3) {
             requestURI = "/" + str[1] + "/" + str[2];

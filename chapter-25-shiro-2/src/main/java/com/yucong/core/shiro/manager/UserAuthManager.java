@@ -15,36 +15,73 @@
  */
 package com.yucong.core.shiro.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.shiro.authc.CredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yucong.core.shiro.ShiroKit;
 import com.yucong.core.shiro.ShiroUser;
+import com.yucong.entity.Role;
 import com.yucong.entity.User;
 import com.yucong.mapper.PermissionMapper;
+import com.yucong.mapper.RoleMapper;
+import com.yucong.mapper.UserMapper;
 
 @Service
 public class UserAuthManager {
 
     @Autowired
-    private PermissionMapper menuMapper;
+    private UserMapper userMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private PermissionMapper permissionMapper;
+    
 
+	public User findByUsername(String username) {
+		
+		User record = new User();
+		record.setUsername(username);
+		User user = userMapper.selectOne(record);
 
-    public Set<String> findPermissionsByRoleId(List<Long> roleIds) {
-        return menuMapper.findByRoleIds(roleIds);
-    }
+        // 账号不存在
+        if (null == user) {
+            throw new CredentialsException();
+        }
+        // 账号被冻结
+        if (user.getLocked()) {
+            throw new LockedAccountException();
+        }
+        return user;
+	}
+	
+	public ShiroUser initShiroUser(User user) {
+		ShiroUser shiroUser = ShiroKit.createShiroUser(user);
 
-    public String findRoleNameByRoleId(Long roleId) {
-        //return ConstantFactory.me().getSingleRoleTip(roleId);
-    	return null;
-    }
+        //用户角色数组
+		List<Role> roles = roleMapper.findByUserId(user.getId());
 
-    public SimpleAuthenticationInfo info(ShiroUser shiroUser, User user, String realmName) {
+        //获取用户角色列表
+        List<Long> roleList = new ArrayList<>();
+        List<String> roleNameList = new ArrayList<>();
+        for (Role role : roles) {
+            roleList.add(role.getId());
+            roleNameList.add(role.getRole());
+        }
+        shiroUser.setRoleList(roleList);
+        shiroUser.setRoleNames(roleNameList);
+        return shiroUser;
+	}
+	
+	public SimpleAuthenticationInfo initSimpleAuthenticationInfo(ShiroUser shiroUser, User user, String realmName) {
         String credentials = user.getPassword();
 
         // 密码加盐处理
@@ -52,5 +89,9 @@ public class UserAuthManager {
         ByteSource credentialsSalt = new Md5Hash(source);
         return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
     }
+
+	public Set<String> findPermissionsByRoleId(List<Long> roleList) {
+		return permissionMapper.findByRoleIds(roleList);
+	}
 
 }

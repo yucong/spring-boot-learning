@@ -48,6 +48,7 @@ public class RoleService {
     }
 
     public Set<String> findPermissions(List<Long> roleIds) {
-        return roleDao.findByRoleIds(roleIds);
+        // return roleDao.findByRoleIds(roleIds);
+    	return null;
     }
 }

@@ -3,12 +3,33 @@ package com.yucong.core.shiro;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
+import com.yucong.entity.User;
+
 /**
  * shiro工具类
  *
  */
 public class ShiroKit {
 
+	/**
+     * 通过用户表的信息创建一个shiroUser对象
+     */
+    public static ShiroUser createShiroUser(User user) {
+        ShiroUser shiroUser = new ShiroUser();
+
+        if (user == null) {
+            return shiroUser;
+        }
+        shiroUser.setId(user.getId());
+        shiroUser.setAccount(user.getUsername());
+        // shiroUser.setDeptId(user.getDeptId());
+        // shiroUser.setDeptName(ConstantFactory.me().getDeptName(user.getDeptId()));
+        // shiroUser.setName(user.getName());
+        // shiroUser.setEmail(user.getEmail());
+        // shiroUser.setAvatar(user.getAvatar());
+        return shiroUser;
+    }
+	
 	/**
      * 获取封装的 ShiroUser
      */

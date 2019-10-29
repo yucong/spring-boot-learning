@@ -2,17 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yucong.mapper.RoleMapper">
 
-  <select id="findByRoleIds" resultType="java.lang.String">
+  <select id="findByUserId" resultType="com.yucong.entity.Role">
 	SELECT
-		p.permission
+		r.*
 	FROM
-		sys_role_permission rp
-	INNER JOIN sys_role r ON r.id = rp.role_id
-	INNER JOIN sys_permission p ON p.id = rp.permission_id
-	WHERE p.type = 'button' AND r.id IN
-		<foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
-		  #{id}
-		</foreach>
+		sys_user_role ur
+	INNER JOIN sys_role r ON r.id = ur.role_id
+	WHERE ur.user_id = #{userId}
   </select>
 
 </mapper>

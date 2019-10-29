@@ -27,6 +27,7 @@ import java.util.Map;
  * @author yucong
  * @Date   2019-10-29
  */
+
 public class ConfigListener implements ServletContextListener {
 
     private static Map<String, String> conf = new HashMap<>();
@@ -42,7 +43,9 @@ public class ConfigListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent evt) {
-        ServletContext sc = evt.getServletContext();
+    	
+    	System.err.println("ServletContext监听到初始化...");
+    	ServletContext sc = evt.getServletContext();
 
         //项目发布,当前运行环境的绝对路径
         conf.put("realPath", sc.getRealPath("/").replaceFirst("/", ""));
