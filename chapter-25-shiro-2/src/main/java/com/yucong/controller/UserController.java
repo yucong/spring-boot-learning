@@ -29,7 +29,7 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    @RequiresPermissions("user:view-")
+    @RequiresPermissions("user:view")
     @GetMapping(value = "/list")
     public CommonVO<DataTableVO<User>> list(Model model) {
     	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));

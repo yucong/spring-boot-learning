@@ -114,7 +114,7 @@ public class ShiroConfiguration {
         // 需要验证的写 authc 不需要的写 anon
         filterChainDefinitionMap.put("/resource/**", "anon");
         filterChainDefinitionMap.put("/install", "anon");
-        filterChainDefinitionMap.put("/hello", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
         // anon：它对应的过滤器里面是空的,什么都没做
         log.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
 
