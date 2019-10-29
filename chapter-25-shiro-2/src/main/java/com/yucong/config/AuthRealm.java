@@ -44,6 +44,11 @@ public class AuthRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
+    	
+    	if(token.getCredentials() == null) {
+    		throw new UnknownAccountException();
+    	}
+    	
         String principal = (String) token.getPrincipal();
         User u = userService.findByUsername(principal);
         User user = Optional.ofNullable(u).orElseThrow(UnknownAccountException::new);
