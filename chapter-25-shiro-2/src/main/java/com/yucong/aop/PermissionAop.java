@@ -1,5 +1,9 @@
 package com.yucong.aop;
 
+import java.lang.reflect.Method;
+
+import javax.naming.NoPermissionException;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,10 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.yucong.annotion.Auth;
-import com.yucong.service.PermissionCheckService;
-
-import javax.naming.NoPermissionException;
-import java.lang.reflect.Method;
+import com.yucong.core.shiro.manager.PermissionCheckManager;
 
 /**
  * 权限检查的aop
@@ -27,7 +28,7 @@ import java.lang.reflect.Method;
 public class PermissionAop {
 
     @Autowired
-    private PermissionCheckService permissionCheckService;
+    private PermissionCheckManager permissionCheckService;
 
     @Pointcut(value = "@annotation(com.yucong.annotion.Auth)")
     private void cutPermission() {
