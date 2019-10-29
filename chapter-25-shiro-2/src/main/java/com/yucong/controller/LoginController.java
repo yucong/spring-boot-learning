@@ -20,13 +20,13 @@ public class LoginController {
     public String login(String username, String password) {
         
     	// 想要得到 SecurityUtils.getSubject() 的对象．．访问地址必须跟 shiro 的拦截地址内．不然后会报空指针
-        Subject sub = SecurityUtils.getSubject();
+        Subject subject = SecurityUtils.getSubject();
         // 用户输入的账号和密码,,存到UsernamePasswordToken对象中..然后由shiro内部认证对比,
         // 认证执行者交由 com.yucong.config.AuthRealm 中 doGetAuthenticationInfo 处理
         // 当以上认证成功后会向下执行,认证失败会抛出异常
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
-            sub.login(token);
+            subject.login(token);
         } catch (UnknownAccountException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,用户不存在", username);
             token.clear();
