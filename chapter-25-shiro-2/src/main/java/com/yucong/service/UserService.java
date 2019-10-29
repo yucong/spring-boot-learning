@@ -61,17 +61,15 @@ public class UserService {
 
     /**
      * 根据用户名查找用户
-     * @param username
-     * @return
      */
     public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+    	User user = new User();
+    	user.setUsername(username);
+    	return userDao.selectOne(user);
     }
 
     /**
      * 根据用户名查找其角色
-     * @param username
-     * @return
      */
     @SuppressWarnings("unchecked")
 	public Set<String> findRoles(String username) {

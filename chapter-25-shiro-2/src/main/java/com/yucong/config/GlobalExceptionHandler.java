@@ -1,7 +1,8 @@
 package com.yucong.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.yucong.exception.CustomException;
 import com.yucong.exception.ErrorResponseEntity;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 全局异常处理
@@ -25,9 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  * @date   2018-12-28
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-	
-	Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	
     /**
      * 定义要捕获的异常 可以多个 @ExceptionHandler({})
