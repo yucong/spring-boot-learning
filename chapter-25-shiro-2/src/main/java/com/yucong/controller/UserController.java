@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yucong.core.annotion.Auth;
+import com.yucong.core.base.CommonVO;
+import com.yucong.core.base.DataTableVO;
 import com.yucong.entity.User;
 import com.yucong.service.OrganizationService;
 import com.yucong.service.RoleService;
 import com.yucong.service.UserService;
-import com.yucong.vo.common.CommonVO;
-import com.yucong.vo.common.DataTableVO;
 
 @RestController
 @RequestMapping("/user")

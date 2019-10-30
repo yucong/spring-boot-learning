@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yucong.core.base.DataTableVO;
 import com.yucong.entity.User;
 import com.yucong.entity.UserRole;
 import com.yucong.mapper.UserMapper;
 import com.yucong.mapper.UserRoleMapper;
-import com.yucong.vo.common.DataTableVO;
 
 @Service
 public class UserService {
