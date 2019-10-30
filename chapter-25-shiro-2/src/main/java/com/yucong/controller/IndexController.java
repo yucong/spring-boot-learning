@@ -25,9 +25,9 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(/*@CurrentUser*/ User loginUser, Model model) {
-        Set<String> permissions = userService.findPermissions(loginUser.getUsername());
+       /* Set<String> permissions = userService.findPermissions(loginUser.getUsername());
         List<Permission> menus = resourceService.findMenus(permissions);
-        model.addAttribute("menus", menus);
+        model.addAttribute("menus", menus);*/
         return "index";
     }
 

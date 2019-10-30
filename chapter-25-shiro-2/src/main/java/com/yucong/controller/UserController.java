@@ -5,99 +5,53 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yucong.core.annotion.Auth;
+import com.yucong.core.base.BaseVO;
 import com.yucong.core.base.CommonVO;
 import com.yucong.core.base.DataTableVO;
 import com.yucong.entity.User;
-import com.yucong.service.OrganizationService;
-import com.yucong.service.RoleService;
 import com.yucong.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private OrganizationService organizationService;
-    @Autowired
-    private RoleService roleService;
-
     @Auth
-    @GetMapping(value = "/list")
+    @GetMapping(value = "list")
     public CommonVO<DataTableVO<User>> list(Model model) {
     	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));
     }
 
-    @GetMapping(value = "/create")
-    public String showCreateForm(Model model) {
-        setCommonData(model);
-        model.addAttribute("user", new User());
-        model.addAttribute("op", "新增");
-        return "user/edit";
-    }
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(User user, RedirectAttributes redirectAttributes) {
+    @PostMapping(value = "add")
+    public BaseVO add(@RequestBody User user) {
         userService.createUser(user);
-        redirectAttributes.addFlashAttribute("msg", "新增成功");
-        return "redirect:/user";
+        return BaseVO.success();
     }
 
-    @RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
-    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
-        setCommonData(model);
-        model.addAttribute("user", userService.findOne(id));
-        model.addAttribute("op", "修改");
-        return "user/edit";
-    }
-
-    @PostMapping(value = "/{id}/update" )
-    public String update(User user, RedirectAttributes redirectAttributes) {
+    @PostMapping(value = "update" )
+    public BaseVO update(@RequestBody User user) {
         userService.updateUser(user);
-        redirectAttributes.addFlashAttribute("msg", "修改成功");
-        return "redirect:/user";
+        return BaseVO.success();
     }
 
-    @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-    public String showDeleteForm(@PathVariable("id") Long id, Model model) {
-        setCommonData(model);
-        model.addAttribute("user", userService.findOne(id));
-        model.addAttribute("op", "删除");
-        return "user/edit";
-    }
-
-    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
-    public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    @PostMapping(value = "delete")
+    public BaseVO delete(@PathVariable("id") Long id) {
         userService.deleteUser(id);
-        redirectAttributes.addFlashAttribute("msg", "删除成功");
-        return "redirect:/user";
+        return BaseVO.success();
     }
 
-
-    @RequestMapping(value = "/{id}/changePassword", method = RequestMethod.GET)
-    public String showChangePasswordForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findOne(id));
-        model.addAttribute("op", "修改密码");
-        return "user/changePassword";
-    }
-
-    @RequestMapping(value = "/{id}/changePassword", method = RequestMethod.POST)
-    public String changePassword(@PathVariable("id") Long id, String newPassword, RedirectAttributes redirectAttributes) {
+    @PostMapping(value = "changePassword")
+    public BaseVO changePassword(@PathVariable("id") Long id, String newPassword) {
         userService.changePassword(id, newPassword);
-        redirectAttributes.addFlashAttribute("msg", "修改密码成功");
-        return "redirect:/user";
+        return BaseVO.success();
     }
 
-    private void setCommonData(Model model) {
-        model.addAttribute("organizationList", organizationService.findAll());
-        model.addAttribute("roleList", roleService.findAll());
-    }
+
 }
