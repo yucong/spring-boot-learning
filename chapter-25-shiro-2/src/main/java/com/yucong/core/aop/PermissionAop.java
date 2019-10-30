@@ -30,13 +30,13 @@ public class PermissionAop {
     @Autowired
     private PermissionCheckManager permissionCheckService;
 
-    @Pointcut(value = "@annotation(com.yucong.annotion.Auth)")
+    @Pointcut(value = "@annotation(com.yucong.core.annotion.Auth)")
     private void cutPermission() {
 
     }
 
     @Around("cutPermission()")
-    public Object doPermission(ProceedingJoinPoint point) throws Throwable {
+    public Object doPermission(ProceedingJoinPoint point) throws Throwable,NoPermissionException {
         MethodSignature ms = (MethodSignature) point.getSignature();
         Method method = ms.getMethod();
         Auth auth = method.getAnnotation(Auth.class);
@@ -48,7 +48,8 @@ public class PermissionAop {
             if (result) {
                 return point.proceed();
             } else {
-                throw new NoPermissionException();
+            	System.out.println("没有访问权限...");
+                throw new NoPermissionException("没有访问权限");
             }
 
         } else {

@@ -1,83 +1,127 @@
 package com.yucong.config;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import javax.naming.NoPermissionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.yucong.exception.CustomException;
-import com.yucong.exception.ErrorResponseEntity;
+import com.yucong.core.base.ExceptionVO;
 
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 全局异常处理
- *
+ * 异常处理大管家
+ * 
  * @author 喻聪
- * @date   2018-12-28
+ * @date   2017-10-09
+ *
  */
 @RestControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
+
+	private static final String MESSAGE_SERVER_EXCEPTION = "服务器内部错误";
+	private static final String MESSAGE_PARAMTER_ILLEGAL  = "请求参数不合法";
+	private static final String MESSAGE_METHOD_ILLEGAL  = "请求方式不支持";
 	
-    /**
-     * 定义要捕获的异常 可以多个 @ExceptionHandler({})
-     *
-     * @param request  request
-     * @param e        exception
-     * @param response response
-     * @return 响应结果
-     */
-    @ExceptionHandler(CustomException.class)
-    public ErrorResponseEntity customExceptionHandler(HttpServletRequest request, final Exception e, HttpServletResponse response) {
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
-        CustomException exception = (CustomException) e;
-        return new ErrorResponseEntity(exception.getCode(), exception.getMessage());
-    }
-
-    /**
-     * 捕获  RuntimeException 异常
-     * TODO  如果你觉得在一个 exceptionHandler 通过  if (e instanceof xxxException) 太麻烦
-     * TODO  那么你还可以自己写多个不同的 exceptionHandler 处理不同异常
-     *
-     * @param request  request
-     * @param e        exception
-     * @param response response
-     * @return 响应结果
-     */
-    @ExceptionHandler(RuntimeException.class)
-    public ErrorResponseEntity runtimeExceptionHandler(HttpServletRequest request, final Exception e, HttpServletResponse response) {
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
-        RuntimeException exception = (RuntimeException) e;
-        log.error(e.getMessage());
-        e.printStackTrace();
-        return new ErrorResponseEntity(400, exception.getMessage());
-    }
-
-    /**
-     * 通用的接口映射异常处理方
-     */
-    @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-                                                             HttpStatus status, WebRequest request) {
-        if (ex instanceof MethodArgumentNotValidException) {
-            MethodArgumentNotValidException exception = (MethodArgumentNotValidException) ex;
-            return new ResponseEntity<>(new ErrorResponseEntity(status.value(), exception.getBindingResult().getAllErrors().get(0).getDefaultMessage()), status);
-        }
-        if (ex instanceof MethodArgumentTypeMismatchException) {
-            MethodArgumentTypeMismatchException exception = (MethodArgumentTypeMismatchException) ex;
-            logger.error("参数转换失败，方法：" + exception.getParameter().getMethod().getName() + "，参数：" + exception.getName()
-                    + ",信息：" + exception.getLocalizedMessage());
-            return new ResponseEntity<>(new ErrorResponseEntity(status.value(), "参数转换失败"), status);
-        }
-        return new ResponseEntity<>(new ErrorResponseEntity(status.value(), "参数转换失败"), status);
-    }
+	
+	/**
+	 * 不支持的请求方式
+	 * 
+	 * @author 喻聪
+	 * 
+	 * @param response
+	 * @param ex
+	 */
+	@ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+	public ExceptionVO handleException(HttpServletRequest request, HttpServletResponse response,HttpRequestMethodNotSupportedException e) {
+		ExceptionVO returnVO = new ExceptionVO();
+		returnVO.setCode(400);
+		returnVO.setMessage(MESSAGE_METHOD_ILLEGAL);
+		returnVO.setErrorCode(400);
+		returnVO.setErrorMsg(e.getMessage());
+		log.warn("不支持的请求方式",e);
+		return returnVO;
+	}
+	
+	
+	/**
+	 * 处理入参异常：只返回第一个不合法的参数错误
+	 * 
+	 * @author 喻聪
+	 * 
+	 * @param response
+	 * @param ex
+	 */
+	@ExceptionHandler(value = NoPermissionException.class)
+	public ExceptionVO handleException(HttpServletRequest request,HttpServletResponse response,NoPermissionException e) {
+		ExceptionVO returnVO = new ExceptionVO();
+		returnVO.setCode(400);
+		returnVO.setMessage(MESSAGE_PARAMTER_ILLEGAL);
+		returnVO.setErrorCode(400);
+		returnVO.setErrorMsg(e.getMessage());
+		return returnVO;
+	}
+	
+	
+	
+	
+	/**
+	 * 处理运行时异常
+	 * 
+	 * @author 喻聪
+	 * 
+	 * @param response
+	 * @param ex
+	 */
+	@ExceptionHandler(value = RuntimeException.class)
+	public ExceptionVO handleException(HttpServletRequest request,HttpServletResponse response,RuntimeException e) {
+		ExceptionVO returnVO = new ExceptionVO();
+		returnVO.setCode(501);
+		returnVO.setErrorCode(501);
+		returnVO.setMessage(MESSAGE_SERVER_EXCEPTION);
+		returnVO.setErrorMsg(e.getMessage());
+		log.error("服务器内部异常",e);
+		return returnVO;
+	}
+	
+	/**
+	 * 处理运行时异常
+	 * 
+	 * @author 喻聪
+	 * 
+	 * @param response
+	 * @param ex
+	 */
+	@ExceptionHandler(value = Exception.class)
+	public ExceptionVO handleException(HttpServletRequest request,HttpServletResponse response,Exception e) {
+		ExceptionVO returnVO = new ExceptionVO();
+		returnVO.setCode(500);
+		returnVO.setMessage(MESSAGE_SERVER_EXCEPTION);
+		log.error("服务器内部异常",e);
+		returnVO.setErrorCode(500);
+		returnVO.setErrorMsg(e.getMessage());
+		return returnVO;
+	}
+	
+	
+	
+	public static String getStackTrace(Throwable throwable) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		try {
+			throwable.printStackTrace(pw);
+			return sw.toString();
+		} finally {
+			pw.close();
+		}
+	}
+	
+	
 }

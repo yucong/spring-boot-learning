@@ -51,6 +51,11 @@ public class LoginController {
     public String login() {
         return "用户未登陆";
     }
+    
+    @GetMapping(value = "/denied")
+    public String denied() {
+        return "没有权限";
+    }
 
 
 }
