@@ -28,4 +28,9 @@ public class BaseVO  {
 		this.message = message;
 	}
 	
+	public static BaseVO success() {
+		return new BaseVO();
+	}
+	
+	
 }
