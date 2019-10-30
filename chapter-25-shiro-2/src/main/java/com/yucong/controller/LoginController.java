@@ -49,12 +49,12 @@ public class LoginController {
     
     @GetMapping(value = "/unLogin")
     public String login() {
-        return "用户未登陆";
+        return "unlogin...";
     }
     
     @GetMapping(value = "/denied")
     public String denied() {
-        return "没有权限";
+        return "denied...";
     }
 
 

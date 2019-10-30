@@ -23,8 +23,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Auth
     @GetMapping(value = "list")
+    @Auth
     public CommonVO<DataTableVO<User>> list(Model model) {
     	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));
     }
