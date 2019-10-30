@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.yucong.annotion.Auth;
+import com.yucong.core.annotion.Auth;
 import com.yucong.entity.User;
 import com.yucong.service.OrganizationService;
 import com.yucong.service.RoleService;

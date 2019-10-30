@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.yucong.annotion.Auth;
+import com.yucong.core.annotion.Auth;
 import com.yucong.core.shiro.manager.PermissionCheckManager;
 
 /**

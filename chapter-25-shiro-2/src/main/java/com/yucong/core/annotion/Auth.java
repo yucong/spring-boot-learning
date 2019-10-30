@@ -1,4 +1,4 @@
-package com.yucong.annotion;
+package com.yucong.core.annotion;
 
 import java.lang.annotation.*;
 
