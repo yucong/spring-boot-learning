@@ -25,6 +25,7 @@ public class LoginController {
     @GetMapping(value = "/login")
     public BaseVO login(String username, String password) {
         BaseVO baseVO = new BaseVO();
+        baseVO.setMessage("登录成功");
     	// 想要得到 SecurityUtils.getSubject() 的对象．．访问地址必须跟 shiro 的拦截地址内．不然后会报空指针
         Subject subject = SecurityUtils.getSubject();
         // 用户输入的账号和密码,,存到UsernamePasswordToken对象中..然后由shiro内部认证对比,
@@ -54,7 +55,6 @@ public class LoginController {
             baseVO.setMessage("用户名或密码错误");
             baseVO.setCode(-1);
         }
-        baseVO.setMessage("登录成功");
         return baseVO;
     }
     

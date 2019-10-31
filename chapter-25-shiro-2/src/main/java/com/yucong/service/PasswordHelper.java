@@ -1,6 +1,7 @@
 package com.yucong.service;
 
 import org.apache.shiro.crypto.RandomNumberGenerator;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 //import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
@@ -12,7 +13,7 @@ import com.yucong.entity.User;
 @Service
 public class PasswordHelper {
 
-    //private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
+    private RandomNumberGenerator randomNumberGenerator = new SecureRandomNumberGenerator();
 
     @Value("${password.algorithmName}")
     private String algorithmName = "md5";
@@ -20,7 +21,7 @@ public class PasswordHelper {
     private int hashIterations = 2;
 
     public void setRandomNumberGenerator(RandomNumberGenerator randomNumberGenerator) {
-        //this.randomNumberGenerator = randomNumberGenerator;
+        this.randomNumberGenerator = randomNumberGenerator;
     }
 
     public void setAlgorithmName(String algorithmName) {
@@ -32,16 +33,16 @@ public class PasswordHelper {
     }
 
     public void encryptPassword(User user) {
-
-        /*user.setSalt(randomNumberGenerator.nextBytes().toHex());
+    	
+        user.setSalt(randomNumberGenerator.nextBytes().toHex());
 
         String newPassword = new SimpleHash(
                 algorithmName,
                 user.getPassword(),
-                ByteSource.Util.bytes(user.getCredentialsSalt()),
+                ByteSource.Util.bytes(user.getSalt()),
                 hashIterations).toHex();
 
-        user.setPassword(newPassword);*/
+        user.setPassword(newPassword);
     }
     
     
@@ -51,9 +52,9 @@ public class PasswordHelper {
         String newPassword = new SimpleHash(
                 "md5",
                 "123456",
-                ByteSource.Util.bytes("admin8d78869f470951332959580424d4bf4f"),
+                ByteSource.Util.bytes("8d78869f470951332959580424d4bf4f"),
                 2).toHex();
-        // d3c59d25033dbf980d29554025c23a75
+        // dd3736d1c3c4702e5170cde08bffd411
         System.out.println(newPassword);
     	
 	}
