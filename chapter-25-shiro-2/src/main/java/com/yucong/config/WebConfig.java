@@ -1,4 +1,4 @@
-package com.yucong;
+package com.yucong.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -18,7 +18,7 @@ import com.yucong.core.intercepter.AuthInterceptor;
  */
 @Configuration
 @ServletComponentScan 
-public class MainConfig extends WebMvcConfigurationSupport {
+public class WebConfig extends WebMvcConfigurationSupport {
 
 	@Autowired  
 	private AuthInterceptor loginInterceptor;  
