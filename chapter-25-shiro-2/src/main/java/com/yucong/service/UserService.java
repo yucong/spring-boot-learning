@@ -1,9 +1,6 @@
 package com.yucong.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,9 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yucong.core.base.DataTableVO;
 import com.yucong.entity.User;
-import com.yucong.entity.UserRole;
 import com.yucong.mapper.UserMapper;
-import com.yucong.mapper.UserRoleMapper;
 
 @Service
 public class UserService {
@@ -22,11 +17,8 @@ public class UserService {
     @Autowired
     private UserMapper userDao;
     @Autowired
-    private UserRoleMapper userRoleMapper;
-    @Autowired
     private PasswordHelper passwordHelper;
-    @Autowired
-    private RoleService roleService;
+
 
     /**
      * 创建用户

@@ -16,37 +16,50 @@ import com.yucong.core.base.DataTableVO;
 import com.yucong.entity.User;
 import com.yucong.service.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("user")
+@Api(tags = "用户管理")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "list")
     @Auth
+    @ApiOperation(value="用户列表")
+    @GetMapping(value = "list")
     public CommonVO<DataTableVO<User>> list(Model model) {
     	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));
     }
 
+    @Auth
+    @ApiOperation(value="添加用户")
     @PostMapping(value = "add")
     public BaseVO add(@RequestBody User user) {
         userService.createUser(user);
         return BaseVO.success();
     }
 
+    @Auth
+    @ApiOperation(value="更新用户")
     @PostMapping(value = "update" )
     public BaseVO update(@RequestBody User user) {
         userService.updateUser(user);
         return BaseVO.success();
     }
 
+    @Auth
+    @ApiOperation(value="删除用户")
     @PostMapping(value = "delete")
     public BaseVO delete(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return BaseVO.success();
     }
 
+    @Auth
+    @ApiOperation(value="修改密码")
     @PostMapping(value = "changePassword")
     public BaseVO changePassword(@PathVariable("id") Long id, String newPassword) {
         userService.changePassword(id, newPassword);
