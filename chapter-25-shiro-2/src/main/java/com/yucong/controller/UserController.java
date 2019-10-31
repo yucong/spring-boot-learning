@@ -16,6 +16,7 @@ import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.user.AddUser;
+import com.yucong.dto.user.UpdateUser;
 import com.yucong.entity.User;
 import com.yucong.service.UserService;
 
@@ -47,8 +48,9 @@ public class UserController {
 
     @ApiOperation(value="更新用户")
     @PostMapping(value = "update" )
-    public BaseVO update(@RequestBody User user) {
-        userService.updateUser(user);
+    public BaseVO update(@RequestBody UpdateUser user) {
+    	User u = BeanMapper.map(user, User.class);
+    	userService.updateUser(u);
         return BaseVO.success();
     }
 
