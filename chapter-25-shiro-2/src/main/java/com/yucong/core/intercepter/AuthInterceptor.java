@@ -1,4 +1,4 @@
-package com.yucong.intercepter;
+package com.yucong.core.intercepter;
 
 import java.lang.reflect.Method;
 
