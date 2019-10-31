@@ -10,15 +10,21 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yucong.core.base.BaseVO;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@Api(tags = "用户登录")
 public class LoginController {
 
+	@ApiOperation(value="登录")
     @GetMapping(value = "/login")
-    public String login(String username, String password) {
-        
+    public BaseVO login(String username, String password) {
+        BaseVO baseVO = new BaseVO();
     	// 想要得到 SecurityUtils.getSubject() 的对象．．访问地址必须跟 shiro 的拦截地址内．不然后会报空指针
         Subject subject = SecurityUtils.getSubject();
         // 用户输入的账号和密码,,存到UsernamePasswordToken对象中..然后由shiro内部认证对比,
@@ -30,26 +36,33 @@ public class LoginController {
         } catch (UnknownAccountException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,用户不存在", username);
             token.clear();
-            return "UnknownAccountException";
+            baseVO.setMessage("UnknownAccountException");
+            baseVO.setCode(-1);
         } catch (LockedAccountException lae) {
             log.error("对用户[{}]进行登录验证,验证未通过,账户已锁定", username);
             token.clear();
-            return "LockedAccountException";
+            baseVO.setMessage("账号已锁定");
+            baseVO.setCode(-1);
         } catch (ExcessiveAttemptsException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,错误次数过多", username);
             token.clear();
-            return "ExcessiveAttemptsException";
+            baseVO.setMessage("错误次数过多");
+            baseVO.setCode(-1);
         } catch (AuthenticationException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,堆栈轨迹如下", username, e);
             token.clear();
-            return "AuthenticationException";
+            baseVO.setMessage("用户名或密码错误");
+            baseVO.setCode(-1);
         }
-        return "success";
+        return baseVO;
     }
     
     @GetMapping(value = "/unLogin")
-    public String login() {
-        return "unlogin...";
+    public BaseVO login() {
+        BaseVO baseVO = new BaseVO();
+        baseVO.setCode(-1);
+        baseVO.setMessage("请登录");
+        return baseVO;
     }
     
     @GetMapping(value = "/denied")
