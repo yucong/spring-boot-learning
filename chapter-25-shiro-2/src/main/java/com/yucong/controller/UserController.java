@@ -1,5 +1,6 @@
 package com.yucong.controller;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import com.yucong.core.base.dto.PageInfo;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.base.vo.DataTableVO;
+import com.yucong.dto.user.AddUser;
 import com.yucong.entity.User;
 import com.yucong.service.UserService;
 
@@ -35,8 +37,10 @@ public class UserController {
 
     @ApiOperation(value="添加用户")
     @PostMapping(value = "add")
-    public BaseVO add(@RequestBody User user) {
-        userService.createUser(user);
+    public BaseVO add(@RequestBody AddUser user) {
+    	User u = new User();
+    	BeanUtils.copyProperties(user, u);
+        userService.createUser(u);
         return BaseVO.success();
     }
 
