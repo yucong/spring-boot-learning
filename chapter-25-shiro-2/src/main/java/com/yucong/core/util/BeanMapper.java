@@ -27,8 +27,7 @@ public class BeanMapper {
 	}
 	
 	
-	public static <T> List<T> mapList(Collection<?> sourceList,
-			Class<T> destinationClass) {
+	public static <T> List<T> mapList(Collection<?> sourceList,Class<T> destinationClass) {
 		List<T> destinationList = Lists.newArrayList();
 		for (Object sourceObject : sourceList) {
 			T destinationObject = map(sourceObject, destinationClass);
