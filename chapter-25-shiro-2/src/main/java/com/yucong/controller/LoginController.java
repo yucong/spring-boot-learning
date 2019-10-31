@@ -54,6 +54,7 @@ public class LoginController {
             baseVO.setMessage("用户名或密码错误");
             baseVO.setCode(-1);
         }
+        baseVO.setMessage("登录成功");
         return baseVO;
     }
     

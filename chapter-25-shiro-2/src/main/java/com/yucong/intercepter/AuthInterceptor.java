@@ -47,6 +47,10 @@ public class AuthInterceptor implements HandlerInterceptor{
         if (clazz.isAnnotationPresent(Auth.class) ||   method.isAnnotationPresent(Auth.class)) {  
         	
         	Auth auth = method.getAnnotation(Auth.class);
+        	if(auth == null) {
+        		auth = clazz.getAnnotation(Auth.class);
+        	}
+        	
             Object[] permissions = auth.value();
             if (permissions.length == 0) {
 
