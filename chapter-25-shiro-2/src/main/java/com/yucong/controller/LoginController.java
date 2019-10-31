@@ -36,7 +36,7 @@ public class LoginController {
         } catch (UnknownAccountException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,用户不存在", username);
             token.clear();
-            baseVO.setMessage("UnknownAccountException");
+            baseVO.setMessage("用户名或密码错误");
             baseVO.setCode(-1);
         } catch (LockedAccountException lae) {
             log.error("对用户[{}]进行登录验证,验证未通过,账户已锁定", username);
