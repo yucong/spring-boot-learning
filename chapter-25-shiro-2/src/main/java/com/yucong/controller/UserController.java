@@ -1,7 +1,6 @@
 package com.yucong.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yucong.core.annotion.Auth;
-import com.yucong.core.base.BaseVO;
-import com.yucong.core.base.CommonVO;
-import com.yucong.core.base.DataTableVO;
+import com.yucong.core.base.dto.PageInfo;
+import com.yucong.core.base.vo.BaseVO;
+import com.yucong.core.base.vo.CommonVO;
+import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.entity.User;
 import com.yucong.service.UserService;
 
@@ -28,10 +28,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    
     @ApiOperation(value="用户列表")
     @GetMapping(value = "list")
-    public CommonVO<DataTableVO<User>> list(Model model) {
+    public CommonVO<DataTableVO<User>> list(PageInfo pageInfo) {
     	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));
     }
 

@@ -1,4 +1,4 @@
-package com.yucong.core.base;
+package com.yucong.core.base.vo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

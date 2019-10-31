@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.yucong.core.base.DataTableVO;
+import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.entity.User;
 import com.yucong.mapper.UserMapper;
 

@@ -1,4 +1,4 @@
-package com.yucong.core.base;
+package com.yucong.core.base.vo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

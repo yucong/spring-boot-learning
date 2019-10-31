@@ -11,7 +11,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.yucong.core.base.ExceptionVO;
+import com.yucong.core.base.vo.ExceptionVO;
 
 import lombok.extern.slf4j.Slf4j;
 
