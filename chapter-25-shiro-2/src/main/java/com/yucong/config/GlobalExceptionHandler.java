@@ -2,12 +2,16 @@ package com.yucong.config;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.naming.NoPermissionException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -27,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 
 	private static final String MESSAGE_SERVER_EXCEPTION = "服务器内部错误";
-	// private static final String MESSAGE_PARAMTER_ILLEGAL  = "请求参数不合法";
+	private static final String MESSAGE_PARAMTER_ILLEGAL  = "请求参数不合法";
 	private static final String MESSAGE_METHOD_ILLEGAL  = "请求方式不支持";
 	
 	
@@ -52,7 +56,7 @@ public class GlobalExceptionHandler {
 	
 	
 	/**
-	 * 处理入参异常：只返回第一个不合法的参数错误
+	 * 权限不足
 	 * 
 	 * @author 喻聪
 	 * 
@@ -66,6 +70,29 @@ public class GlobalExceptionHandler {
 		returnVO.setMessage("权限不够");
 		returnVO.setErrorCode(400);
 		returnVO.setErrorMsg(e.getMessage());
+		return returnVO;
+	}
+	
+	/**
+	 * 处理入参异常：只返回第一个不合法的参数错误
+	 * 
+	 * @author 喻聪
+	 * 
+	 * @param response
+	 * @param ex
+	 */
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	public ExceptionVO handleException(HttpServletRequest request,HttpServletResponse response,MethodArgumentNotValidException e) {
+		ExceptionVO returnVO = new ExceptionVO();
+		returnVO.setCode(0);
+		returnVO.setMessage(MESSAGE_PARAMTER_ILLEGAL);
+		returnVO.setErrorCode(400);
+		
+		BindingResult  bindingResult = e.getBindingResult();
+		List<ObjectError> errors = bindingResult.getAllErrors();
+		returnVO.setErrorMsg(errors.get(0).getDefaultMessage());
+		
+		log.warn("请求参数不合法",e);
 		return returnVO;
 	}
 	
