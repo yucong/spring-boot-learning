@@ -85,8 +85,7 @@ public class UserAuthManager {
         String credentials = user.getPassword();
 
         // 密码加盐处理
-        String source = user.getSalt();
-        ByteSource credentialsSalt = new Md5Hash(source);
+        ByteSource credentialsSalt = ByteSource.Util.bytes(user.getSalt());
         return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
     }
 

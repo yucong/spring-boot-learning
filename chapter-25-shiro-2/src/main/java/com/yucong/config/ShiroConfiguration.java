@@ -60,9 +60,11 @@ public class ShiroConfiguration {
     }
 
     @Bean(name = "authRealm")
-    public ShiroAuthRealm authRealm(EhCacheManager cacheManager) {
+    public ShiroAuthRealm authRealm(EhCacheManager cacheManager,HashedCredentialsMatcher matcher) {
         ShiroAuthRealm authRealm = new ShiroAuthRealm();
         authRealm.setCacheManager(cacheManager);
+        // 设置密码凭证匹配器
+        authRealm.setCredentialsMatcher(matcher);
         return authRealm;
     }
 
