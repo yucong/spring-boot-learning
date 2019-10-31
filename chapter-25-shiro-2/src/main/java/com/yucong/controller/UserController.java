@@ -50,14 +50,14 @@ public class UserController {
 
     @ApiOperation(value="删除用户")
     @PostMapping(value = "delete")
-    public BaseVO delete(@PathVariable("id") Long id) {
+    public BaseVO delete(Long id) {
         userService.deleteUser(id);
         return BaseVO.success();
     }
 
     @ApiOperation(value="修改密码")
     @PostMapping(value = "changePassword")
-    public BaseVO changePassword(@PathVariable("id") Long id, String newPassword) {
+    public BaseVO changePassword(Long id, String newPassword) {
         userService.changePassword(id, newPassword);
         return BaseVO.success();
     }
