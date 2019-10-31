@@ -34,7 +34,7 @@ public class UserService {
     	if(StringUtil.isNotEmpty( user.getPassword() ) ) {
     		passwordHelper.encryptPassword(user);
     	}
-    	userDao.updateByPrimaryKey(user);
+    	userDao.updateByPrimaryKeySelective(user);
     	return user;
     }
 

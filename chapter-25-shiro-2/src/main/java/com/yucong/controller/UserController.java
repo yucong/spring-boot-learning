@@ -48,7 +48,7 @@ public class UserController {
 
     @ApiOperation(value="更新用户")
     @PostMapping(value = "update" )
-    public BaseVO update(@RequestBody UpdateUser user) {
+    public BaseVO update(@RequestBody @Valid UpdateUser user) {
     	User u = BeanMapper.map(user, User.class);
     	userService.updateUser(u);
         return BaseVO.success();
