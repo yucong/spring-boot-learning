@@ -47,7 +47,7 @@ public class SwaggerConfig {
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
                 .required(true)
-                .defaultValue("app")
+                .defaultValue("web")
                 .hidden(true)
                 .build());
 		
@@ -67,12 +67,12 @@ public class SwaggerConfig {
 	//设置api信息
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("后台接口系统")
+				.title("后台接口文档")
 				.description("当前版本：1.0.0\n" +
                         "\n" +
                         "\t*头部header的参数*\n" +
                         "\t1、X-Auth-Token\t\t用户token(如:38661703ac5a4d9582c2c7839040719a)\n" +
-                        "\t2、Device-Type\t\t设备类型（如：app）\n" +
+                        "\t2、Device-Type\t\t设备类型（如：web）\n" +
                         "\t3、App-Version\t\t客户端版本（如：1.0.0）") 
 				// 作者信息
 				//.contact(new Contact("yucong", "https://blog.xxx.com/", "498077-@qq.com"))
