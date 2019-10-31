@@ -41,10 +41,10 @@ public class AuthInterceptor implements HandlerInterceptor{
 		
 		final HandlerMethod handlerMethod = (HandlerMethod) handler;  
         final Method method = handlerMethod.getMethod();  
-        /*final Class<?> clazz = method.getDeclaringClass();  */
+        final Class<?> clazz = method.getDeclaringClass();
         
         boolean result = false;
-        if (/*clazz.isAnnotationPresent(Auth.class) ||  */ method.isAnnotationPresent(Auth.class)) {  
+        if (clazz.isAnnotationPresent(Auth.class) ||   method.isAnnotationPresent(Auth.class)) {  
         	
         	Auth auth = method.getAnnotation(Auth.class);
             Object[] permissions = auth.value();

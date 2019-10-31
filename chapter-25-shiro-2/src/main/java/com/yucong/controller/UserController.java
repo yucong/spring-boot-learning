@@ -19,6 +19,7 @@ import com.yucong.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Auth
 @RestController
 @RequestMapping("user")
 @Api(tags = "用户管理")
@@ -27,14 +28,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Auth
+    
     @ApiOperation(value="用户列表")
     @GetMapping(value = "list")
     public CommonVO<DataTableVO<User>> list(Model model) {
     	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));
     }
 
-    @Auth
     @ApiOperation(value="添加用户")
     @PostMapping(value = "add")
     public BaseVO add(@RequestBody User user) {
@@ -42,7 +42,6 @@ public class UserController {
         return BaseVO.success();
     }
 
-    @Auth
     @ApiOperation(value="更新用户")
     @PostMapping(value = "update" )
     public BaseVO update(@RequestBody User user) {
@@ -50,7 +49,6 @@ public class UserController {
         return BaseVO.success();
     }
 
-    @Auth
     @ApiOperation(value="删除用户")
     @PostMapping(value = "delete")
     public BaseVO delete(@PathVariable("id") Long id) {
@@ -58,7 +56,6 @@ public class UserController {
         return BaseVO.success();
     }
 
-    @Auth
     @ApiOperation(value="修改密码")
     @PostMapping(value = "changePassword")
     public BaseVO changePassword(@PathVariable("id") Long id, String newPassword) {

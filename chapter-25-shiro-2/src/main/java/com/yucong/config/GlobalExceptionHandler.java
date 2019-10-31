@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 
 	private static final String MESSAGE_SERVER_EXCEPTION = "服务器内部错误";
-	private static final String MESSAGE_PARAMTER_ILLEGAL  = "请求参数不合法";
+	// private static final String MESSAGE_PARAMTER_ILLEGAL  = "请求参数不合法";
 	private static final String MESSAGE_METHOD_ILLEGAL  = "请求方式不支持";
 	
 	
@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
 	public ExceptionVO handleException(HttpServletRequest request,HttpServletResponse response,NoPermissionException e) {
 		ExceptionVO returnVO = new ExceptionVO();
 		returnVO.setCode(400);
-		returnVO.setMessage(MESSAGE_PARAMTER_ILLEGAL);
+		returnVO.setMessage("权限不够");
 		returnVO.setErrorCode(400);
 		returnVO.setErrorMsg(e.getMessage());
 		return returnVO;
