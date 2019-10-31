@@ -1,5 +1,7 @@
 package com.yucong.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +39,7 @@ public class UserController {
 
     @ApiOperation(value="添加用户")
     @PostMapping(value = "add")
-    public BaseVO add(@RequestBody AddUser user) {
+    public BaseVO add(@RequestBody @Valid AddUser user) {
     	User u = BeanMapper.map(user, User.class);
         userService.createUser(u);
         return BaseVO.success();
