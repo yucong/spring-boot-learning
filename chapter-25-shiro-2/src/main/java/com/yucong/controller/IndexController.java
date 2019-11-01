@@ -1,11 +1,10 @@
 package com.yucong.controller;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yucong.entity.User;
+import com.yucong.core.annotion.CurrentUser;
 
 
 @RestController
@@ -16,12 +15,12 @@ public class IndexController {
     @Autowired
     private UserService userService;*/
 
-    @GetMapping("/")
-    public String index(/*@CurrentUser*/ User loginUser, Model model) {
+    @GetMapping("/index")
+    public String index(@CurrentUser Long userId ) {
        /* Set<String> permissions = userService.findPermissions(loginUser.getUsername());
         List<Permission> menus = resourceService.findMenus(permissions);
         model.addAttribute("menus", menus);*/
-        return "index";
+        return "index" + userId;
     }
 
     @RequestMapping("/welcome")
