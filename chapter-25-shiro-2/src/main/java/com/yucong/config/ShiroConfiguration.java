@@ -14,6 +14,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.yucong.core.constant.SystemConsts;
 import com.yucong.core.shiro.ShiroAuthRealm;
 
 import lombok.extern.slf4j.Slf4j;
@@ -112,14 +113,10 @@ public class ShiroConfiguration {
         // TODO 重中之重啊，过滤顺序一定要根据自己需要排序
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 需要验证的写 authc 不需要的写 anon
-        filterChainDefinitionMap.put("/webjars/**", "anon");
-        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+        for(String url : SystemConsts.NONE_PERMISSION_RES) {
+        	filterChainDefinitionMap.put(url, "anon");
+        }
         
-        filterChainDefinitionMap.put("/v2/api-docs", "anon");
-        filterChainDefinitionMap.put("/csrf", "anon");
-        filterChainDefinitionMap.put("/", "anon");
-        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
-        filterChainDefinitionMap.put("/login", "anon");
         // anon：它对应的过滤器里面是空的,什么都没做
         log.info("##################从数据库读取权限规则，加载到shiroFilter中##################");
 
