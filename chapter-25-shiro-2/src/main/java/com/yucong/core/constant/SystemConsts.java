@@ -1,4 +1,4 @@
-package com.yucong.constants;
+package com.yucong.core.constant;
 
 /**
  * 系统常量
