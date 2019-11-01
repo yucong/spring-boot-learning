@@ -18,7 +18,7 @@ import com.yucong.core.shiro.manager.PermissionCheckManager;
 
 
 /**
- * 用户登录拦截器
+ * 权限验证拦截器
  * 
  * @author 喻聪
  * @date   2018-01-25
@@ -36,8 +36,6 @@ public class AuthInterceptor implements HandlerInterceptor{
 		if(request.getMethod().equals(RequestMethod.OPTIONS.name())) {
 	    	return true;
 	    }
-		
-		
 		
 		final HandlerMethod handlerMethod = (HandlerMethod) handler;  
         final Method method = handlerMethod.getMethod();  
@@ -74,8 +72,6 @@ public class AuthInterceptor implements HandlerInterceptor{
         } 
         return result;
 	}
-	
-	
 
 	@Override
 	public void postHandle(HttpServletRequest request,HttpServletResponse response, Object handler,ModelAndView modelAndView) throws Exception {
@@ -86,8 +82,6 @@ public class AuthInterceptor implements HandlerInterceptor{
 	public void afterCompletion(HttpServletRequest request,HttpServletResponse response, Object handler, Exception ex) throws Exception {
 	
 	}
-
-	
 	
 
 }
