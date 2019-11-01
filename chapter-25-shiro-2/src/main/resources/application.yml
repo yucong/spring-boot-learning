@@ -25,4 +25,9 @@ password:
   hashIterations: 2
   
 
-  
+shiro:
+  redis:
+    host: 47.96.21.192
+    port: 6379
+    timeout: 6000
+    password: crm2019redis  

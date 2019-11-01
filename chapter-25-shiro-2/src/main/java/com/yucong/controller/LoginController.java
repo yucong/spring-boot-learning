@@ -49,6 +49,8 @@ public class LoginController {
             LoginVO loginVO = new LoginVO();
             loginVO.setUserId(shiroUser.getId());
             loginVO.setUsername(shiroUser.getName());
+            String sessionId = (String) subject.getSession().getId();
+            loginVO.setTokenId((sessionId) );
             commonVO.setData(loginVO);
         } catch (UnknownAccountException e) {
             log.error("对用户[{}]进行登录验证,验证未通过,用户不存在", username);

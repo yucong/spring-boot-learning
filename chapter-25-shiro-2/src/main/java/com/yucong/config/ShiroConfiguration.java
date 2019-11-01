@@ -5,16 +5,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.yucong.core.constant.SystemConsts;
+import com.yucong.core.shiro.MySessionManager;
 import com.yucong.core.shiro.ShiroAuthRealm;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +31,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ShiroConfiguration {
 
-    @Bean
-    public EhCacheManager getEhCacheManager() {
-        EhCacheManager em = new EhCacheManager();
-        em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
-        return em;
-    }
-
-
+	@Value("${shiro.redis.host}")
+    private String host;
+    @Value("${shiro.redis.port}")
+    private int port;
+    @Value("${shiro.redis.timeout}")
+    private int timeout;
+    @Value("${shiro.redis.password}")
+    private String password;
+	
     @Bean(name = "lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
@@ -51,6 +57,50 @@ public class ShiroConfiguration {
         hashedCredentialsMatcher.setHashIterations(2);
         return hashedCredentialsMatcher;
     }
+    
+    /**
+     * 自定义sessionManager
+     * 参考：https://blog.csdn.net/u013615903/article/details/78781166
+     */
+    @Bean
+    public SessionManager sessionManager() {
+        MySessionManager mySessionManager = new MySessionManager();
+        mySessionManager.setSessionDAO(redisSessionDAO());
+        return mySessionManager;
+    }
+    
+    /*
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis
+     */
+    @Bean
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
+    }
+    
+    /*
+     * 配置shiro redisManager
+     */
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host);
+        redisManager.setPort(port);
+        redisManager.setExpire(1800);// 配置缓存过期时间
+        redisManager.setTimeout(timeout);
+        redisManager.setPassword(password);
+        return redisManager;
+    }
+
+    /**
+     * cacheManager 缓存 redis实现
+     */
+    @Bean
+    public RedisCacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        return redisCacheManager;
+    }
 
 
     @Bean
@@ -61,7 +111,7 @@ public class ShiroConfiguration {
     }
 
     @Bean(name = "authRealm")
-    public ShiroAuthRealm authRealm(EhCacheManager cacheManager,HashedCredentialsMatcher matcher) {
+    public ShiroAuthRealm authRealm(RedisCacheManager cacheManager,HashedCredentialsMatcher matcher) {
         ShiroAuthRealm authRealm = new ShiroAuthRealm();
         authRealm.setCacheManager(cacheManager);
         // 设置密码凭证匹配器
@@ -73,8 +123,14 @@ public class ShiroConfiguration {
     public DefaultWebSecurityManager getDefaultWebSecurityManager(ShiroAuthRealm authRealm) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(authRealm);
+        
         // <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
-        defaultWebSecurityManager.setCacheManager(getEhCacheManager());
+        //defaultWebSecurityManager.setCacheManager(getEhCacheManager());
+        
+        // 自定义session管理 使用redis
+        defaultWebSecurityManager.setSessionManager(sessionManager());
+        // 自定义缓存实现 使用redis
+        defaultWebSecurityManager.setCacheManager(cacheManager());
         return defaultWebSecurityManager;
     }
 
@@ -127,6 +183,17 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
+    
+    
+    
+    /*
+     * 使用redis-cache代替了ehcache
+     * @Bean
+    public EhCacheManager getEhCacheManager() {
+        EhCacheManager em = new EhCacheManager();
+        em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
+        return em;
+    }*/
 
 
 }
