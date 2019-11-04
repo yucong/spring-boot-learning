@@ -16,7 +16,7 @@ import com.yucong.entity.UserRole;
 import com.yucong.mapper.PermissionMapper;
 import com.yucong.mapper.MenuRoleMapper;
 import com.yucong.mapper.UserRoleMapper;
-import com.yucong.vo.menu.MenuVO;
+import com.yucong.vo.menu.PermissionVO;
 
 import tk.mybatis.mapper.entity.Example;
 
@@ -65,10 +65,15 @@ public class MenuService extends BaseService<Permission, PermissionMapper> {
 	 * 
 	 */
 	public List<Permission> list() {
-		Permission menu = new Permission();
+		
+		Example example = new Example(Permission.class);
+		example.createCriteria()
+			.andEqualTo("available", true)
+			.andGreaterThan("parengId", 0);
+		
 		/// menu.setState(StateEnum.VALID.getCode());
 		/// menu.setFlagDel(FlagDelEnum.NO.getCode());
-		return permissionMapper.select(menu);
+		return permissionMapper.selectByExample(example);
 	}
 
 	/**
@@ -99,9 +104,9 @@ public class MenuService extends BaseService<Permission, PermissionMapper> {
 	 * @author YN
 	 * @date: 2019-4-22
 	 */
-	public MenuVO detailMenu(int id) {
+	public PermissionVO detailMenu(int id) {
 		Permission menu = super.detail(id);
-		MenuVO menuVO = BeanMapper.map(menu, MenuVO.class);
+		PermissionVO menuVO = BeanMapper.map(menu, PermissionVO.class);
 		return menuVO;
 	}
 

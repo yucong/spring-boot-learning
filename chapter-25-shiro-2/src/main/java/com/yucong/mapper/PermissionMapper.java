@@ -8,14 +8,14 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yucong.BaseMapper;
 import com.yucong.entity.Permission;
-import com.yucong.vo.menu.MenuVO;
+import com.yucong.vo.menu.PermissionVO;
 
 
 
 @Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-	List<MenuVO> ListMenuByRoleId(Integer roleId);
+	List<PermissionVO> ListMenuByRoleId(Integer roleId);
     
     
     /** 根据角色ID获取权限集合*/

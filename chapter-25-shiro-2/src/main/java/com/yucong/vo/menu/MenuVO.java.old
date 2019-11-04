@@ -11,7 +11,7 @@ public class MenuVO implements Comparable<MenuVO>{
 	private Long parentId;
     private String menuName;
     private String iconCls;
-    private Integer menuSort;
+    private Integer sort;
     private String menuPath;
 	private List<MenuVO> children;
 	private String checked; //是否选中，编辑角色时使用
@@ -21,6 +21,6 @@ public class MenuVO implements Comparable<MenuVO>{
 
 	@Override
 	public int compareTo(MenuVO o) {
-		return menuSort.compareTo(o.getMenuSort());//通过menuSort升序
+		return sort.compareTo(o.getSort());//通过menuSort升序
 	}
 }

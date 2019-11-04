@@ -16,11 +16,12 @@ public class Permission extends BaseEntity {
 	
     private String name; //资源名称
     private String type;; //资源类型
-    private String url; //资源路径
+    // private String url; //资源路径
     private String permission; //权限字符串
     private Long parentId; //父编号
     private String parentIds; //父编号列表
     private Boolean available = Boolean.FALSE;
+    private Integer sort; // 排序
 
 
 

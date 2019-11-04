@@ -28,7 +28,7 @@ import com.yucong.entity.MenuRole;
 import com.yucong.entity.Permission;
 import com.yucong.service.MenuRoleService;
 import com.yucong.service.MenuService;
-import com.yucong.vo.menu.MenuVO;
+import com.yucong.vo.menu.PermissionVO;
 
 @Auth
 @RestController
@@ -51,18 +51,18 @@ public class PermissionController {
 	 *         
 	 */
 	@GetMapping("listAll")
-	public CommonVO<List<MenuVO>> findAll() {
+	public CommonVO<List<PermissionVO>> findAll() {
 		
 		List<Permission> listAll = menuService.list();
 		List<Permission> list = new ArrayList<Permission>();
-		for (Permission menu : listAll) {
+		for (Permission permission : listAll) {
 			// if (menu.getState() == 1 && menu.getFlagDel() == 0) {
-				list.add(menu);
+				list.add(permission);
 			// }
 		}
-		List<MenuVO> listMenuVO = BeanMapper.mapList(list, MenuVO.class);
-		List<MenuVO> data = MenuUtils.formatMenu(listMenuVO);
-		return new CommonVO<List<MenuVO>>(data);
+		List<PermissionVO> listMenuVO = BeanMapper.mapList(list, PermissionVO.class);
+		List<PermissionVO> data = MenuUtils.formatMenu(listMenuVO);
+		return new CommonVO<List<PermissionVO>>(data);
 	}
 
 	/**
@@ -96,8 +96,8 @@ public class PermissionController {
 	 * @date:  2019-4-22
 	 */
 	@GetMapping("detail")
-	public CommonVO<MenuVO> detailMenu(@Valid DetailOrDeleteMenuDTO dto, BindingResult result) {
-		return new CommonVO<MenuVO>(menuService.detailMenu(dto.getId()));
+	public CommonVO<PermissionVO> detailMenu(@Valid DetailOrDeleteMenuDTO dto, BindingResult result) {
+		return new CommonVO<PermissionVO>(menuService.detailMenu(dto.getId()));
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class PermissionController {
 	 * @date   2019-4-22
 	 */
 	@GetMapping("listMenuByRoleId")
-	public CommonVO<List<MenuVO>> ListMenuByRoleId(ListMenuByRoleIdDTO dto) {
+	public CommonVO<List<PermissionVO>> ListMenuByRoleId(ListMenuByRoleIdDTO dto) {
 		//1所有的有效菜单
 		List<Permission> listAll = menuService.findEnterpriseMenu();
 
@@ -140,10 +140,10 @@ public class PermissionController {
 		}
 
 		// 4 整理出角色拥有的菜单集合
-		List<MenuVO> sysMenuVOList = new ArrayList<MenuVO>();
+		List<PermissionVO> sysMenuVOList = new ArrayList<PermissionVO>();
 		if(!CollectionUtils.isEmpty(listAll)) {
 			for(Permission sysMenu : listAll) {
-				MenuVO sysMenuVO = new MenuVO();
+				PermissionVO sysMenuVO = new PermissionVO();
 				sysMenuVO.setId(sysMenu.getId());
 				sysMenuVO.setParentId(sysMenu.getParentId());
 				////sysMenuVO.setMenuName(sysMenu.getMenuName());
@@ -158,8 +158,8 @@ public class PermissionController {
 		}
 		
 		//生成树形结构数据
-		List<MenuVO> data = MenuUtils.formatMenu(sysMenuVOList);
-		return new CommonVO<List<MenuVO>>(data);
+		List<PermissionVO> data = MenuUtils.formatMenu(sysMenuVOList);
+		return new CommonVO<List<PermissionVO>>(data);
 	}
 	
 	
@@ -171,14 +171,14 @@ public class PermissionController {
 	 * @author YN
 	 * @date   2019-4-23
 	 */ 
-	private CommonVO<List<MenuVO>> getAllMenus(List<Permission> listAll) {
-		List<MenuVO> menuVOs = BeanMapper.mapList(listAll, MenuVO.class);
-		for(MenuVO menuVO : menuVOs) {
+	private CommonVO<List<PermissionVO>> getAllMenus(List<Permission> listAll) {
+		List<PermissionVO> menuVOs = BeanMapper.mapList(listAll, PermissionVO.class);
+		for(PermissionVO menuVO : menuVOs) {
 			menuVO.setChecked("true");
 		}
 		
-		List<MenuVO> data = MenuUtils.formatMenu(menuVOs);
-		return new CommonVO<List<MenuVO>>(data);
+		List<PermissionVO> data = MenuUtils.formatMenu(menuVOs);
+		return new CommonVO<List<PermissionVO>>(data);
 	}
 
 
