@@ -20,23 +20,26 @@ public class PermissionService {
     private PermissionMapper permissionDao;
 
     public Permission createResource(Permission resource) {
-        return permissionDao.createResource(resource);
+        ///return permissionDao.createResource(resource);
+    	return null;
     }
 
     public Permission updateResource(Permission resource) {
-        return permissionDao.updateResource(resource);
+        ///return permissionDao.updateResource(resource);
+    	return null;
     }
 
     public void deleteResource(Long resourceId) {
-        permissionDao.deleteResource(resourceId);
+        ///permissionDao.deleteResource(resourceId);
     }
 
     public Permission findOne(Long resourceId) {
-        return permissionDao.findOne(resourceId);
+        /// return permissionDao.findOne(resourceId);
+    	return null;
     }
 
     public List<Permission> findAll() {
-        return permissionDao.findAll();
+        return permissionDao.selectAll();
     }
 
     public Set<String> findPermissions(Set<Long> permissionIds) {

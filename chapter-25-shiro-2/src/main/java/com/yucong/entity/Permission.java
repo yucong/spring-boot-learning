@@ -1,25 +1,19 @@
 package com.yucong.entity;
 
-import java.io.Serializable;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Table(name = "sys_permission")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Permission implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; //编号
+@EqualsAndHashCode(callSuper=false)
+public class Permission extends BaseEntity {
+	
     private String name; //资源名称
     private String type;; //资源类型
     private String url; //资源路径
@@ -28,18 +22,6 @@ public class Permission implements Serializable {
     private String parentIds; //父编号列表
     private Boolean available = Boolean.FALSE;
 
-    public static enum ResourceType {
-        menu("菜单"), button("按钮");
-
-        private final String info;
-        private ResourceType(String info) {
-            this.info = info;
-        }
-
-        public String getInfo() {
-            return info;
-        }
-    }
 
 
 }

@@ -8,24 +8,18 @@ import org.apache.ibatis.annotations.Param;
 
 import com.yucong.BaseMapper;
 import com.yucong.entity.Permission;
+import com.yucong.vo.menu.MenuVO;
+
+
 
 @Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-    Permission createResource(Permission resource);
-    
-    Permission updateResource(Permission resource);
-
-    void deleteResource(Long resourceId);
-
-    Permission findOne(Long resourceId);
-    
-    List<Permission> findAll();
+	List<MenuVO> ListMenuByRoleId(Integer roleId);
     
     
-    /**
-     * 根据角色ID获取权限集合
-     */
+    /** 根据角色ID获取权限集合*/
 	Set<String> findByRoleIds(@Param("roleIds") List<Long> roleIds);
+
 
 }
