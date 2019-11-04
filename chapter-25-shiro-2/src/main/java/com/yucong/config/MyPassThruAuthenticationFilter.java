@@ -15,7 +15,7 @@ public class MyPassThruAuthenticationFilter extends PassThruAuthenticationFilter
 		
 		HttpServletRequest req = (HttpServletRequest) request;
 		if(req.getMethod().equals(RequestMethod.OPTIONS.name())) {
-			System.err.println("options 请求无需登录验证");
+			// System.err.println("options 请求无需登录验证");
 			return true;
 		}
 		return super.onPreHandle(request, response, mappedValue);
