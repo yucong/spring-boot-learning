@@ -15,7 +15,8 @@ import org.springframework.util.StringUtils;
  */
 public class MySessionManager extends DefaultWebSessionManager {
  
-    private static final String AUTHORIZATION = "Authorization";
+    // private static final String AUTHORIZATION = "Authorization";
+	private static final String AUTHORIZATION = "X-Auth-Token";
  
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
  
