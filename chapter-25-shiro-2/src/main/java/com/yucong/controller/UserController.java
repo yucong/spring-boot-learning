@@ -21,6 +21,8 @@ import com.yucong.entity.User;
 import com.yucong.service.UserService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Auth
@@ -33,12 +35,18 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value="用户列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
     @GetMapping(value = "list")
     public CommonVO<DataTableVO<User>> list(PageInfo pageInfo) {
     	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));
     }
 
     @ApiOperation(value="添加用户")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
     @PostMapping(value = "add")
     public BaseVO add(@RequestBody @Valid AddUser user) {
     	User u = BeanMapper.map(user, User.class);
@@ -47,6 +55,9 @@ public class UserController {
     }
 
     @ApiOperation(value="更新用户")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
     @PostMapping(value = "update" )
     public BaseVO update(@RequestBody @Valid UpdateUser user) {
     	User u = BeanMapper.map(user, User.class);
@@ -55,6 +66,9 @@ public class UserController {
     }
 
     @ApiOperation(value="删除用户")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
     @PostMapping(value = "delete")
     public BaseVO delete(Long id) {
         userService.deleteUser(id);
@@ -62,6 +76,9 @@ public class UserController {
     }
 
     @ApiOperation(value="修改密码")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
     @PostMapping(value = "changePassword")
     public BaseVO changePassword(Long id, String newPassword) {
         userService.changePassword(id, newPassword);
