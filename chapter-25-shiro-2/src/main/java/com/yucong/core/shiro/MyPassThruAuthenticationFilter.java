@@ -1,4 +1,4 @@
-package com.yucong.config;
+package com.yucong.core.shiro;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;

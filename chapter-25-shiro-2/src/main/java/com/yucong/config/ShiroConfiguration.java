@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import com.yucong.core.constant.SystemConsts;
+import com.yucong.core.shiro.MyPassThruAuthenticationFilter;
 import com.yucong.core.shiro.MySessionManager;
 import com.yucong.core.shiro.ShiroAuthRealm;
 
