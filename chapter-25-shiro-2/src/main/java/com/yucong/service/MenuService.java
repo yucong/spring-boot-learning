@@ -68,8 +68,7 @@ public class MenuService extends BaseService<Permission, PermissionMapper> {
 		
 		Example example = new Example(Permission.class);
 		example.createCriteria()
-			.andEqualTo("available", true)
-			.andGreaterThan("parengId", 0);
+			.andEqualTo("available", true);
 		
 		/// menu.setState(StateEnum.VALID.getCode());
 		/// menu.setFlagDel(FlagDelEnum.NO.getCode());
