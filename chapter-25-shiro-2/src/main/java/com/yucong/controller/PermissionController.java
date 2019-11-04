@@ -32,8 +32,8 @@ import com.yucong.vo.menu.MenuVO;
 
 @Auth
 @RestController
-@RequestMapping("menu")
-public class MenuController {
+@RequestMapping("permission")
+public class PermissionController {
 
 	@Autowired
 	private MenuService menuService;
