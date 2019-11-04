@@ -24,6 +24,7 @@ password:
   algorithmName: md5
   hashIterations: 2
   
+a: 47.96.21.192
 
 shiro:
   redis:

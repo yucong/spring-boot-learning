@@ -9,6 +9,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,10 +30,17 @@ import lombok.extern.slf4j.Slf4j;
 @Api(tags = "用户登录")
 public class LoginController {
 
+	
+	@Value("${a}")
+	private String host;
+	
 	@ApiOperation(value="登录")
     @PostMapping(value = "/login")
     public CommonVO<LoginVO> login(@RequestBody @Valid LoginDTO dto) {
-        CommonVO<LoginVO> commonVO = new CommonVO<>();
+        
+		System.out.println("host:" + host);
+		
+		CommonVO<LoginVO> commonVO = new CommonVO<>();
         commonVO.setMessage("登录成功");
     	// 想要得到 SecurityUtils.getSubject() 的对象．．访问地址必须跟 shiro 的拦截地址内．不然后会报空指针
         Subject subject = SecurityUtils.getSubject();

@@ -14,9 +14,9 @@ import org.crazycake.shiro.RedisCacheManager;
 import org.crazycake.shiro.RedisManager;
 import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import com.yucong.core.constant.SystemConsts;
 import com.yucong.core.shiro.MySessionManager;
@@ -27,19 +27,24 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * Shiro 配置
  */
-@Configuration
 @Slf4j
+@Configuration
 public class ShiroConfiguration {
 
-	@Value("${shiro.redis.host}")
-    private String host;
-    @Value("${shiro.redis.port}")
-    private int port;
-    @Value("${shiro.redis.timeout}")
-    private int timeout;
-    @Value("${shiro.redis.password}")
-    private String password;
+	// @Value("${shiro.redis.host}")
+	private String host = "47.96.21.192";
+    // @Value("${shiro.redis.port}")
+    private int port = 6379;
+    // @Value("${shiro.redis.timeout}")
+    private int timeout = 6000;
+    // @Value("${shiro.redis.password}")
+    private String password = "crm2019redis";
 	
+    @Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+	   return new PropertySourcesPlaceholderConfigurer();
+	}
+    
     @Bean(name = "lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
@@ -82,6 +87,7 @@ public class ShiroConfiguration {
     /*
      * 配置shiro redisManager
      */
+    @Bean
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(host);
@@ -183,6 +189,39 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public int getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+    
     
     
     
@@ -194,6 +233,8 @@ public class ShiroConfiguration {
         em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
         return em;
     }*/
+    
+    
 
 
 }
