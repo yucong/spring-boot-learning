@@ -1,8 +1,11 @@
 package com.yucong.config;
 
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.servlet.Filter;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -157,6 +160,13 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        
+        // 设置options请求跳过权限检查
+        Map<String, Filter> filters = new HashMap<>();
+        MyPassThruAuthenticationFilter authFilters = new MyPassThruAuthenticationFilter();
+        filters.put("authc", authFilters);
+        shiroFilterFactoryBean.setFilters(filters);
+        
         // 如果不设置默认会自动寻找Web工程根目录下的"/login"页面
         // 对于前后端分离的项目，当用户未登陆时，访问了需要登陆的接口，重定向到unLogin接口，返回未登陆提升语
         shiroFilterFactoryBean.setLoginUrl("/unLogin");

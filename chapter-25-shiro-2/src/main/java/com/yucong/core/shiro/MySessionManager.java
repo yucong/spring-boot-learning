@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 public class MySessionManager extends DefaultWebSessionManager {
  
     // private static final String AUTHORIZATION = "Authorization";
-	private static final String AUTHORIZATION = "X-Auth-Token";
+	private static final String AUTHORIZATION = "token";
  
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
  
@@ -27,7 +27,9 @@ public class MySessionManager extends DefaultWebSessionManager {
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
     	HttpServletRequest req =  (HttpServletRequest) request;
+    	String method = req.getMethod();
     	String sessionId = req.getHeader(AUTHORIZATION);
+    	System.out.println("mehtod:" + method + ",sessionId:" + sessionId);
         //如果请求头中有 Authorization 则其值为sessionId
         if (!StringUtils.isEmpty(sessionId)) {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
