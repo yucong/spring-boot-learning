@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yucong.core.annotion.Auth;
 import com.yucong.core.shiro.manager.PermissionCheckManager;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * 权限验证拦截器
@@ -24,6 +26,7 @@ import com.yucong.core.shiro.manager.PermissionCheckManager;
  * @date   2018-01-25
  */
 @Component
+@Slf4j
 public class AuthInterceptor implements HandlerInterceptor{
 
 	@Autowired
@@ -55,7 +58,7 @@ public class AuthInterceptor implements HandlerInterceptor{
                 //检查全体角色
                 result = permissionCheckService.checkAll();
                 if (!result) {
-                	System.out.println("没有访问权限...");
+                	log.warn("没有访问权限...");
                     throw new NoPermissionException("没有访问权限");
                 }
 
