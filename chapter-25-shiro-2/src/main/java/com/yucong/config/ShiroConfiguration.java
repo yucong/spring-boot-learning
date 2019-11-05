@@ -19,11 +19,12 @@ import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import com.yucong.core.constant.SystemConsts;
 import com.yucong.core.shiro.MyPassThruAuthenticationFilter;
 import com.yucong.core.shiro.MySessionManager;
+//import com.yucong.core.constant.SystemConsts;
+//import com.yucong.core.shiro.MySessionManager;
 import com.yucong.core.shiro.ShiroAuthRealm;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,10 +45,6 @@ public class ShiroConfiguration {
     // @Value("${shiro.redis.password}")
     private String password = "crm2019redis";
 	
-    @Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-	   return new PropertySourcesPlaceholderConfigurer();
-	}
     
     @Bean(name = "lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
@@ -135,7 +132,7 @@ public class ShiroConfiguration {
         defaultWebSecurityManager.setRealm(authRealm);
         
         // <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
-        //defaultWebSecurityManager.setCacheManager(getEhCacheManager());
+        // defaultWebSecurityManager.setCacheManager(getEhCacheManager());
         
         // 自定义session管理 使用redis
         defaultWebSecurityManager.setSessionManager(sessionManager());
@@ -161,6 +158,7 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+       
         
         // 设置options请求跳过权限检查
         Map<String, Filter> filters = new HashMap<>();
@@ -196,49 +194,20 @@ public class ShiroConfiguration {
         // 不用注解也可以通过 API 方式加载权限规则
         Map<String, String> permissions = new LinkedHashMap<>();
         permissions.put("/users/find", "perms[user:find]");
+
         filterChainDefinitionMap.putAll(permissions);
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
 
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public int getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(int timeout) {
-		this.timeout = timeout;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
     
     
     
     
     /*
      * 使用redis-cache代替了ehcache
-     * @Bean
+     */ 
+    /*@Bean
     public EhCacheManager getEhCacheManager() {
         EhCacheManager em = new EhCacheManager();
         em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
