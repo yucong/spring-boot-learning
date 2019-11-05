@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@Api(tags = "用户登录")
+@Api(tags = "01-用户登录")
 public class LoginController {
 
 	@ApiOperation(value="登录")

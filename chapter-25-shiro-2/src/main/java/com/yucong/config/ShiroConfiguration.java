@@ -23,8 +23,6 @@ import org.springframework.context.annotation.Configuration;
 import com.yucong.core.constant.SystemConsts;
 import com.yucong.core.shiro.MyPassThruAuthenticationFilter;
 import com.yucong.core.shiro.MySessionManager;
-//import com.yucong.core.constant.SystemConsts;
-//import com.yucong.core.shiro.MySessionManager;
 import com.yucong.core.shiro.ShiroAuthRealm;
 
 import lombok.extern.slf4j.Slf4j;

@@ -22,7 +22,7 @@ import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.core.util.MenuUtils;
 import com.yucong.dto.menu.AddMenuDTO;
-import com.yucong.dto.menu.DetailOrDeleteMenuDTO;
+import com.yucong.dto.menu.PermissionIdDTO;
 import com.yucong.dto.menu.ListMenuByRoleIdDTO;
 import com.yucong.dto.menu.UpdateMenuDTO;
 import com.yucong.entity.MenuRole;
@@ -31,9 +31,16 @@ import com.yucong.service.MenuRoleService;
 import com.yucong.service.MenuService;
 import com.yucong.vo.menu.PermissionVO;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
+
 @Auth
 @RestController
 @RequestMapping("permission")
+@Api(tags = "03-权限管理")
 public class PermissionController {
 
 	@Autowired
@@ -51,6 +58,10 @@ public class PermissionController {
 	 * @date   2019-04-22
 	 *         
 	 */
+	@ApiOperation(value="查询所有菜单")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@GetMapping("listAll")
 	public CommonVO<List<PermissionVO>> findAll() {
 		
@@ -96,8 +107,12 @@ public class PermissionController {
 	 * @author YN
 	 * @date:  2019-4-22
 	 */
+	@ApiOperation(value="菜单详情")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@GetMapping("detail")
-	public CommonVO<PermissionVO> detailMenu(@Valid DetailOrDeleteMenuDTO dto, BindingResult result) {
+	public CommonVO<PermissionVO> detailMenu(@Valid PermissionIdDTO dto) {
 		return new CommonVO<PermissionVO>(menuService.detailMenu(dto.getId()));
 	}
 
@@ -108,7 +123,7 @@ public class PermissionController {
 	 * @date   2019-4-22
 	 */
 	@PostMapping("delete")
-	public BaseVO deleteMenu(@Valid @RequestBody DetailOrDeleteMenuDTO dto, BindingResult result,
+	public BaseVO deleteMenu(@Valid @RequestBody PermissionIdDTO dto, BindingResult result,
 			@RequestHeader("X-User-Id") Integer userId) {
 		return menuService.deleteMenu(dto.getId(),userId);
 	}
@@ -191,8 +206,12 @@ public class PermissionController {
 	 * @author YN
 	 * @date   2019-4-23
 	 */
+	@ApiOperation(value="我的主页菜单")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@GetMapping(value = "listMyMenu")
-	public CommonVO<List<PermissionVO>> listMyMenu(@CurrentUser Long userId) {
+	public CommonVO<List<PermissionVO>> listMyMenu(@ApiIgnore @CurrentUser Long userId) {
 		
 		// User u = userService.detail(userId);
 		
