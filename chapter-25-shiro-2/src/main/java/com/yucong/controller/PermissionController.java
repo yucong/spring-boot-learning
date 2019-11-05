@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yucong.core.annotion.Auth;
+import com.yucong.core.annotion.CurrentUser;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.util.BeanMapper;
@@ -180,6 +181,46 @@ public class PermissionController {
 		List<PermissionVO> data = MenuUtils.formatMenu(menuVOs);
 		return new CommonVO<List<PermissionVO>>(data);
 	}
+	
+	
+	
+	/**
+	 * 根据用户id获取该用户所有菜单权限
+	 * 需要先获取用户的角色集合，再通过角色获取菜单权限
+	 * 
+	 * @author YN
+	 * @date   2019-4-23
+	 */
+	@GetMapping(value = "listMyMenu")
+	public CommonVO<List<PermissionVO>> listMyMenu(@CurrentUser Long userId) {
+		
+		// User u = userService.detail(userId);
+		
+		// 超级管理员
+		// if( userId == -1) {
+			return getSuperAdminDefautMenu();
+		// }
+	}
+	
+	/*
+	 * 超级管理员获取系统默认菜单
+	 * 
+	 * @author 喻聪
+	 * @date   2019-05-01
+	 */
+	private CommonVO<List<PermissionVO>> getSuperAdminDefautMenu() {
+		
+		// 1 获取所有有效菜单
+		List<Permission> adminMenus = menuService.listMenu();
+		List<PermissionVO> sysMenuVOList = BeanMapper.mapList(adminMenus, PermissionVO.class);
+
+		// 2 生成树形结构
+		List<PermissionVO> data = MenuUtils.formatMenu(sysMenuVOList);
+		CommonVO<List<PermissionVO>> commonVO = new CommonVO<>();
+		commonVO.setData(data);
+		return commonVO;
+	}
+
 
 
 }

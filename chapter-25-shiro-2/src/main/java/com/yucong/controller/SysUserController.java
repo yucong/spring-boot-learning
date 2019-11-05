@@ -20,22 +20,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = "sys/user")
 public class SysUserController  {
-
-    /**
-     * 登录
-     */
-//	@ApiOperation(value = "web登录")
-//    @PostMapping(value = "login")
-//    public JSONObject login(@RequestBody LoginDTO dto)  {
-//    	String result = "";
-//    	// admin : alp2019
-//    	if("admin".equals(dto.getPhone()) && "7cccbc1a4277d1037ba96e3e4f6ed861".equals(dto.getPassword())) {
-//    		result = "{\"code\":1,\"message\":\"操作成功\",\"data\":{\"userId\":1,\"phone\":\"admin\",\"nickName\":\"管理员\",\"tokenId\":\"92b8cc7cf58f4a09b8404c6f6795fe7d\"}}";
-//    	} else {
-//    		result = "{\"code\":-1,\"message\":\"账号或密码错误\",\"data\":null}";
-//    	}
-//    	return JSON.parseObject(result);
-//    }
     
 	/**
 	 * 获取我的所有菜单

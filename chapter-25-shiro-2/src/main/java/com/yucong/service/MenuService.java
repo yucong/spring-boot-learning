@@ -58,7 +58,7 @@ public class MenuService extends BaseService<Permission, PermissionMapper> {
 	}
 
 	/**
-	 * 查询所有菜单数据
+	 * 查询所有权限数据
 	 * 
 	 * @author YN
 	 * @date 2019-04-22
@@ -72,6 +72,17 @@ public class MenuService extends BaseService<Permission, PermissionMapper> {
 		
 		/// menu.setState(StateEnum.VALID.getCode());
 		/// menu.setFlagDel(FlagDelEnum.NO.getCode());
+		return permissionMapper.selectByExample(example);
+	}
+	
+	/**
+	 * 查询所有有效菜单
+	 */
+	public List<Permission> listMenu() {
+		Example example = new Example(Permission.class);
+		example.createCriteria()
+			.andEqualTo("type", "menu")
+			.andEqualTo("available", true);
 		return permissionMapper.selectByExample(example);
 	}
 
