@@ -9,17 +9,17 @@ import lombok.Data;
 public class UpdateMenuDTO {
 	
 	@NotNull(message="id必填")
-	private Integer id;
+	private Long id;
 	@NotNull(message="parentId必填")
-	public Integer parentId;
+	public Long parentId;
 	//@NotBlank
-	private String menuName;
+	private String name;
 	//@NotBlank
-	private String menuPath;
+	private String permission;
 	//@NotBlank
 	private String scode;
 	//@NotNull
-	private Integer menuSort;
+	private Integer sort;
 	private String iconCls;
 	private String description;
 }

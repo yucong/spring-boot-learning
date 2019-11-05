@@ -20,7 +20,7 @@ public class Permission extends BaseEntity {
     private String permission; //权限字符串
     private Long parentId; //父编号
     private String parentIds; //父编号列表
-    private Boolean available = Boolean.FALSE;
+    private Boolean available;
     private Integer sort; // 排序
 
 

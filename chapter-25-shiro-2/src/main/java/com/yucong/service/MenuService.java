@@ -94,6 +94,7 @@ public class MenuService extends BaseService<Permission, PermissionMapper> {
 	 */
 	public Object addMenu(AddMenuDTO dto, Integer userId) {
 		Permission menu = BeanMapper.map(dto, Permission.class);
+		menu.setAvailable(true);
 		return super.add(menu, userId);
 	}
 

@@ -83,6 +83,10 @@ public class PermissionController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
+	@ApiOperation(value="添加权限")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@PostMapping("add")
 	public CommonVO<Object> addMenu(@RequestBody @Valid AddMenuDTO dto, BindingResult result,
 			@RequestHeader("X-User-Id") Integer userId) {
@@ -95,8 +99,12 @@ public class PermissionController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
+	@ApiOperation(value="更新权限")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@PostMapping("update")
-	public CommonVO<Object> updateMenu(@Valid @RequestBody UpdateMenuDTO dto, BindingResult result,
+	public CommonVO<Object> updateMenu(@Valid @RequestBody UpdateMenuDTO dto, 
 			@RequestHeader("X-User-Id") Integer userId) {
 		return new CommonVO<Object>(menuService.updateMenu(dto,userId));
 	}
@@ -107,7 +115,7 @@ public class PermissionController {
 	 * @author YN
 	 * @date:  2019-4-22
 	 */
-	@ApiOperation(value="菜单详情")
+	@ApiOperation(value="权限详情")
 	@ApiImplicitParams({
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
@@ -122,6 +130,10 @@ public class PermissionController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
+	@ApiOperation(value="删除权限")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@PostMapping("delete")
 	public BaseVO deleteMenu(@Valid @RequestBody PermissionIdDTO dto, BindingResult result,
 			@RequestHeader("X-User-Id") Integer userId) {
@@ -134,6 +146,10 @@ public class PermissionController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
+	@ApiOperation(value="根据角色查询权限")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@GetMapping("listMenuByRoleId")
 	public CommonVO<List<PermissionVO>> ListMenuByRoleId(ListMenuByRoleIdDTO dto) {
 		//1所有的有效菜单
