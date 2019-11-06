@@ -9,18 +9,31 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yucong.core.base.service.BaseService;
+import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.core.util.BeanMapper;
+import com.yucong.dto.role.AddMenuRoleDTO;
+import com.yucong.dto.role.UpdateMenuRoleDTO;
+import com.yucong.entity.MenuRole;
 import com.yucong.entity.Role;
+import com.yucong.mapper.MenuRoleMapper;
 import com.yucong.mapper.RoleMapper;
 import com.yucong.vo.role.RoleVO;
 
 @Service
-public class RoleService {
+public class RoleService extends BaseService<Role, RoleMapper> {
 
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private MenuRoleMapper menuRoleMapper;
 
+    @Override
+	public RoleMapper getMapper() {
+		return roleMapper;
+	}
+    
     public void createRole(Role role) {
         roleMapper.insertSelective(role);
     }
@@ -63,4 +76,49 @@ public class RoleService {
         // return roleDao.findByRoleIds(roleIds);
     	return null;
     }
+    
+    /**
+	 * 添加一个角色，同时可添加这个角色的菜单权限
+	 * 需注意的一个参数menuIds，表示这个角色的菜单权限的id集合
+	 * 
+	 * @author YN
+	 * @date   2019-4-22
+	 */
+	public BaseVO addRoleMenu(AddMenuRoleDTO dto,Long userId) {
+		Role record = new Role();
+		record.setDescription(dto.getRoleDesc());
+		record.setRole(dto.getRoleName());
+		super.add(record,userId);
+		if(dto.getMenuIds().size() > 0) {
+			for(String menuId : dto.getMenuIds()) {
+				MenuRole menuRole = new MenuRole();
+				menuRole.setPermissionId(Long.parseLong(menuId));
+				menuRole.setRoleId(record.getId());
+				menuRoleMapper.insertSelective(menuRole);
+			}
+		}
+		return new BaseVO();
+	}
+
+	public BaseVO updateRolePermission(UpdateMenuRoleDTO dto, Long userId) {
+		Role record = new Role();
+		record.setId(dto.getRoleId());
+		record.setDescription(dto.getRoleDesc());
+		record.setRole(dto.getRoleName());
+		super.update(record,userId);
+		
+		menuRoleMapper.deleteByRoleId(dto.getRoleId());
+		
+		if(dto.getMenuIds().size() > 0) {
+			for(String menuId : dto.getMenuIds()) {
+				MenuRole menuRole = new MenuRole();
+				menuRole.setPermissionId(Long.parseLong(menuId));
+				menuRole.setRoleId(record.getId());
+				menuRoleMapper.insertSelective(menuRole);
+			}
+		}
+		return new BaseVO();
+	}
+
+	
 }

@@ -93,7 +93,7 @@ public class PermissionNewService extends BaseService<Permission, PermissionMapp
 	 * @author YN
 	 * @date 2019-4-22
 	 */
-	public Object addMenu(AddMenuDTO dto, Integer userId) {
+	public Object addMenu(AddMenuDTO dto, Long userId) {
 		Permission menu = BeanMapper.map(dto, Permission.class);
 		menu.setAvailable(true);
 		return super.add(menu, userId);
@@ -105,7 +105,7 @@ public class PermissionNewService extends BaseService<Permission, PermissionMapp
 	 * @author YN
 	 * @date 2019-4-22
 	 */
-	public Object updateMenu(UpdateMenuDTO dto, int userId) {
+	public Object updateMenu(UpdateMenuDTO dto, Long userId) {
 		Permission menu = BeanMapper.map(dto, Permission.class);
 		return super.update(menu, userId);
 	}
@@ -128,7 +128,7 @@ public class PermissionNewService extends BaseService<Permission, PermissionMapp
 	 * @author YN
 	 * @date 2019-4-22
 	 */
-	public BaseVO deleteMenu(int id, int userId) {
+	public BaseVO deleteMenu(int id, Long userId) {
 		Permission menu = super.detail(id);
 		// 此菜单为父菜单时，删除所有的子菜单
 		if (menu.getParentId() == 0) {

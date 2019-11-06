@@ -15,5 +15,5 @@ public interface MenuRoleMapper extends BaseMapper<MenuRole>{
 
 	List<MenuRole> findMenuRoleByRoleId(@Param("roleId") Long roleId);
 
-	int deleteAllByRoleId(Long roleId);
+	int deleteByRoleId(Long roleId);
 }

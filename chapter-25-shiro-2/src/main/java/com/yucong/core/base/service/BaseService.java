@@ -19,7 +19,7 @@ public abstract class BaseService<Entity extends BaseEntity,Mapper extends BaseM
 	 * @author 喻聪
 	 * @date   2018-01-25
 	 */
-	public int add(Entity entity,int userId) {
+	public int add(Entity entity,Long userId) {
 		/// entity.setCreateUser(userId);
 		int result = getMapper().insertSelective(entity);
 		if(result == 0) {
@@ -34,7 +34,7 @@ public abstract class BaseService<Entity extends BaseEntity,Mapper extends BaseM
 	 * @author 喻聪
 	 * @date   2018-01-25 
 	 */
-	public int update(Entity entity,int userId) {
+	public int update(Entity entity,Long userId) {
 		/// entity.setUpdateTime(new Date());
 		/// entity.setUpdateUser(userId);
 		int result = getMapper().updateByPrimaryKeySelective(entity);

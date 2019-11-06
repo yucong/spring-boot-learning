@@ -88,8 +88,7 @@ public class PermissionController {
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
 	@PostMapping("add")
-	public CommonVO<Object> addMenu(@RequestBody @Valid AddMenuDTO dto, BindingResult result,
-			@RequestHeader("X-User-Id") Integer userId) {
+	public CommonVO<Object> addMenu(@RequestBody @Valid AddMenuDTO dto,@RequestHeader("X-User-Id") Long userId) {
 		return new CommonVO<Object>(menuService.addMenu(dto,userId));
 	}
 
@@ -105,7 +104,7 @@ public class PermissionController {
     })
 	@PostMapping("update")
 	public CommonVO<Object> updateMenu(@Valid @RequestBody UpdateMenuDTO dto, 
-			@RequestHeader("X-User-Id") Integer userId) {
+			@RequestHeader("X-User-Id") Long userId) {
 		return new CommonVO<Object>(menuService.updateMenu(dto,userId));
 	}
 
@@ -136,7 +135,7 @@ public class PermissionController {
     })
 	@PostMapping("delete")
 	public BaseVO deleteMenu(@Valid @RequestBody PermissionIdDTO dto, BindingResult result,
-			@RequestHeader("X-User-Id") Integer userId) {
+			@RequestHeader("X-User-Id") Long userId) {
 		return menuService.deleteMenu(dto.getId(),userId);
 	}
 

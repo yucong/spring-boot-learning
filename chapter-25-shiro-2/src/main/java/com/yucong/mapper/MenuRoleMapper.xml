@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yucong.mapper.MenuRoleMapper" >
+
+  
+  <select id="findByRoleIds" resultType="com.yucong.entity.MenuRole" >
+    select 
+    	*
+    from sys_role_permission
+    where state = 1 and flag_del = 0 
+    <if test="roleIds != null and roleIds.size()>0">
+        and role_id in
+        <foreach collection="roleIds" index="index" item="item" open="(" separator="," close=")">  
+	        #{item}  
+	    </foreach> 
+    </if>
+  </select>
+  
+  <select id="findMenuRoleByRoleId" resultType="com.yucong.entity.MenuRole" >
+    SELECT 
+    	*
+    FROM sys_role_permission
+    WHERE state = 1 AND flag_del = 0 AND role_id = #{roleId}
+  </select>
+  
+  <update id="deleteByRoleId" parameterType="java.lang.Long">
+      DELETE FROM sys_role_permission  WHERE role_id = #{roleId}
+  </update>
+  
+</mapper>

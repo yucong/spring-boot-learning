@@ -1,14 +1,22 @@
 package com.yucong.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yucong.core.annotion.Auth;
+import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.base.vo.DataTableVO;
+import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.ListRoleDTO;
+import com.yucong.dto.role.UpdateMenuRoleDTO;
 import com.yucong.service.RoleService;
 import com.yucong.vo.role.RoleVO;
 
@@ -50,11 +58,10 @@ public class RoleController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
-	/*@PostMapping("addRoleMenu")
-	public BaseVO addOrUpdateRole(@RequestBody @Valid AddMenuRoleDTO dto,BindingResult result,
-			@RequestHeader("X-User-Id") Integer userId) {
+	@PostMapping("addRolePermission")
+	public BaseVO addRolePermission(@RequestBody @Valid AddMenuRoleDTO dto,@RequestHeader("X-User-Id") Long userId) {
 		return roleService.addRoleMenu(dto,userId);
-	}*/
+	}
 	
 	/**
 	 * 修改一个角色，及该角色的菜单权限
@@ -63,11 +70,10 @@ public class RoleController {
 	 * @author  YN
 	 * @date    2019-4-23
 	 */
-	/*@PostMapping("updateRoleMenu")
-	public BaseVO updateRoleMenu(@RequestBody @Valid UpdateMenuRoleDTO dto,BindingResult result,
-			@RequestHeader("X-User-Id") Integer userId) {
-		return roleService.updateRoleMenu(dto,userId);
-	}*/
+	@PostMapping("updateRolePermission")
+	public BaseVO updateRolePermission(@RequestBody @Valid UpdateMenuRoleDTO dto, @RequestHeader("X-User-Id") Long userId) {
+		return roleService.updateRolePermission(dto,userId);
+	}
 	
 	/**
 	 * 

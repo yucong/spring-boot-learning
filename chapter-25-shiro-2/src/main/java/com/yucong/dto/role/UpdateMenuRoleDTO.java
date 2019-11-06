@@ -11,15 +11,11 @@ import lombok.Data;
 public class UpdateMenuRoleDTO {
 	
 	@NotNull(message="roleId必填")
-	private Integer roleId;
-	
-	@NotNull(message="enterpriseId必填")
-	private Integer enterpriseId;
+	private Long roleId;
 	
 	@NotEmpty(message="roleName不能为空")
 	private String roleName;
 	
-	private String roleCode;
 	private String roleDesc;
 	private List<String> menuIds;
 }
