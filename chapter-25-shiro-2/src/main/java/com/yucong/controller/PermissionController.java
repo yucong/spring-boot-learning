@@ -167,7 +167,7 @@ public class PermissionController {
 		List<Long> menuRoleIds = new ArrayList<>();
 		if (!CollectionUtils.isEmpty(listMenuRole)) {
 			for (MenuRole sysMenuRole : listMenuRole) {
-				menuRoleIds.add(sysMenuRole.getMenuId());
+				menuRoleIds.add(sysMenuRole.getPermissionId());
 			}
 		}
 

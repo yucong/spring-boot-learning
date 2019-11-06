@@ -7,10 +7,10 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-@Table(name="t_menu_role")
+@Table(name="sys_role_permission")
 public class MenuRole extends BaseEntity {
     
-    private Long menuId;
-    private Long roleId;
+	private Long roleId;
+    private Long permissionId;
 
 }
