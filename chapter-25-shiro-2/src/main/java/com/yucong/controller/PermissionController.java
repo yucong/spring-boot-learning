@@ -150,7 +150,7 @@ public class PermissionController {
 	@ApiImplicitParams({
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
-	@GetMapping("listMenuByRoleId")
+	@GetMapping("listPermissionByRoleId")
 	public CommonVO<List<PermissionVO>> ListMenuByRoleId(ListMenuByRoleIdDTO dto) {
 		//1所有的有效菜单
 		List<Permission> listAll = menuService.findEnterpriseMenu();
@@ -178,9 +178,9 @@ public class PermissionController {
 				PermissionVO sysMenuVO = new PermissionVO();
 				sysMenuVO.setId(sysMenu.getId());
 				sysMenuVO.setParentId(sysMenu.getParentId());
-				////sysMenuVO.setMenuName(sysMenu.getMenuName());
-				////sysMenuVO.setMenuPath(sysMenu.getMenuPath());
-				////sysMenuVO.setMenuSort(sysMenu.getMenuSort());
+				sysMenuVO.setName(sysMenu.getName());
+				sysMenuVO.setPermission(sysMenu.getPermission());
+				sysMenuVO.setSort(sysMenu.getSort());
 				//菜单设置成选中状态
 				if(menuRoleIds.contains(sysMenuVO.getId())) {
 					sysMenuVO.setChecked("true");//TODO
@@ -255,7 +255,6 @@ public class PermissionController {
 		commonVO.setData(data);
 		return commonVO;
 	}
-
 
 
 }
