@@ -8,7 +8,8 @@
 	FROM
 		sys_user_role ur
 	INNER JOIN sys_role r ON r.id = ur.role_id
-	WHERE ur.user_id = #{userId}
+	WHERE 
+		ur.user_id = #{userId}
   </select>
 
 </mapper>

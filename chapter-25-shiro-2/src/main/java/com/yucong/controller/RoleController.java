@@ -1,5 +1,7 @@
 package com.yucong.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yucong.core.annotion.Auth;
+import com.yucong.core.annotion.CurrentUser;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.ListRoleDTO;
 import com.yucong.dto.role.UpdateMenuRoleDTO;
+import com.yucong.entity.Role;
 import com.yucong.service.RoleService;
 import com.yucong.vo.role.RoleVO;
+
+import springfox.documentation.annotations.ApiIgnore;
 
 
 @Auth
@@ -38,6 +44,17 @@ public class RoleController {
 	@GetMapping("list")
 	public CommonVO<DataTableVO<RoleVO>> findAll(ListRoleDTO dto) {
 		return new CommonVO<>(roleService.findAll(dto.getPage(),dto.getSize()));
+	}
+	
+	/**
+	 * 查找所有的角色，分页展示，可模糊查询条件为roleName;
+	 * 
+	 * @author YN
+	 * @date   2019-4-22
+	 */
+	@GetMapping("listByUserId")
+	public CommonVO<List<Role>> listByUserId(Long userId) {
+		return new CommonVO<>(roleService.listByUserId(userId));
 	}
 	
 	/**

@@ -60,6 +60,10 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 		List<RoleVO> roleVOs = BeanMapper.mapList(entitys, RoleVO.class);
 		return new DataTableVO<RoleVO>(pageSize, allCount, allPage, currentPage, roleVOs);
     }
+    
+    public List<Role> listByUserId(Long userId) {
+    	return roleMapper.findByUserId(userId);
+	}
 
     public Set<String> findRoles(List<Long> roleIds) {
         Set<String> roles = new HashSet<String>();
@@ -119,6 +123,8 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 		}
 		return new BaseVO();
 	}
+
+	
 
 	
 }
