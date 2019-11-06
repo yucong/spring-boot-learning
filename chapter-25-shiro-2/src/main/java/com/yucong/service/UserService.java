@@ -56,8 +56,8 @@ public class UserService {
         return userDao.selectByPrimaryKey(userId);
     }
 
-    public DataTableVO<User> findAll(int pageSize,int size) {
-    	PageHelper.startPage(pageSize, size);
+    public DataTableVO<User> findAll(int pageNum,int pageSize) {
+    	PageHelper.startPage(pageNum, pageSize);
 		List<User> entitys = userDao.selectAll();
 		PageInfo<User> page = new PageInfo<>(entitys);
 		long allCount = page.getTotal();

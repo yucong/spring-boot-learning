@@ -50,8 +50,8 @@ public class RoleService extends BaseService<Role, RoleMapper> {
         return roleMapper.selectByPrimaryKey(roleId);
     }
 
-    public DataTableVO<RoleVO> findAll(int pageSize,int size) {
-    	PageHelper.startPage(pageSize, size);
+    public DataTableVO<RoleVO> findAll(Integer pageNum,Integer pageSize) {
+    	PageHelper.startPage(pageNum, pageSize);
 		List<Role> entitys = roleMapper.selectAll();
 		PageInfo<Role> page = new PageInfo<>(entitys);
 		long allCount = page.getTotal();
