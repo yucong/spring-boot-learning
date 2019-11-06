@@ -57,6 +57,7 @@ public class AuthRealm extends AuthorizingRealm {
      * 只有需要验证权限时才会调用, 授权查询回调函数, 进行鉴权但缓存中无用户的授权信息时调用.在配有缓存的情况下，只加载一次.
      * 如果需要动态权限,但是又不想每次去数据库校验,可以存在ehcache中.自行完善
      */
+    
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
         Session session = SecurityUtils.getSubject().getSession();
