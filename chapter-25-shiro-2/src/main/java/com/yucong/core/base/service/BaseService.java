@@ -1,4 +1,4 @@
-package com.yucong.service;
+package com.yucong.core.base.service;
 
 import java.util.List;
 

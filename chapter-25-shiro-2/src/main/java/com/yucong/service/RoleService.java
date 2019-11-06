@@ -12,7 +12,6 @@ import com.github.pagehelper.PageInfo;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.entity.Role;
-import com.yucong.entity.User;
 import com.yucong.mapper.RoleMapper;
 import com.yucong.vo.role.RoleVO;
 

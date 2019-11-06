@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yucong.core.base.service.BaseService;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.menu.AddMenuDTO;
