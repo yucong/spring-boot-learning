@@ -18,7 +18,7 @@
   
   <select id="findByRoleIds" resultType="com.yucong.entity.Permission">
 	SELECT
-		p.*
+		DISTINCT p.*
 	FROM
 		sys_role_permission rp
 	INNER JOIN sys_permission p ON p.id = rp.permission_id
@@ -26,6 +26,7 @@
 		<foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
 		  #{id}
 		</foreach>
+	ORDER BY p.sort ASC
   </select>
   
 
