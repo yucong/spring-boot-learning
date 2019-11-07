@@ -204,6 +204,12 @@ public class PermissionController {
     })
 	@GetMapping("listByUserId")
 	public CommonVO<List<PermissionVO>> listByUserId(Long userId) {
+		
+		
+		
+		
+		
+		
 		/*//1所有的有效菜单
 		List<Permission> listAll = menuService.findEnterpriseMenu();
 
