@@ -50,6 +50,7 @@ public class LoginController {
             LoginVO loginVO = new LoginVO();
             loginVO.setUserId(shiroUser.getId());
             loginVO.setUsername(shiroUser.getName());
+            loginVO.setNickName(shiroUser.getName());
             String sessionId = (String) subject.getSession().getId();
             loginVO.setTokenId((sessionId) );
             commonVO.setData(loginVO);
