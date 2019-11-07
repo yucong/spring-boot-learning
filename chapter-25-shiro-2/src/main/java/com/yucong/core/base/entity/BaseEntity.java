@@ -1,4 +1,4 @@
-package com.yucong.entity;
+package com.yucong.core.base.entity;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

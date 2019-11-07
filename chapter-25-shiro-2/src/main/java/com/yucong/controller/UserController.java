@@ -18,6 +18,7 @@ import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.user.AddUser;
 import com.yucong.dto.user.UpdateRoleDTO;
 import com.yucong.dto.user.UpdateUser;
+import com.yucong.dto.user.UserIdDTO;
 import com.yucong.entity.User;
 import com.yucong.service.UserService;
 
@@ -76,13 +77,13 @@ public class UserController {
         return BaseVO.success();
     }
 
-    @ApiOperation(value="删除用户")
+    @ApiOperation(value="冻结用户")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
-    @PostMapping(value = "delete")
-    public BaseVO delete(Long id) {
-        userService.deleteUser(id);
+    @PostMapping(value = "locked")
+    public BaseVO delete(@RequestBody @Valid UserIdDTO dto) {
+        userService.lockedUser(dto.getUserId());
         return BaseVO.success();
     }
 

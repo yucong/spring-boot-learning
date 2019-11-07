@@ -2,6 +2,8 @@ package com.yucong.entity;
 
 import javax.persistence.Table;
 
+import com.yucong.core.base.entity.BaseEntity;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

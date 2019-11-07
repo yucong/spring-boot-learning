@@ -3,7 +3,7 @@ package com.yucong.core.base.service;
 import java.util.List;
 
 import com.yucong.BaseMapper;
-import com.yucong.entity.BaseEntity;
+import com.yucong.core.base.entity.BaseEntity;
 import com.yucong.exception.BusinessException;
 import com.yucong.exception.DaoException;
 

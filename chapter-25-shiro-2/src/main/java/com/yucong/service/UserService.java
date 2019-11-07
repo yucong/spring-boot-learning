@@ -43,8 +43,10 @@ public class UserService {
     	return user;
     }
 
-    public void deleteUser(Long userId) {
-        userDao.deleteByPrimaryKey(userId);
+    public void lockedUser(Long userId) {
+    	User user = userDao.selectByPrimaryKey(userId);
+    	user.setLocked(!user.getLocked());
+        userDao.updateByPrimaryKeySelective(user);
     }
 
     /**
