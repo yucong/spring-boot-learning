@@ -2,6 +2,7 @@ package com.yucong.core.shiro;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 
@@ -33,11 +34,11 @@ public class ShiroKit {
 	/**
      * 获取封装的 ShiroUser
      */
-    public static String getUser() {
+    public static Long getUser() {
         if (isGuest()) {
             return null;
         } else {
-            return (String) getSubject().getPrincipals().getPrimaryPrincipal();
+            return (Long) getSubject().getPrincipals().getPrimaryPrincipal();
         }
     }
     
@@ -84,7 +85,7 @@ public class ShiroKit {
      * @param myRealm 自定义的realm 
      * @param username 用户名 
      */  
-    public static void reloadAuthorizing(String username){  
+    public static void reloadAuthorizing(Long userId){  
         
     	
     	
@@ -92,12 +93,25 @@ public class ShiroKit {
     	ShiroAuthRealm shiroRealm = (ShiroAuthRealm)rsm.getRealms().iterator().next();
 		
     	Subject subject = SecurityUtils.getSubject(); 
-		String realmName = subject.getPrincipals().getRealmNames().iterator().next();
+		
+    	PrincipalCollection p = subject.getPrincipals();
+    	
+    	String realmName = subject.getPrincipals().getRealmNames().iterator().next();
 		
     	//shiroRealm.clearAllCachedAuthorizationInfo();
 		
-    	SimplePrincipalCollection principals = new SimplePrincipalCollection(username,realmName);
+		//subject.getPrincipals();
+		
+		
+    	SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
+    	
+    	
     	shiroRealm.clearCachedAuthorizationInfo(principals);
+    	shiroRealm.clearCachedAuthenticationInfo(principals);
+    	
+    	
+    	
+    	// shiroRealm.clearAllCache();
     	
 		//shiroRealm.clearAllCachedAuthenticationInfo(principals);
 		

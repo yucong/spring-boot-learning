@@ -15,6 +15,7 @@
  */
 package com.yucong.core.shiro.manager;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -89,6 +90,9 @@ public class UserAuthManager {
 	}
 
 	public Set<String> findPermissionsByRoleId(List<Long> roleList) {
+		if(roleList.isEmpty()) {
+			return new HashSet<>(0);
+		}
 		return permissionMapper.findPermissionByRoleIds(roleList);
 	}
 

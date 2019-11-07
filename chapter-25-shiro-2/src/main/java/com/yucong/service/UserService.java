@@ -92,8 +92,7 @@ public class UserService {
 		}
 		
 		// 更新用户角色，需要清除缓存
-		User user = userDao.selectByPrimaryKey(userId);
-		ShiroKit.reloadAuthorizing(user.getUsername());
+		ShiroKit.reloadAuthorizing(userId);
 		
 	}
 

@@ -16,8 +16,8 @@ public class PermissionCheckManager {
 
 	public boolean checkAll() {
 		HttpServletRequest request = HttpContext.getRequest();
-        String user = ShiroKit.getUser();
-        if (null == user) {
+        Long userId = ShiroKit.getUser();
+        if (null == userId) {
             return false;
         }
         /*String contextPath = ConfigListener.getConf()

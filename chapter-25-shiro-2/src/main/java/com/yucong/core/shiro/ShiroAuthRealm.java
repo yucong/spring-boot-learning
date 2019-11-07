@@ -77,11 +77,17 @@ public class ShiroAuthRealm extends AuthorizingRealm {
         return info;
     }
     
+    /**
+     * 清除权限认证
+     */
     @Override
     public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
         super.clearCachedAuthorizationInfo(principals);
     }
 
+    /**
+     * 清除身份认证
+     */
     @Override
     public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
         super.clearCachedAuthenticationInfo(principals);
