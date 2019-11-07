@@ -28,7 +28,7 @@ import com.yucong.dto.menu.UpdateMenuDTO;
 import com.yucong.entity.Permission;
 import com.yucong.entity.RolePermission;
 import com.yucong.service.RolePermissionService;
-import com.yucong.service.PermissionNewService;
+import com.yucong.service.PermissionService;
 import com.yucong.vo.menu.PermissionVO;
 
 import io.swagger.annotations.Api;
@@ -44,7 +44,7 @@ import springfox.documentation.annotations.ApiIgnore;
 public class PermissionController {
 
 	@Autowired
-	private PermissionNewService menuService;
+	private PermissionService menuService;
 
 	@Autowired
 	private RolePermissionService menuRoleService;

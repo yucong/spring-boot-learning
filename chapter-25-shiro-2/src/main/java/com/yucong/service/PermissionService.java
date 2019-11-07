@@ -22,7 +22,7 @@ import com.yucong.vo.menu.PermissionVO;
 import tk.mybatis.mapper.entity.Example;
 
 @Service
-public class PermissionNewService extends BaseService<Permission, PermissionMapper> {
+public class PermissionService extends BaseService<Permission, PermissionMapper> {
 
 	@Autowired
 	private PermissionMapper permissionMapper;
