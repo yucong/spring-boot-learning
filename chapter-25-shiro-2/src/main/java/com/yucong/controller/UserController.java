@@ -16,6 +16,7 @@ import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.user.AddUser;
+import com.yucong.dto.user.UpdateRoleDTO;
 import com.yucong.dto.user.UpdateUser;
 import com.yucong.entity.User;
 import com.yucong.service.UserService;
@@ -62,6 +63,16 @@ public class UserController {
     public BaseVO update(@RequestBody @Valid UpdateUser user) {
     	User u = BeanMapper.map(user, User.class);
     	userService.updateUser(u);
+        return BaseVO.success();
+    }
+    
+    @ApiOperation(value="更新用户角色")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
+    @PostMapping(value = "updateRole" )
+    public BaseVO updateRole(@RequestBody @Valid UpdateRoleDTO dto) {
+    	userService.updateUserRole(dto.getUserId(),dto.getRoleIds());
         return BaseVO.success();
     }
 

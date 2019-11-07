@@ -1,5 +1,6 @@
 package com.yucong.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import com.github.pagehelper.PageInfo;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.core.util.StringUtil;
 import com.yucong.entity.User;
+import com.yucong.entity.UserRole;
 import com.yucong.mapper.UserMapper;
+import com.yucong.mapper.UserRoleMapper;
 
 @Service
 public class UserService {
@@ -19,6 +22,8 @@ public class UserService {
     private UserMapper userDao;
     @Autowired
     private PasswordHelper passwordHelper;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     /**
      * 创建用户
@@ -65,5 +70,23 @@ public class UserService {
 		int currentPage = page.getPageNum();
 		return new DataTableVO<User>(pageSize, allCount, allPage, currentPage, entitys);
     }
+
+	public void updateUserRole(Long userId, List<Long> roleIds) {
+		
+		UserRole record = new UserRole();
+		record.setUserId(userId);
+		userRoleMapper.delete(record);
+		
+		if(!roleIds.isEmpty()) {
+			List<UserRole> userRoles = new ArrayList<>();
+			for(Long roleId : roleIds ) {
+				UserRole userRole = new UserRole();
+				userRole.setUserId(userId);
+				userRole.setRoleId(roleId);
+				userRoles.add(userRole);
+			}
+			userRoleMapper.insertList(userRoles);
+		}
+	}
 
 }
