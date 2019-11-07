@@ -16,27 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yucong.core.annotion.Auth;
-import com.yucong.core.annotion.CurrentUser;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.core.util.MenuUtils;
 import com.yucong.dto.menu.AddMenuDTO;
-import com.yucong.dto.menu.PermissionIdDTO;
 import com.yucong.dto.menu.ListMenuByRoleIdDTO;
+import com.yucong.dto.menu.PermissionIdDTO;
 import com.yucong.dto.menu.UpdateMenuDTO;
 import com.yucong.entity.Permission;
 import com.yucong.entity.RolePermission;
+import com.yucong.service.PermissionService;
 import com.yucong.service.RolePermissionService;
 import com.yucong.service.RoleService;
-import com.yucong.service.PermissionService;
 import com.yucong.vo.menu.PermissionVO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import springfox.documentation.annotations.ApiIgnore;
 
 @Auth
 @RestController
@@ -262,46 +260,9 @@ public class PermissionController {
 	
 	
 	
-	/**
-	 * 根据用户id获取该用户所有菜单权限
-	 * 需要先获取用户的角色集合，再通过角色获取菜单权限
-	 * 
-	 * @author YN
-	 * @date   2019-4-23
-	 */
-	@ApiOperation(value="我的主页菜单")
-	@ApiImplicitParams({
-        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
-    })
-	@GetMapping(value = "listMyMenu")
-	public CommonVO<List<PermissionVO>> listMyMenu(@ApiIgnore @CurrentUser Long userId) {
-		
-		// User u = userService.detail(userId);
-		
-		// 超级管理员
-		// if( userId == -1) {
-			return getSuperAdminDefautMenu();
-		// }
-	}
 	
-	/*
-	 * 超级管理员获取系统默认菜单
-	 * 
-	 * @author 喻聪
-	 * @date   2019-05-01
-	 */
-	private CommonVO<List<PermissionVO>> getSuperAdminDefautMenu() {
-		
-		// 1 获取所有有效菜单
-		List<Permission> adminMenus = permissionService.listMenu();
-		List<PermissionVO> sysMenuVOList = BeanMapper.mapList(adminMenus, PermissionVO.class);
-
-		// 2 生成树形结构
-		List<PermissionVO> data = MenuUtils.formatMenu(sysMenuVOList);
-		CommonVO<List<PermissionVO>> commonVO = new CommonVO<>();
-		commonVO.setData(data);
-		return commonVO;
-	}
+	
+	
 
 
 }
