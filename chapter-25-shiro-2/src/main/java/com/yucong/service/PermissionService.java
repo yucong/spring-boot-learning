@@ -37,7 +37,8 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 	public PermissionMapper getMapper() {
 		return permissionMapper;
 	}
-
+	
+	
 	/**
 	 * 查询用户菜单数据
 	 * 
@@ -171,6 +172,13 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 				.andEqualTo("flagDel", FlagDelEnum.NO.getCode()).andGreaterThan("id", 0);*/
 		example.createCriteria().andGreaterThan("id", 0);
 		return permissionMapper.selectByExample(example);
+	}
+
+	/**
+	 * 根据角色Id数组获取权限集合
+	 */
+	public List<Permission> findByRoleIds(List<Long> roleIds) {
+		return permissionMapper.findByRoleIds(roleIds);
 	}
 
 }

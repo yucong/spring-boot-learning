@@ -1,5 +1,6 @@
 package com.yucong.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,15 +18,21 @@ import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.UpdateMenuRoleDTO;
 import com.yucong.entity.Role;
 import com.yucong.entity.RolePermission;
+import com.yucong.entity.UserRole;
 import com.yucong.mapper.MenuRoleMapper;
 import com.yucong.mapper.RoleMapper;
+import com.yucong.mapper.UserRoleMapper;
 import com.yucong.vo.role.RoleVO;
 
 @Service
 public class RoleService extends BaseService<Role, RoleMapper> {
 
+	
+	
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
     @Autowired
     private MenuRoleMapper menuRoleMapper;
 
@@ -33,6 +40,20 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 	public RoleMapper getMapper() {
 		return roleMapper;
 	}
+    
+    
+    public List<Long> findRoleIdByUserId(Long userId) {
+    	UserRole record = new UserRole();
+    	record.setUserId(userId);
+    	List<UserRole> userRoles = userRoleMapper.select(record);
+    	
+    	List<Long> roleIds = new ArrayList<>();
+    	for(UserRole userRole : userRoles) {
+    		roleIds.add(userRole.getRoleId());
+    	}
+    	return roleIds;
+    }
+    
     
     public void createRole(Role role) {
         roleMapper.insertSelective(role);
@@ -76,11 +97,6 @@ public class RoleService extends BaseService<Role, RoleMapper> {
         return roles;
     }
 
-    public Set<String> findPermissions(List<Long> roleIds) {
-        // return roleDao.findByRoleIds(roleIds);
-    	return null;
-    }
-    
     /**
 	 * 添加一个角色，同时可添加这个角色的菜单权限
 	 * 需注意的一个参数menuIds，表示这个角色的菜单权限的id集合

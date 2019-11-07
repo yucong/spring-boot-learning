@@ -28,6 +28,7 @@ import com.yucong.dto.menu.UpdateMenuDTO;
 import com.yucong.entity.Permission;
 import com.yucong.entity.RolePermission;
 import com.yucong.service.RolePermissionService;
+import com.yucong.service.RoleService;
 import com.yucong.service.PermissionService;
 import com.yucong.vo.menu.PermissionVO;
 
@@ -44,10 +45,14 @@ import springfox.documentation.annotations.ApiIgnore;
 public class PermissionController {
 
 	@Autowired
-	private PermissionService menuService;
+	private PermissionService permissionService;
 
 	@Autowired
 	private RolePermissionService menuRoleService;
+	
+	
+	@Autowired
+	private RoleService roleService;
 
 	/**
 	 * 查询所有菜单数据
@@ -65,7 +70,7 @@ public class PermissionController {
 	@GetMapping("listAll")
 	public CommonVO<List<PermissionVO>> findAll() {
 		
-		List<Permission> listAll = menuService.list();
+		List<Permission> listAll = permissionService.list();
 		List<Permission> list = new ArrayList<Permission>();
 		for (Permission permission : listAll) {
 			// if (menu.getState() == 1 && menu.getFlagDel() == 0) {
@@ -89,7 +94,7 @@ public class PermissionController {
     })
 	@PostMapping("add")
 	public CommonVO<Object> addMenu(@RequestBody @Valid AddMenuDTO dto,@RequestHeader("X-User-Id") Long userId) {
-		return new CommonVO<Object>(menuService.addMenu(dto,userId));
+		return new CommonVO<Object>(permissionService.addMenu(dto,userId));
 	}
 
 	/**
@@ -105,7 +110,7 @@ public class PermissionController {
 	@PostMapping("update")
 	public CommonVO<Object> updateMenu(@Valid @RequestBody UpdateMenuDTO dto, 
 			@RequestHeader("X-User-Id") Long userId) {
-		return new CommonVO<Object>(menuService.updateMenu(dto,userId));
+		return new CommonVO<Object>(permissionService.updateMenu(dto,userId));
 	}
 
 	/**
@@ -120,7 +125,7 @@ public class PermissionController {
     })
 	@GetMapping("detail")
 	public CommonVO<PermissionVO> detailMenu(@Valid PermissionIdDTO dto) {
-		return new CommonVO<PermissionVO>(menuService.detailMenu(dto.getId()));
+		return new CommonVO<PermissionVO>(permissionService.detailMenu(dto.getId()));
 	}
 
 	/**
@@ -136,7 +141,7 @@ public class PermissionController {
 	@PostMapping("delete")
 	public BaseVO deleteMenu(@Valid @RequestBody PermissionIdDTO dto, BindingResult result,
 			@RequestHeader("X-User-Id") Long userId) {
-		return menuService.deleteMenu(dto.getId(),userId);
+		return permissionService.deleteMenu(dto.getId(),userId);
 	}
 
 	/**
@@ -152,7 +157,7 @@ public class PermissionController {
 	@GetMapping("listPermissionByRoleId")
 	public CommonVO<List<PermissionVO>> ListMenuByRoleId(ListMenuByRoleIdDTO dto) {
 		//1所有的有效菜单
-		List<Permission> listAll = menuService.findEnterpriseMenu();
+		List<Permission> listAll = permissionService.findEnterpriseMenu();
 
 		//如果该角色是超级管理员
 		if(dto.getRoleId() == -1) {
@@ -205,52 +210,35 @@ public class PermissionController {
 	@GetMapping("listByUserId")
 	public CommonVO<List<PermissionVO>> listByUserId(Long userId) {
 		
+		// 1 获取该用户的角色
+		List<Long> roleIds = roleService.findRoleIdByUserId(userId);
 		
-		
-		
-		
-		
-		/*//1所有的有效菜单
-		List<Permission> listAll = menuService.findEnterpriseMenu();
-
-		//如果该角色是超级管理员
-		if(dto.getRoleId() == -1) {
-			return getAllMenus(listAll);
+		// 2 获取用户的权限
+		List<Permission> permissions = null;
+		if(roleIds.isEmpty()) {
+			permissions = new ArrayList<>();
+		} else {
+			permissions = permissionService.findByRoleIds(roleIds);
 		}
 		
-		//2该角色下的所有 菜单角色 集合
-		List<MenuRole> listMenuRole = menuRoleService.findMenuRoleByRoleId(dto.getRoleId());
-
-		// 3整理出角色下的菜单Id集合
-		List<Long> menuRoleIds = new ArrayList<>();
-		if (!CollectionUtils.isEmpty(listMenuRole)) {
-			for (MenuRole sysMenuRole : listMenuRole) {
-				menuRoleIds.add(sysMenuRole.getPermissionId());
-			}
-		}
-
-		// 4 整理出角色拥有的菜单集合
-		List<PermissionVO> sysMenuVOList = new ArrayList<PermissionVO>();
-		if(!CollectionUtils.isEmpty(listAll)) {
-			for(Permission sysMenu : listAll) {
-				PermissionVO sysMenuVO = new PermissionVO();
-				sysMenuVO.setId(sysMenu.getId());
-				sysMenuVO.setParentId(sysMenu.getParentId());
-				sysMenuVO.setName(sysMenu.getName());
-				sysMenuVO.setPermission(sysMenu.getPermission());
-				sysMenuVO.setSort(sysMenu.getSort());
-				//菜单设置成选中状态
-				if(menuRoleIds.contains(sysMenuVO.getId())) {
-					sysMenuVO.setChecked("true");//TODO
-				} 
-				sysMenuVOList.add(sysMenuVO);
+		// 3 整理出角色拥有的菜单集合
+		List<PermissionVO> permissionVOs = new ArrayList<PermissionVO>();
+		if(!CollectionUtils.isEmpty(permissions)) {
+			for(Permission permission : permissions) {
+				PermissionVO permissionVO = new PermissionVO();
+				permissionVO.setId(permission.getId());
+				permissionVO.setParentId(permission.getParentId());
+				permissionVO.setName(permission.getName());
+				permissionVO.setPermission(permission.getPermission());
+				permissionVO.setSort(permission.getSort());
+				permissionVO.setChecked("true");
+				permissionVOs.add(permissionVO);
 			}
 		}
 		
-		//生成树形结构数据
-		List<PermissionVO> data = MenuUtils.formatMenu(sysMenuVOList);
-		return new CommonVO<List<PermissionVO>>(data);*/
-		return null;
+		// 4 生成树形结构数据
+		List<PermissionVO> data = MenuUtils.formatMenu(permissionVOs);
+		return new CommonVO<List<PermissionVO>>(data);
 	}
 	
 	
@@ -305,7 +293,7 @@ public class PermissionController {
 	private CommonVO<List<PermissionVO>> getSuperAdminDefautMenu() {
 		
 		// 1 获取所有有效菜单
-		List<Permission> adminMenus = menuService.listMenu();
+		List<Permission> adminMenus = permissionService.listMenu();
 		List<PermissionVO> sysMenuVOList = BeanMapper.mapList(adminMenus, PermissionVO.class);
 
 		// 2 生成树形结构

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yucong.mapper.PermissionMapper">
 
-  <select id="findByRoleIds" resultType="java.lang.String">
+  <select id="findPermissionByRoleIds" resultType="java.lang.String">
 	SELECT
 		p.permission
 	FROM
@@ -14,5 +14,19 @@
 		  #{id}
 		</foreach>
   </select>
+  
+  
+  <select id="findByRoleIds" resultType="com.yucong.entity.Permission">
+	SELECT
+		p.*
+	FROM
+		sys_role_permission rp
+	INNER JOIN sys_permission p ON p.id = rp.permission_id
+	WHERE rp.role_id IN
+		<foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
+		  #{id}
+		</foreach>
+  </select>
+  
 
 </mapper>

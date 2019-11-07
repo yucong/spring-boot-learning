@@ -89,7 +89,7 @@ public class UserAuthManager {
     }
 
 	public Set<String> findPermissionsByRoleId(List<Long> roleList) {
-		return permissionMapper.findByRoleIds(roleList);
+		return permissionMapper.findPermissionByRoleIds(roleList);
 	}
 
 }

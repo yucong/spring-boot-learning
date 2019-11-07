@@ -3,7 +3,7 @@
 <mapper namespace="com.yucong.mapper.MenuRoleMapper" >
 
   
-  <select id="findByRoleIds" resultType="com.yucong.entity.MenuRole" >
+  <select id="findByRoleIds" resultType="com.yucong.entity.RolePermission" >
     select 
     	*
     from sys_role_permission
@@ -16,7 +16,7 @@
     </if>
   </select>
   
-  <select id="findMenuRoleByRoleId" resultType="com.yucong.entity.MenuRole" >
+  <select id="findMenuRoleByRoleId" resultType="com.yucong.entity.RolePermission" >
     SELECT 
     	*
     FROM sys_role_permission

@@ -17,9 +17,17 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 
 	List<PermissionVO> ListMenuByRoleId(Integer roleId);
     
-    
-    /** 根据角色ID获取权限集合*/
-	Set<String> findByRoleIds(@Param("roleIds") List<Long> roleIds);
+    /** 
+     * 根据角色ID获取权限集合
+     */
+	Set<String> findPermissionByRoleIds(@Param("roleIds") List<Long> roleIds);
+
+	/**
+	 * 根据角色ID获取权限集合
+	 */
+	List<Permission> findByRoleIds(@Param("roleIds") List<Long> roleIds);
+
+
 
 
 }

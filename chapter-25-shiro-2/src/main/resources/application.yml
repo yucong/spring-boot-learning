@@ -11,6 +11,9 @@ spring:
 
 mybatis:
   mapper-locations: classpath:com/yucong/mapper/*.xml
+  # 数据库下划线转驼峰标识
+  configuration:
+    map-underscore-to-camel-case: true
 
 
 pagehelper:

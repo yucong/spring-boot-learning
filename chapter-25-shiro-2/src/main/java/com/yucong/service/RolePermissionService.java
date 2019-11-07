@@ -17,8 +17,12 @@ public class RolePermissionService {
 	public List<RolePermission> findMenuRoleByRoleId(Long roleId) {
 		RolePermission query = new RolePermission();
 		query.setRoleId(roleId);
-		/// query.setFlagDel(0);
 		return menuRoleMapper.select(query);
 	}
+	
+	
+	
+	
+	
 
 }
