@@ -1,26 +1,29 @@
 package com.yucong.core.shiro;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 
 import com.yucong.core.shiro.manager.UserAuthManager;
+import com.yucong.entity.Role;
 import com.yucong.entity.User;
 
 /**
  * 认证领域
  *
  */
-@Configuration
+//@Configuration
 public class ShiroAuthRealm extends AuthorizingRealm {
 
 	@Autowired
@@ -40,10 +43,14 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
-        String principal = (String) token.getPrincipal();
+        
+    	String principal = (String) token.getPrincipal();
         User user = userAuthManager.findByUsername(principal);
-        ShiroUser shiroUser = userAuthManager.initShiroUser(user);
-        return userAuthManager.initSimpleAuthenticationInfo(shiroUser, user, super.getName());
+        String credentials = user.getPassword();
+
+        // 密码加盐处理
+        ByteSource credentialsSalt = ByteSource.Util.bytes(user.getSalt());
+        return new SimpleAuthenticationInfo(user.getId(), credentials, credentialsSalt, super.getName());
     }
 
     /**
@@ -52,14 +59,50 @@ public class ShiroAuthRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-    	ShiroUser shiroUser = (ShiroUser) principal.getPrimaryPrincipal();
-        List<Long> roleList = shiroUser.getRoleList();
-        List<String> roleNames = shiroUser.getRoleNames();
+    	
+    	Long userId = (Long) principal.getPrimaryPrincipal();
+        
+    	//获取用户角色列表
+    	List<Role> roles = userAuthManager.findRolesByUserId(userId);
+        List<Long> roleList = new ArrayList<>();
+        List<String> roleNameList = new ArrayList<>();
+        for (Role role : roles) {
+            roleList.add(role.getId());
+            roleNameList.add(role.getRole());
+        }
         Set<String> permissions = userAuthManager.findPermissionsByRoleId(roleList);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addRoles(roleNames);
+        info.addRoles(roleNameList);
         info.addStringPermissions(permissions);
         return info;
+    }
+    
+    @Override
+    public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+        super.clearCachedAuthorizationInfo(principals);
+    }
+
+    @Override
+    public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+        super.clearCachedAuthenticationInfo(principals);
+    }
+
+    @Override
+    public void clearCache(PrincipalCollection principals) {
+        super.clearCache(principals);
+    }
+
+    public void clearAllCachedAuthorizationInfo() {
+        getAuthorizationCache().clear();
+    }
+
+    public void clearAllCachedAuthenticationInfo() {
+        getAuthenticationCache().clear();
+    }
+
+    public void clearAllCache() {
+        clearAllCachedAuthenticationInfo();
+        clearAllCachedAuthorizationInfo();
     }
 
 }

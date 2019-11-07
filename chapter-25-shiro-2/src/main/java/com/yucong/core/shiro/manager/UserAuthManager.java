@@ -15,19 +15,14 @@
  */
 package com.yucong.core.shiro.manager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yucong.core.shiro.ShiroKit;
-import com.yucong.core.shiro.ShiroUser;
 import com.yucong.entity.Role;
 import com.yucong.entity.User;
 import com.yucong.mapper.PermissionMapper;
@@ -62,7 +57,7 @@ public class UserAuthManager {
         return user;
 	}
 	
-	public ShiroUser initShiroUser(User user) {
+	/*public ShiroUser initShiroUser(User user) {
 		ShiroUser shiroUser = ShiroKit.createShiroUser(user);
 
         //用户角色数组
@@ -78,15 +73,20 @@ public class UserAuthManager {
         shiroUser.setRoleList(roleList);
         shiroUser.setRoleNames(roleNameList);
         return shiroUser;
-	}
+	}*/
 	
-	public SimpleAuthenticationInfo initSimpleAuthenticationInfo(ShiroUser shiroUser, User user, String realmName) {
+	/*public SimpleAuthenticationInfo initSimpleAuthenticationInfo(ShiroUser shiroUser, User user, String realmName) {
         String credentials = user.getPassword();
 
         // 密码加盐处理
         ByteSource credentialsSalt = ByteSource.Util.bytes(user.getSalt());
         return new SimpleAuthenticationInfo(shiroUser, credentials, credentialsSalt, realmName);
-    }
+    }*/
+	
+	public List<Role> findRolesByUserId(Long userId) {
+		List<Role> roles = roleMapper.findByUserId(userId);
+		return roles;
+	}
 
 	public Set<String> findPermissionsByRoleId(List<Long> roleList) {
 		return permissionMapper.findPermissionByRoleIds(roleList);

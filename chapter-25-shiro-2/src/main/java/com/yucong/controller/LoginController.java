@@ -9,6 +9,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.CommonVO;
-import com.yucong.core.shiro.ShiroUser;
 import com.yucong.dto.login.LoginDTO;
+import com.yucong.entity.User;
+import com.yucong.service.UserService;
 import com.yucong.vo.user.LoginVO;
 
 import io.swagger.annotations.Api;
@@ -29,6 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 @Api(tags = "01-用户登录")
 public class LoginController {
 
+	@Autowired
+	private UserService userService;
+	
 	@ApiOperation(value="登录")
     @PostMapping(value = "/login")
     public CommonVO<LoginVO> login(@RequestBody @Valid LoginDTO dto) {
@@ -46,11 +51,14 @@ public class LoginController {
         
         try {
             subject.login(token);
-            ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+            Long userId = (Long) subject.getPrincipal();
             LoginVO loginVO = new LoginVO();
-            loginVO.setUserId(shiroUser.getId());
-            loginVO.setUsername(shiroUser.getName());
-            loginVO.setNickName(shiroUser.getName());
+            
+            User u = userService.findById(userId);
+            
+            loginVO.setUserId(u.getId());
+            loginVO.setUsername(u.getUsername());
+            loginVO.setNickName(u.getUsername());
             String sessionId = (String) subject.getSession().getId();
             loginVO.setTokenId((sessionId) );
             commonVO.setData(loginVO);

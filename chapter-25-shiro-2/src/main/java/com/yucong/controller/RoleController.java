@@ -53,17 +53,7 @@ public class RoleController {
 	public CommonVO<List<Role>> listByUserId(Long userId) {
 		return new CommonVO<>(roleService.listByUserId(userId));
 	}
-	
-	/**
-	 * 查询企业所有角色
-	 * 
-	 * @author 喻聪
-	 * @date   2019-5-3
-	 */
-	/*@GetMapping("listSimple")
-	public CommonVO<List<SimpleRoleVO>> listSimple(ListSimpleRoleDTO dto) {
-		return new CommonVO<>(roleService.listSimple(dto.getEnterpriseId()));
-	}*/
+
 	
 	/**
 	 * 添加一个角色，同时可添加这个角色的菜单权限
@@ -89,16 +79,4 @@ public class RoleController {
 		return roleService.updateRolePermission(dto,userId);
 	}
 	
-	/**
-	 * 
-	 * 逻辑删除该角色
-	 * 
-	 * @author  YN
-	 * @date    2019-4-23
-	 */
-	/*@PostMapping("deleteRoleMenu")
-	public BaseVO deleteRoleMenu(@RequestBody @Valid RoleIdDTO dto,BindingResult result,
-			@RequestHeader("X-User-Id") Integer userId) {
-		return roleService.deleteRoleMenu(dto.getRoleId(),userId);
-	}*/
 }

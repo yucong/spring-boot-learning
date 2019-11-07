@@ -4,9 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
-// import com.yucong.core.listener.ConfigListener;
 import com.yucong.core.shiro.ShiroKit;
-import com.yucong.core.shiro.ShiroUser;
 import com.yucong.core.util.HttpContext;
 
 
@@ -18,7 +16,7 @@ public class PermissionCheckManager {
 
 	public boolean checkAll() {
 		HttpServletRequest request = HttpContext.getRequest();
-        ShiroUser user = ShiroKit.getUser();
+        String user = ShiroKit.getUser();
         if (null == user) {
             return false;
         }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yucong.core.base.vo.DataTableVO;
+import com.yucong.core.shiro.ShiroKit;
 import com.yucong.core.util.StringUtil;
 import com.yucong.entity.User;
 import com.yucong.entity.UserRole;
@@ -59,7 +60,7 @@ public class UserService {
         userDao.updateByPrimaryKey(user);
     }
 
-    public User findOne(Long userId) {
+    public User findById(Long userId) {
         return userDao.selectByPrimaryKey(userId);
     }
 
@@ -89,6 +90,11 @@ public class UserService {
 			}
 			userRoleMapper.insertList(userRoles);
 		}
+		
+		// 更新用户角色，需要清除缓存
+		User user = userDao.selectByPrimaryKey(userId);
+		ShiroKit.reloadAuthorizing(user.getUsername());
+		
 	}
 
 }
