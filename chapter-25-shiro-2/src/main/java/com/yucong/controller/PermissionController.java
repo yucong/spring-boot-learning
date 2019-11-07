@@ -25,9 +25,9 @@ import com.yucong.dto.menu.AddMenuDTO;
 import com.yucong.dto.menu.PermissionIdDTO;
 import com.yucong.dto.menu.ListMenuByRoleIdDTO;
 import com.yucong.dto.menu.UpdateMenuDTO;
-import com.yucong.entity.MenuRole;
 import com.yucong.entity.Permission;
-import com.yucong.service.MenuRoleService;
+import com.yucong.entity.RolePermission;
+import com.yucong.service.RolePermissionService;
 import com.yucong.service.PermissionNewService;
 import com.yucong.vo.menu.PermissionVO;
 
@@ -47,7 +47,7 @@ public class PermissionController {
 	private PermissionNewService menuService;
 
 	@Autowired
-	private MenuRoleService menuRoleService;
+	private RolePermissionService menuRoleService;
 
 	/**
 	 * 查询所有菜单数据
@@ -160,6 +160,59 @@ public class PermissionController {
 		}
 		
 		//2该角色下的所有 菜单角色 集合
+		List<RolePermission> listMenuRole = menuRoleService.findMenuRoleByRoleId(dto.getRoleId());
+
+		// 3整理出角色下的菜单Id集合
+		List<Long> menuRoleIds = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(listMenuRole)) {
+			for (RolePermission sysMenuRole : listMenuRole) {
+				menuRoleIds.add(sysMenuRole.getPermissionId());
+			}
+		}
+
+		// 4 整理出角色拥有的菜单集合
+		List<PermissionVO> sysMenuVOList = new ArrayList<PermissionVO>();
+		if(!CollectionUtils.isEmpty(listAll)) {
+			for(Permission sysMenu : listAll) {
+				PermissionVO sysMenuVO = new PermissionVO();
+				sysMenuVO.setId(sysMenu.getId());
+				sysMenuVO.setParentId(sysMenu.getParentId());
+				sysMenuVO.setName(sysMenu.getName());
+				sysMenuVO.setPermission(sysMenu.getPermission());
+				sysMenuVO.setSort(sysMenu.getSort());
+				//菜单设置成选中状态
+				if(menuRoleIds.contains(sysMenuVO.getId())) {
+					sysMenuVO.setChecked("true");//TODO
+				} 
+				sysMenuVOList.add(sysMenuVO);
+			}
+		}
+		
+		//生成树形结构数据
+		List<PermissionVO> data = MenuUtils.formatMenu(sysMenuVOList);
+		return new CommonVO<List<PermissionVO>>(data);
+	}
+	
+	/**
+	 * 返回的菜单数据需要以树形结构展示
+	 * 
+	 * @date   2019-4-22
+	 */
+	@ApiOperation(value="根据用户ID查询权限")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
+	@GetMapping("listByUserId")
+	public CommonVO<List<PermissionVO>> listByUserId(Long userId) {
+		/*//1所有的有效菜单
+		List<Permission> listAll = menuService.findEnterpriseMenu();
+
+		//如果该角色是超级管理员
+		if(dto.getRoleId() == -1) {
+			return getAllMenus(listAll);
+		}
+		
+		//2该角色下的所有 菜单角色 集合
 		List<MenuRole> listMenuRole = menuRoleService.findMenuRoleByRoleId(dto.getRoleId());
 
 		// 3整理出角色下的菜单Id集合
@@ -190,7 +243,8 @@ public class PermissionController {
 		
 		//生成树形结构数据
 		List<PermissionVO> data = MenuUtils.formatMenu(sysMenuVOList);
-		return new CommonVO<List<PermissionVO>>(data);
+		return new CommonVO<List<PermissionVO>>(data);*/
+		return null;
 	}
 	
 	

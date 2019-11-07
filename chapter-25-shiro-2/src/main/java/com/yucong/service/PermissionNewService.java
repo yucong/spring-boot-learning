@@ -11,8 +11,8 @@ import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.menu.AddMenuDTO;
 import com.yucong.dto.menu.UpdateMenuDTO;
-import com.yucong.entity.MenuRole;
 import com.yucong.entity.Permission;
+import com.yucong.entity.RolePermission;
 import com.yucong.entity.UserRole;
 import com.yucong.mapper.PermissionMapper;
 import com.yucong.mapper.MenuRoleMapper;
@@ -45,7 +45,7 @@ public class PermissionNewService extends BaseService<Permission, PermissionMapp
 	 * @date 2019-04-22
 	 * 
 	 */
-	public List<MenuRole> findByUserId(long userId) {
+	public List<RolePermission> findByUserId(long userId) {
 		UserRole query = new UserRole();
 		query.setUserId(userId);
 		/// query.setState(StateEnum.VALID.getCode());

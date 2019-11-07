@@ -15,8 +15,8 @@ import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.UpdateMenuRoleDTO;
-import com.yucong.entity.MenuRole;
 import com.yucong.entity.Role;
+import com.yucong.entity.RolePermission;
 import com.yucong.mapper.MenuRoleMapper;
 import com.yucong.mapper.RoleMapper;
 import com.yucong.vo.role.RoleVO;
@@ -95,7 +95,7 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 		super.add(record,userId);
 		if(dto.getMenuIds().size() > 0) {
 			for(String menuId : dto.getMenuIds()) {
-				MenuRole menuRole = new MenuRole();
+				RolePermission menuRole = new RolePermission();
 				menuRole.setPermissionId(Long.parseLong(menuId));
 				menuRole.setRoleId(record.getId());
 				menuRoleMapper.insertSelective(menuRole);
@@ -115,7 +115,7 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 		
 		if(dto.getMenuIds().size() > 0) {
 			for(String menuId : dto.getMenuIds()) {
-				MenuRole menuRole = new MenuRole();
+				RolePermission menuRole = new RolePermission();
 				menuRole.setPermissionId(Long.parseLong(menuId));
 				menuRole.setRoleId(record.getId());
 				menuRoleMapper.insertSelective(menuRole);

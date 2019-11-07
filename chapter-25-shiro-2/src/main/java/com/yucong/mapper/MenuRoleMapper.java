@@ -6,14 +6,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.yucong.BaseMapper;
-import com.yucong.entity.MenuRole;
+import com.yucong.entity.RolePermission;
 
 @Mapper
-public interface MenuRoleMapper extends BaseMapper<MenuRole>{
+public interface MenuRoleMapper extends BaseMapper<RolePermission>{
     
-	List<MenuRole> findByRoleIds(@Param("roleIds") List<Long> roleIds);
+	List<RolePermission> findByRoleIds(@Param("roleIds") List<Long> roleIds);
 
-	List<MenuRole> findMenuRoleByRoleId(@Param("roleId") Long roleId);
+	List<RolePermission> findMenuRoleByRoleId(@Param("roleId") Long roleId);
 
 	int deleteByRoleId(Long roleId);
 }
