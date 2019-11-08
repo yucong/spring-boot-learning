@@ -17,22 +17,16 @@ import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.UpdateMenuRoleDTO;
 import com.yucong.entity.Role;
 import com.yucong.entity.RolePermission;
-import com.yucong.entity.UserRole;
 import com.yucong.mapper.MenuRoleMapper;
 import com.yucong.mapper.RoleMapper;
-import com.yucong.mapper.UserRoleMapper;
 
 @Service
 public class RoleService extends BaseService<Role, RoleMapper> {
 
-	
     @Autowired
     private RoleMapper roleMapper;
     @Autowired
-    private UserRoleMapper userRoleMapper;
-    @Autowired
     private MenuRoleMapper menuRoleMapper;
-
     @Override
 	public RoleMapper getMapper() {
 		return roleMapper;
@@ -54,13 +48,11 @@ public class RoleService extends BaseService<Role, RoleMapper> {
     
     
     public List<Long> findRoleIdByUserId(Long userId) {
-    	UserRole record = new UserRole();
-    	record.setUserId(userId);
-    	List<UserRole> userRoles = userRoleMapper.select(record);
     	
+    	List<Role> roles = roleMapper.findByUserId(userId);
     	List<Long> roleIds = new ArrayList<>();
-    	for(UserRole userRole : userRoles) {
-    		roleIds.add(userRole.getRoleId());
+    	for(Role role : roles) {
+    		roleIds.add(role.getId());
     	}
     	return roleIds;
     }
