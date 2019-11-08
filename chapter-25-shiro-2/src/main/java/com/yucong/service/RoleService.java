@@ -13,12 +13,16 @@ import com.github.pagehelper.PageInfo;
 import com.yucong.core.base.service.BaseService;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.DataTableVO;
+import com.yucong.core.util.StringUtil;
 import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.UpdateMenuRoleDTO;
 import com.yucong.entity.Role;
 import com.yucong.entity.RolePermission;
 import com.yucong.mapper.MenuRoleMapper;
 import com.yucong.mapper.RoleMapper;
+
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 @Service
 public class RoleService extends BaseService<Role, RoleMapper> {
@@ -32,9 +36,20 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 		return roleMapper;
 	}
     
-    public DataTableVO<Role> list(Integer pageNum,Integer pageSize) {
+    public DataTableVO<Role> list(String roleName,Boolean available,Integer pageNum,Integer pageSize) {
     	PageHelper.startPage(pageNum, pageSize);
-		List<Role> entitys = roleMapper.selectAll();
+    	
+    	Example example = new Example(Role.class);
+    	Criteria criteria = example.createCriteria();
+    	
+    	if(available != null) {
+    		criteria.andEqualTo("available", available);
+    	}
+    	if(StringUtil.isNotEmpty(roleName)) {
+    		criteria.andLike("role", "%" + roleName + "%");
+    	}
+    	
+		List<Role> entitys = roleMapper.selectByExample(example);
 		PageInfo<Role> page = new PageInfo<>(entitys);
 		long allCount = page.getTotal();
 		int allPage = page.getPages();

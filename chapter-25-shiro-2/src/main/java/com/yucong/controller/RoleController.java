@@ -44,7 +44,7 @@ public class RoleController {
 	 */
 	@GetMapping("list")
 	public CommonVO<DataTableVO<Role>> list(ListRoleDTO dto) {
-		return new CommonVO<>(roleService.list(dto.getPage(),dto.getSize()));
+		return new CommonVO<>(roleService.list(dto.getRoleName(),dto.getAvailable(),dto.getPage(),dto.getSize()));
 	}
 	
 	/**
