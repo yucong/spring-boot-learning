@@ -48,6 +48,9 @@ public class UserService {
     	User user = userDao.selectByPrimaryKey(userId);
     	user.setLocked(!user.getLocked());
         userDao.updateByPrimaryKeySelective(user);
+        
+        // 冻结用户，需要清除缓存
+        ShiroKit.reloadAuthorizing(userId);
     }
 
     /**

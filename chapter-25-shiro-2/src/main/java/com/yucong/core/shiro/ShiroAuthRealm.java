@@ -98,6 +98,24 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     public void clearAllCachedAuthorizationInfo() {
         getAuthorizationCache().clear();
     }
+    
+    /**
+     * 清除指定用户的session
+     */
+    public void clearCachedSession(Long userId) {
+    	Collection<Session> sessions = sessionDAO.getActiveSessions();
+    	for(Session session:sessions) {
+    		Object sessionKey = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+    		if(sessionKey == null) {
+    			continue;
+    		}
+    		Long sessionKeyVaue = Long.valueOf(sessionKey.toString());
+    		if(userId.equals(sessionKeyVaue) ) {
+    			sessionDAO.delete(session);
+    		}
+    	}
+    	
+    }
 
     
     /**

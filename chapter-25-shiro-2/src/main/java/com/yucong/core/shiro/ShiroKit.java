@@ -75,9 +75,7 @@ public class ShiroKit {
     	String realmName = subject.getPrincipals().getRealmNames().iterator().next();
     	SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
     	shiroRealm.clearCachedAuthorizationInfo(principals);
-    	
-    	shiroRealm.test();
-    	
+    	shiroRealm.clearCachedSession(userId);
     }
 
 
