@@ -2,7 +2,6 @@ package com.yucong.core.shiro;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 
@@ -12,24 +11,6 @@ import org.apache.shiro.subject.Subject;
  */
 public class ShiroKit {
 
-	/**
-     * 通过用户表的信息创建一个shiroUser对象
-     */
-    /*public static ShiroUser createShiroUser(User user) {
-        ShiroUser shiroUser = new ShiroUser();
-
-        if (user == null) {
-            return shiroUser;
-        }
-        shiroUser.setId(user.getId());
-        shiroUser.setAccount(user.getUsername());
-        // shiroUser.setDeptId(user.getDeptId());
-        // shiroUser.setDeptName(ConstantFactory.me().getDeptName(user.getDeptId()));
-        shiroUser.setName(user.getUsername());
-        // shiroUser.setEmail(user.getEmail());
-        // shiroUser.setAvatar(user.getAvatar());
-        return shiroUser;
-    }*/
 	
 	/**
      * 获取封装的 ShiroUser
@@ -86,57 +67,15 @@ public class ShiroKit {
      * @param username 用户名 
      */  
     public static void reloadAuthorizing(Long userId){  
-        
-    	
     	
     	RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
     	ShiroAuthRealm shiroRealm = (ShiroAuthRealm)rsm.getRealms().iterator().next();
 		
     	Subject subject = SecurityUtils.getSubject(); 
-		
-    	PrincipalCollection p = subject.getPrincipals();
-    	
     	String realmName = subject.getPrincipals().getRealmNames().iterator().next();
-		
-    	//shiroRealm.clearAllCachedAuthorizationInfo();
-		
-		//subject.getPrincipals();
-		
-		
     	SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
-    	
-    	
     	shiroRealm.clearCachedAuthorizationInfo(principals);
     	shiroRealm.clearCachedAuthenticationInfo(principals);
-    	
-    	
-    	
-    	// shiroRealm.clearAllCache();
-    	
-		//shiroRealm.clearAllCachedAuthenticationInfo(principals);
-		
-		// logger.info("oper.user="+user.getEmail()+",login.user="+SecurityUtils.getSubject().getPrincipal().toString());
-		
-		//shiroRealm.clearAllCachedAuthorizationInfo2();//清楚所有用户权限
-		
-		
-		//第一个参数为用户名,第二个参数为realmName,test想要操作权限的用户 
-		/*SimplePrincipalCollection principals = new SimplePrincipalCollection(username,realmName); 
-		subject.runAs(principals); 
-		shiroRealm.getAuthorizationCache().remove(subject.getPrincipals()); 
-		subject.releaseRunAs();*/
-
-    	
-		
-    	
-    	
-    	/*Subject subject = SecurityUtils.getSubject();   
-        String realmName = subject.getPrincipals().getRealmNames().iterator().next();   
-        //第一个参数为用户名,第二个参数为realmName,test想要操作权限的用户   
-        SimplePrincipalCollection principals = new SimplePrincipalCollection(username,realmName);   
-        subject.runAs(principals);   
-        myRealm.getAuthorizationCache().remove(subject.getPrincipals());   
-        subject.releaseRunAs();  */
     }
 
 
