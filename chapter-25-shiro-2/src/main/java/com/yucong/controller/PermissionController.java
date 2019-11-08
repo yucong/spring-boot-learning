@@ -233,31 +233,6 @@ public class PermissionController {
 		List<PermissionVO> data = MenuUtils.formatMenu(permissionVOs);
 		return new CommonVO<List<PermissionVO>>(data);
 	}
-	
-	
-
-
-	/**
-	 * 如果是超级管理员，则拥有所有菜单权限
-	 * 
-	 * @author YN
-	 * @date   2019-4-23
-	 */ 
-	/*private CommonVO<List<PermissionVO>> getAllMenus(List<Permission> listAll) {
-		List<PermissionVO> menuVOs = BeanMapper.mapList(listAll, PermissionVO.class);
-		for(PermissionVO menuVO : menuVOs) {
-			menuVO.setChecked("true");
-		}
-		
-		List<PermissionVO> data = MenuUtils.formatMenu(menuVOs);
-		return new CommonVO<List<PermissionVO>>(data);
-	}*/
-	
-	
-	
-	
-	
-	
 
 
 }

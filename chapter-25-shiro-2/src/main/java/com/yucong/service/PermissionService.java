@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yucong.core.base.service.BaseService;
 import com.yucong.core.base.vo.BaseVO;
+import com.yucong.core.enums.PermissionTypeEnum;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.menu.AddMenuDTO;
 import com.yucong.dto.menu.UpdateMenuDTO;
@@ -98,25 +99,48 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 	}
 
 	/**
-	 * 通过主键id逻辑删除删除数据
+	 * 冻结或解除权限，只针对按钮或菜单才能操作，父菜单不允许操作
 	 * 
 	 * @author YN
 	 * @date 2019-4-22
 	 */
 	public BaseVO locked(Long id, Long userId) {
 		Permission menu = super.detail(id);
-		// 此菜单为父菜单时，删除所有的子菜单
-		/*if (menu.getParentId() == 0) {
-			Permission menuSon = new Permission();
-			/// menuSon.setState(StateEnum.INVALID.getCode());
-			/// menuSon.setFlagDel(FlagDelEnum.YES.getCode());
-			Example example = new Example(Permission.class);
-			example.createCriteria().andEqualTo("parentId", id);
-			permissionMapper.updateByExampleSelective(menuSon, example);
-		}*/
-		menu.setAvailable(!menu.getAvailable());
-		super.update(menu, userId);
-		return new BaseVO();
+		boolean target = !menu.getAvailable();
+		
+		BaseVO result = new BaseVO();
+		
+		if(PermissionTypeEnum.menu.name().equals( menu.getType() ) ) {
+			
+			if(menu.getParentId() > 0) {
+				// 冻结子菜单
+				menu.setAvailable(target);
+				super.update(menu, userId);
+				
+				// 冻结子菜单关联的按钮
+				Permission menuSon = new Permission();
+				menuSon.setAvailable(target);
+				Example example = new Example(Permission.class);
+				example.createCriteria().andEqualTo("parentId", id);
+				permissionMapper.updateByExampleSelective(menuSon, example);
+			} else {
+				result.setCode(0);
+				result.setMessage("一级菜单不支持此操作");
+			}
+			
+		} else if(PermissionTypeEnum.button.name().equals( menu.getType() )) {
+			
+			// 解除按钮时，子菜单必须是有效的
+			Permission parent = permissionMapper.selectByPrimaryKey(menu.getParentId());
+			if(parent != null && parent.getAvailable() ) {
+				menu.setAvailable(target);
+				super.update(menu, userId);
+			} else {
+				result.setCode(0);
+				result.setMessage("必须先解冻关联菜单");
+			}
+		}
+		return result;
 	}
 
 	/**
