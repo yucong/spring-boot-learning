@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yucong.core.annotion.Auth;
-import com.yucong.core.base.dto.PageInfo;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.user.AddUser;
+import com.yucong.dto.user.ListUserDTO;
 import com.yucong.dto.user.UpdateRoleDTO;
 import com.yucong.dto.user.UpdateUser;
 import com.yucong.dto.user.UserIdDTO;
@@ -41,8 +41,8 @@ public class UserController {
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
     @GetMapping(value = "list")
-    public CommonVO<DataTableVO<User>> list(PageInfo pageInfo) {
-    	return new CommonVO<DataTableVO<User>>(userService.findAll(1,10));
+    public CommonVO<DataTableVO<User>> list(ListUserDTO dto) {
+    	return new CommonVO<DataTableVO<User>>(userService.findAll(dto.getUsername(),dto.getPage(),dto.getSize()));
     }
 
     @ApiOperation(value="添加用户")

@@ -16,6 +16,9 @@ import com.yucong.entity.UserRole;
 import com.yucong.mapper.UserMapper;
 import com.yucong.mapper.UserRoleMapper;
 
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
+
 @Service
 public class UserService {
 
@@ -67,9 +70,15 @@ public class UserService {
         return userDao.selectByPrimaryKey(userId);
     }
 
-    public DataTableVO<User> findAll(int pageNum,int pageSize) {
+    public DataTableVO<User> findAll(String username,int pageNum,int pageSize) {
+    	
+    	Example example = new Example(User.class);
+    	Criteria criteria = example.createCriteria();
+    	if(StringUtil.isNotEmpty(username)) {
+    		criteria.andLike("username", "%" + username + "%");
+    	}
     	PageHelper.startPage(pageNum, pageSize);
-		List<User> entitys = userDao.selectAll();
+		List<User> entitys = userDao.selectByExample(example);
 		PageInfo<User> page = new PageInfo<>(entitys);
 		long allCount = page.getTotal();
 		int allPage = page.getPages();
