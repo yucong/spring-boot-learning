@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yucong.core.annotion.Auth;
 import com.yucong.core.annotion.CurrentUser;
 import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.enums.PermissionTypeEnum;
@@ -63,7 +62,6 @@ public class IndexController {
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
 	@GetMapping(value = "listMenu")
-	@Auth
 	public CommonVO<List<PermissionVO>> listMenu(@ApiIgnore @CurrentUser Long userId) {
 		
 		// 1 获取该用户的角色
