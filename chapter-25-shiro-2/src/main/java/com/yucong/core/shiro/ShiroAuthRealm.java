@@ -1,6 +1,7 @@
 package com.yucong.core.shiro;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,10 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,6 +32,9 @@ public class ShiroAuthRealm extends AuthorizingRealm {
 
 	@Autowired
 	private UserAuthManager userAuthManager;
+	
+	@Autowired
+	private SessionDAO sessionDAO;
 	
 	
     /**
@@ -84,31 +91,90 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
         super.clearCachedAuthorizationInfo(principals);
     }
-
+    
     /**
-     * 清除身份认证
+     * 清除所有用户的权限认证
      */
-    @Override
-    public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
-        super.clearCachedAuthenticationInfo(principals);
-    }
-
-    @Override
-    public void clearCache(PrincipalCollection principals) {
-        super.clearCache(principals);
-    }
-
     public void clearAllCachedAuthorizationInfo() {
         getAuthorizationCache().clear();
     }
 
-    public void clearAllCachedAuthenticationInfo() {
-        getAuthenticationCache().clear();
-    }
+    
+    /**
+     * 清除指定用户的session
+     */
+    public void test() {
+    	
+    	Collection<Session> sessions = sessionDAO.getActiveSessions();
+    	for(Session session:sessions) {
+    		
+    		System.out.println("登录ip:" + session.getHost());
+    		System.out.println("sessionId:" + session.getId());
+	    	System.out.println("登录用户:" + session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));
+	    	System.out.println();
+	    	
+	    	for(Object o : session.getAttributeKeys()) {
+	    		System.out.println("key:" + o.toString() + ",v:" + session.getAttribute(o));
+	    	}
+	    	System.out.println("最后操作日期:" + session.getLastAccessTime());
 
-    public void clearAllCache() {
+    	}
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * 清除身份认证
+     */
+    /*@Override
+    public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+        super.clearCachedAuthenticationInfo(principals);
+    }*/
+
+    /**
+     * 清除所有用户的身份认证
+     */
+    /*public void clearAllCachedAuthenticationInfo() {
+        getAuthenticationCache().clear();
+    }*/
+
+    /**
+     * 清除所有用户的身份认证和权限认证
+     */
+    /*public void clearAllCache() {
         clearAllCachedAuthenticationInfo();
         clearAllCachedAuthorizationInfo();
-    }
+    }*/
+    
+    /**
+     * 清除用户的身份认证和权限认证
+     */
+    /*@Override
+    public void clearCache(PrincipalCollection principals) {
+        super.clearCache(principals);
+    }*/
 
 }

@@ -88,7 +88,8 @@ public class ShiroConfiguration {
      */
     @Bean
     public RedisManager redisManager() {
-        RedisManager redisManager = new RedisManager();
+    	// System.err.println("配置shiro redisManager...");
+    	RedisManager redisManager = new RedisManager();
         redisManager.setHost(host);
         redisManager.setPort(port);
         redisManager.setExpire(1800);// 配置缓存过期时间

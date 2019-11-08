@@ -8,6 +8,7 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +60,8 @@ public class LoginController {
             loginVO.setUserId(u.getId());
             loginVO.setUsername(u.getUsername());
             loginVO.setNickName(u.getUsername());
-            String sessionId = (String) subject.getSession().getId();
+            Session session = subject.getSession();
+            String sessionId = (String) session.getId();
             loginVO.setTokenId((sessionId) );
             commonVO.setData(loginVO);
         } catch (UnknownAccountException e) {
