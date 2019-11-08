@@ -114,7 +114,6 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     			sessionDAO.delete(session);
     		}
     	}
-    	
     }
 
     
