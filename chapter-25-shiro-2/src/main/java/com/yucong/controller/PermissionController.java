@@ -20,9 +20,9 @@ import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.core.util.MenuUtils;
 import com.yucong.dto.menu.AddMenuDTO;
-import com.yucong.dto.menu.ListMenuByRoleIdDTO;
 import com.yucong.dto.menu.PermissionIdDTO;
 import com.yucong.dto.menu.UpdateMenuDTO;
+import com.yucong.dto.role.RoleIdDTO;
 import com.yucong.entity.Permission;
 import com.yucong.entity.RolePermission;
 import com.yucong.service.PermissionService;
@@ -153,14 +153,9 @@ public class PermissionController {
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
 	@GetMapping("listPermissionByRoleId")
-	public CommonVO<List<PermissionVO>> ListMenuByRoleId(ListMenuByRoleIdDTO dto) {
+	public CommonVO<List<PermissionVO>> ListMenuByRoleId(@Valid RoleIdDTO dto) {
 		//1所有的有效菜单
-		List<Permission> listAll = permissionService.findEnterpriseMenu();
-
-		//如果该角色是超级管理员
-		if(dto.getRoleId() == -1) {
-			return getAllMenus(listAll);
-		}
+		List<Permission> listAll = permissionService.findAvailablePermissions();
 		
 		//2该角色下的所有 菜单角色 集合
 		List<RolePermission> listMenuRole = menuRoleService.findMenuRoleByRoleId(dto.getRoleId());
@@ -248,7 +243,7 @@ public class PermissionController {
 	 * @author YN
 	 * @date   2019-4-23
 	 */ 
-	private CommonVO<List<PermissionVO>> getAllMenus(List<Permission> listAll) {
+	/*private CommonVO<List<PermissionVO>> getAllMenus(List<Permission> listAll) {
 		List<PermissionVO> menuVOs = BeanMapper.mapList(listAll, PermissionVO.class);
 		for(PermissionVO menuVO : menuVOs) {
 			menuVO.setChecked("true");
@@ -256,7 +251,7 @@ public class PermissionController {
 		
 		List<PermissionVO> data = MenuUtils.formatMenu(menuVOs);
 		return new CommonVO<List<PermissionVO>>(data);
-	}
+	}*/
 	
 	
 	

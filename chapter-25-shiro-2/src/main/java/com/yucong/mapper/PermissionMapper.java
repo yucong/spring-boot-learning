@@ -28,6 +28,4 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 	List<Permission> findByRoleIds(@Param("roleIds") List<Long> roleIds);
 
 
-
-
 }

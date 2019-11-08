@@ -22,7 +22,7 @@
 	FROM
 		sys_role_permission rp
 	INNER JOIN sys_permission p ON p.id = rp.permission_id
-	WHERE rp.role_id IN
+	WHERE p.available = true AND rp.role_id IN
 		<foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
 		  #{id}
 		</foreach>

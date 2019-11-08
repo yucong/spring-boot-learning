@@ -38,18 +38,19 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 		return permissionMapper;
 	}
 	
+	/**
+	 * 查询所有权限数据
+	 */
+	public List<Permission> listAll() {
+		return permissionMapper.selectAll();
+	}
 	
 	/**
 	 * 查询用户菜单数据
-	 * 
-	 * @author YN
-	 * @date 2019-04-22
-	 * 
 	 */
 	public List<RolePermission> findByUserId(long userId) {
 		UserRole query = new UserRole();
 		query.setUserId(userId);
-		/// query.setState(StateEnum.VALID.getCode());
 		List<UserRole> userRoles = userRoleMapper.select(query);
 		List<Long> roleIds = new ArrayList<>();
 		roleIds.add(0L);// 防止roleIds为空，查询出异常
@@ -57,17 +58,6 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 			roleIds.add(userRole.getRoleId());
 		}
 		return menuRoleMapper.findByRoleIds(roleIds);
-	}
-
-	/**
-	 * 查询所有权限数据
-	 * 
-	 * @author YN
-	 * @date 2019-04-22
-	 * 
-	 */
-	public List<Permission> listAll() {
-		return permissionMapper.selectAll();
 	}
 	
 	/**
@@ -83,9 +73,6 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 
 	/**
 	 * 添加菜单
-	 * 
-	 * @author YN
-	 * @date 2019-4-22
 	 */
 	public Object addMenu(AddMenuDTO dto, Long userId) {
 		Permission menu = BeanMapper.map(dto, Permission.class);
@@ -95,9 +82,6 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 
 	/**
 	 * 更新菜单
-	 * 
-	 * @author YN
-	 * @date 2019-4-22
 	 */
 	public Object updateMenu(UpdateMenuDTO dto, Long userId) {
 		Permission menu = BeanMapper.map(dto, Permission.class);
@@ -106,9 +90,6 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 
 	/**
 	 * 通过主键id查询菜单详情
-	 * 
-	 * @author YN
-	 * @date: 2019-4-22
 	 */
 	public PermissionVO detailMenu(Long id) {
 		Permission menu = super.detail(id);
@@ -140,14 +121,9 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 
 	/**
 	 * 获取系统管理员默认菜单(菜单ID为-1的菜单)
-	 * 
-	 * @author 喻聪
-	 * @date 2019-05-01
 	 */
 	public List<Permission> findAdminDefaultMenu() {
 		Example example = new Example(Permission.class);
-		/*example.createCriteria().andEqualTo("state", StateEnum.VALID.getCode())
-				.andEqualTo("flagDel", FlagDelEnum.NO.getCode()).andLessThan("id", 0);*/
 		example.createCriteria().andLessThan("id", 0);
 		return permissionMapper.selectByExample(example);
 	}
@@ -158,12 +134,10 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 	 * @author 喻聪
 	 * @date 2019-05-01
 	 */
-	public List<Permission> findEnterpriseMenu() {
-		Example example = new Example(Permission.class);
-		/*example.createCriteria().andEqualTo("state", StateEnum.VALID.getCode())
-				.andEqualTo("flagDel", FlagDelEnum.NO.getCode()).andGreaterThan("id", 0);*/
-		example.createCriteria().andGreaterThan("id", 0);
-		return permissionMapper.selectByExample(example);
+	public List<Permission> findAvailablePermissions() {
+		Permission permission = new Permission();
+		permission.setAvailable(true);
+		return permissionMapper.select(permission);
 	}
 
 	/**
