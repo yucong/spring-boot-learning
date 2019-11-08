@@ -85,7 +85,7 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     }
     
     /**
-     * 清除权限认证
+     * 清除指定用户权限缓存
      */
     @Override
     public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
@@ -93,7 +93,7 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     }
     
     /**
-     * 清除所有用户的权限认证
+     * 清除所有用户的权限缓存
      */
     public void clearAllCachedAuthorizationInfo() {
         getAuthorizationCache().clear();
