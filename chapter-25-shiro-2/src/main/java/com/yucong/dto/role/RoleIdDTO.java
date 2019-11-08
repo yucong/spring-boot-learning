@@ -8,5 +8,5 @@ import lombok.Data;
 public class RoleIdDTO {
 
 	@NotNull(message="roleId必填")
-	public Integer roleId;
+	public Long roleId;
 }

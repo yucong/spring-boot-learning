@@ -82,7 +82,7 @@ public class UserController {
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
     @PostMapping(value = "locked")
-    public BaseVO delete(@RequestBody @Valid UserIdDTO dto) {
+    public BaseVO locked(@RequestBody @Valid UserIdDTO dto) {
         userService.lockedUser(dto.getUserId());
         return BaseVO.success();
     }

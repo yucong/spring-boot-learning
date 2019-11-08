@@ -18,10 +18,14 @@ import com.yucong.core.base.vo.CommonVO;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.ListRoleDTO;
+import com.yucong.dto.role.RoleIdDTO;
 import com.yucong.dto.role.UpdateMenuRoleDTO;
 import com.yucong.entity.Role;
 import com.yucong.service.RoleService;
-import com.yucong.vo.role.RoleVO;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 
 @Auth
@@ -39,8 +43,8 @@ public class RoleController {
 	 * @date   2019-4-22
 	 */
 	@GetMapping("list")
-	public CommonVO<DataTableVO<RoleVO>> findAll(ListRoleDTO dto) {
-		return new CommonVO<>(roleService.findAll(dto.getPage(),dto.getSize()));
+	public CommonVO<DataTableVO<Role>> list(ListRoleDTO dto) {
+		return new CommonVO<>(roleService.list(dto.getPage(),dto.getSize()));
 	}
 	
 	/**
@@ -78,5 +82,16 @@ public class RoleController {
 	public BaseVO updateRolePermission(@RequestBody @Valid UpdateMenuRoleDTO dto, @RequestHeader("X-User-Id") Long userId) {
 		return roleService.updateRolePermission(dto,userId);
 	}
+	
+	
+	@ApiOperation(value="冻结角色")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
+    @PostMapping(value = "locked")
+    public BaseVO locked(@RequestBody @Valid RoleIdDTO dto) {
+		roleService.lockedRole(dto.getRoleId());
+        return BaseVO.success();
+    }
 	
 }

@@ -13,7 +13,6 @@ import com.github.pagehelper.PageInfo;
 import com.yucong.core.base.service.BaseService;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.DataTableVO;
-import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.UpdateMenuRoleDTO;
 import com.yucong.entity.Role;
@@ -22,12 +21,10 @@ import com.yucong.entity.UserRole;
 import com.yucong.mapper.MenuRoleMapper;
 import com.yucong.mapper.RoleMapper;
 import com.yucong.mapper.UserRoleMapper;
-import com.yucong.vo.role.RoleVO;
 
 @Service
 public class RoleService extends BaseService<Role, RoleMapper> {
 
-	
 	
     @Autowired
     private RoleMapper roleMapper;
@@ -39,6 +36,20 @@ public class RoleService extends BaseService<Role, RoleMapper> {
     @Override
 	public RoleMapper getMapper() {
 		return roleMapper;
+	}
+    
+    public DataTableVO<Role> list(Integer pageNum,Integer pageSize) {
+    	PageHelper.startPage(pageNum, pageSize);
+		List<Role> entitys = roleMapper.selectAll();
+		PageInfo<Role> page = new PageInfo<>(entitys);
+		long allCount = page.getTotal();
+		int allPage = page.getPages();
+		int currentPage = page.getPageNum();
+		return new DataTableVO<Role>(pageSize, allCount, allPage, currentPage, entitys);
+    }
+    
+    public List<Role> listByUserId(Long userId) {
+    	return roleMapper.findByUserId(userId);
 	}
     
     
@@ -54,42 +65,18 @@ public class RoleService extends BaseService<Role, RoleMapper> {
     	return roleIds;
     }
     
-    
-    public void createRole(Role role) {
-        roleMapper.insertSelective(role);
-    }
-
-    public void updateRole(Role role) {
-        roleMapper.updateByPrimaryKeySelective(role);
-    }
-
-    public void deleteRole(Long roleId) {
-        roleMapper.deleteByPrimaryKey(roleId);
-    }
-
-    public Role findOne(Long roleId) {
+    public Role findById(Long roleId) {
         return roleMapper.selectByPrimaryKey(roleId);
     }
 
-    public DataTableVO<RoleVO> findAll(Integer pageNum,Integer pageSize) {
-    	PageHelper.startPage(pageNum, pageSize);
-		List<Role> entitys = roleMapper.selectAll();
-		PageInfo<Role> page = new PageInfo<>(entitys);
-		long allCount = page.getTotal();
-		int allPage = page.getPages();
-		int currentPage = page.getPageNum();
-		List<RoleVO> roleVOs = BeanMapper.mapList(entitys, RoleVO.class);
-		return new DataTableVO<RoleVO>(pageSize, allCount, allPage, currentPage, roleVOs);
-    }
     
-    public List<Role> listByUserId(Long userId) {
-    	return roleMapper.findByUserId(userId);
-	}
+    
+    
 
     public Set<String> findRoles(List<Long> roleIds) {
         Set<String> roles = new HashSet<String>();
         for(Long roleId : roleIds) {
-            Role role = findOne(roleId);
+            Role role = findById(roleId);
             if(role != null) {
                 roles.add(role.getRole());
             }
@@ -101,8 +88,6 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 	 * 添加一个角色，同时可添加这个角色的菜单权限
 	 * 需注意的一个参数menuIds，表示这个角色的菜单权限的id集合
 	 * 
-	 * @author YN
-	 * @date   2019-4-22
 	 */
 	public BaseVO addRoleMenu(AddMenuRoleDTO dto,Long userId) {
 		Role record = new Role();
@@ -138,6 +123,21 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 			}
 		}
 		return new BaseVO();
+	}
+
+
+	public void lockedRole(Long roleId) {
+		
+		Role role = roleMapper.selectByPrimaryKey(roleId);
+    	role.setAvailable(!role.getAvailable());
+    	roleMapper.updateByPrimaryKeySelective(role);
+        
+    	
+        // 冻结用户，需要清除缓存
+        // ShiroKit.reloadAuthorizing(roleId);
+		
+		
+		
 	}
 
 	
