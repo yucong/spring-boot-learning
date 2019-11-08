@@ -55,7 +55,7 @@ public abstract class BaseService<Entity extends BaseEntity,Mapper extends BaseM
 		return entitys;
 	}
 	
-	public Entity detail(int id) {
+	public Entity detail(Long id) {
 		
 		Entity entity = getMapper().selectByPrimaryKey(id);
 		if(entity == null) {

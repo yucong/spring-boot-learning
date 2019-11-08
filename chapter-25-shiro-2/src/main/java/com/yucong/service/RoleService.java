@@ -93,6 +93,7 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 		Role record = new Role();
 		record.setDescription(dto.getRoleDesc());
 		record.setRole(dto.getRoleName());
+		record.setAvailable(true);
 		super.add(record,userId);
 		if(dto.getMenuIds().size() > 0) {
 			for(String menuId : dto.getMenuIds()) {

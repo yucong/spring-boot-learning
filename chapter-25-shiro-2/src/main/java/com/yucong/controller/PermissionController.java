@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,15 +66,17 @@ public class PermissionController {
     })
 	@GetMapping("listAll")
 	public CommonVO<List<PermissionVO>> findAll() {
-		
-		List<Permission> listAll = permissionService.list();
-		List<Permission> list = new ArrayList<Permission>();
-		for (Permission permission : listAll) {
-			// if (menu.getState() == 1 && menu.getFlagDel() == 0) {
-				list.add(permission);
-			// }
+		List<Permission> listAll = permissionService.listAll();
+		List<PermissionVO> listMenuVO = BeanMapper.mapList(listAll, PermissionVO.class);
+		for(int i=0,length=listAll.size(); i<length; i++) {
+			if(listAll.get(i).getAvailable()) {
+				listMenuVO.get(i).setChecked("true");
+				listMenuVO.get(i).setMemo("冻结");
+			} else {
+				listMenuVO.get(i).setChecked("false");
+				listMenuVO.get(i).setMemo("解除");
+			}
 		}
-		List<PermissionVO> listMenuVO = BeanMapper.mapList(list, PermissionVO.class);
 		List<PermissionVO> data = MenuUtils.formatMenu(listMenuVO);
 		return new CommonVO<List<PermissionVO>>(data);
 	}
@@ -132,14 +133,13 @@ public class PermissionController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
-	@ApiOperation(value="删除权限")
+	@ApiOperation(value="冻结权限")
 	@ApiImplicitParams({
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
-	@PostMapping("delete")
-	public BaseVO deleteMenu(@Valid @RequestBody PermissionIdDTO dto, BindingResult result,
-			@RequestHeader("X-User-Id") Long userId) {
-		return permissionService.deleteMenu(dto.getId(),userId);
+	@PostMapping("locked")
+	public BaseVO locked(@Valid @RequestBody PermissionIdDTO dto, @RequestHeader("X-User-Id") Long userId) {
+		return permissionService.locked(dto.getId(),userId);
 	}
 
 	/**

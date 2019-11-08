@@ -8,5 +8,5 @@ import lombok.Data;
 public class PermissionIdDTO {
 
 	@NotNull(message="id必填")
-	private Integer id;
+	private Long id;
 }

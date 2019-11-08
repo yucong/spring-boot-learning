@@ -66,15 +66,8 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 	 * @date 2019-04-22
 	 * 
 	 */
-	public List<Permission> list() {
-		
-		Example example = new Example(Permission.class);
-		example.createCriteria()
-			.andEqualTo("available", true);
-		
-		/// menu.setState(StateEnum.VALID.getCode());
-		/// menu.setFlagDel(FlagDelEnum.NO.getCode());
-		return permissionMapper.selectByExample(example);
+	public List<Permission> listAll() {
+		return permissionMapper.selectAll();
 	}
 	
 	/**
@@ -117,7 +110,7 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 	 * @author YN
 	 * @date: 2019-4-22
 	 */
-	public PermissionVO detailMenu(int id) {
+	public PermissionVO detailMenu(Long id) {
 		Permission menu = super.detail(id);
 		PermissionVO menuVO = BeanMapper.map(menu, PermissionVO.class);
 		return menuVO;
@@ -129,19 +122,18 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 	 * @author YN
 	 * @date 2019-4-22
 	 */
-	public BaseVO deleteMenu(int id, Long userId) {
+	public BaseVO locked(Long id, Long userId) {
 		Permission menu = super.detail(id);
 		// 此菜单为父菜单时，删除所有的子菜单
-		if (menu.getParentId() == 0) {
+		/*if (menu.getParentId() == 0) {
 			Permission menuSon = new Permission();
 			/// menuSon.setState(StateEnum.INVALID.getCode());
 			/// menuSon.setFlagDel(FlagDelEnum.YES.getCode());
 			Example example = new Example(Permission.class);
 			example.createCriteria().andEqualTo("parentId", id);
 			permissionMapper.updateByExampleSelective(menuSon, example);
-		}
-		/// menu.setState(StateEnum.INVALID.getCode());
-		/// menu.setFlagDel(FlagDelEnum.YES.getCode());
+		}*/
+		menu.setAvailable(!menu.getAvailable());
 		super.update(menu, userId);
 		return new BaseVO();
 	}
