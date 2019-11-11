@@ -102,8 +102,6 @@ public class ShiroKit {
     	Subject subject = SecurityUtils.getSubject(); 
     	String realmName = subject.getPrincipals().getRealmNames().iterator().next();
     	
-    	
-    	
     	for(Long userId : userIds) {
     		SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
         	shiroRealm.clearCachedAuthorizationInfo(principals);
