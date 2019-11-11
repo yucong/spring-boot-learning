@@ -131,6 +131,11 @@ public class RoleService extends BaseService<Role, RoleMapper> {
 				menuRoleMapper.insertSelective(menuRole);
 			}
 		}
+		
+		// 修改角色时，需要清除缓存
+    	List<Long> userIds = roleMapper.findUserIdByRoleId(dto.getRoleId());
+        ShiroKit.reloadAuthorizing(userIds);
+		
 		return new BaseVO();
 	}
 

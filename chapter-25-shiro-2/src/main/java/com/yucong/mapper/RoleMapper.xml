@@ -25,7 +25,41 @@
   
   
   <select id="findUserIdByRoleId" resultType="java.lang.Long">
-  	  SELECT DISTINCT r.id FROM sys_user_role ur INNER JOIN sys_user r ON r.id = ur.user_id WHERE r.locked = false AND ur.role_id = #{roleId}
+  	  SELECT DISTINCT 
+  	    r.id 
+  	  FROM 
+  	    sys_user_role ur 
+  	  INNER JOIN sys_user u ON u.id = ur.user_id 
+  	  WHERE 
+  	    u.locked = false AND ur.role_id = #{roleId}
   </select>
+  
+  <select id="findUserIdByRoleIds" resultType="java.lang.Long">
+  	  SELECT DISTINCT 
+  	    r.id 
+  	  FROM 
+  	    sys_user_role ur 
+  	  INNER JOIN sys_user u ON u.id = ur.user_id 
+  	  WHERE 
+  	    u.locked = false AND ur.role_id IN
+  	       <foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
+		      #{id}
+		   </foreach>
+  </select>
+  
+  
+  <select id="findRoleIdByPermissionId" resultType="java.lang.Long">
+	  SELECT DISTINCT
+	    rp.role_id
+	  FROM
+	    sys_role_permission rp
+	  INNER JOIN sys_permission p ON p.id = rp.permission_id
+	  INNER JOIN sys_role r ON r.id = rp.role_id
+	  WHERE
+	    r.available = true AND
+	    rp.permission_id = #{permissionId}  	  
+  </select>
+  
+  
 
 </mapper>

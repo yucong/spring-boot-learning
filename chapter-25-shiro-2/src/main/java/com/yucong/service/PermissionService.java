@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.yucong.core.base.service.BaseService;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.enums.PermissionTypeEnum;
+import com.yucong.core.shiro.ShiroKit;
 import com.yucong.core.util.BeanMapper;
 import com.yucong.dto.menu.AddMenuDTO;
 import com.yucong.dto.menu.UpdateMenuDTO;
@@ -16,6 +17,7 @@ import com.yucong.entity.Permission;
 import com.yucong.entity.RolePermission;
 import com.yucong.entity.UserRole;
 import com.yucong.mapper.PermissionMapper;
+import com.yucong.mapper.RoleMapper;
 import com.yucong.mapper.MenuRoleMapper;
 import com.yucong.mapper.UserRoleMapper;
 import com.yucong.vo.menu.PermissionVO;
@@ -30,6 +32,8 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 
 	@Autowired
 	private UserRoleMapper userRoleMapper;
+	@Autowired
+	private RoleMapper roleMapper;
 
 	@Autowired
 	private MenuRoleMapper menuRoleMapper;
@@ -138,6 +142,17 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 			} else {
 				result.setCode(0);
 				result.setMessage("必须先解冻关联菜单");
+			}
+		}
+		
+		
+		
+		// 冻结权限时，对应的角色发生了变化，角色关联的用户获取到权限发生了变化，所以需要清除用户的缓存
+		List<Long> roleIds = roleMapper.findRoleIdByPermissionId(id);
+		if(!roleIds.isEmpty()) {
+			List<Long> userIds = roleMapper.findUserIdByRoleIds(roleIds);
+			if(!userIds.isEmpty()) {
+				ShiroKit.reloadAuthorizing(userIds);
 			}
 		}
 		return result;
