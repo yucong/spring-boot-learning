@@ -44,6 +44,10 @@ public class RoleController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
+	@ApiOperation(value="角色列表")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@GetMapping("list")
 	public CommonVO<DataTableVO<Role>> list(ListRoleDTO dto) {
 		return new CommonVO<>(roleService.list(dto.getRoleName(),dto.getAvailable(),dto.getPage(),dto.getSize()));
@@ -55,6 +59,10 @@ public class RoleController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
+	@ApiOperation(value="根据用户ID查询角色")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@GetMapping("listByUserId")
 	public CommonVO<List<Role>> listByUserId(Long userId) {
 		return new CommonVO<>(roleService.listByUserId(userId));
@@ -68,6 +76,10 @@ public class RoleController {
 	 * @author YN
 	 * @date   2019-4-22
 	 */
+	@ApiOperation(value="添加角色")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@PostMapping("addRolePermission")
 	public BaseVO addRolePermission(@RequestBody @Valid AddMenuRoleDTO dto,@RequestHeader("X-User-Id") Long userId) {
 		return roleService.addRoleMenu(dto,userId);
@@ -80,6 +92,10 @@ public class RoleController {
 	 * @author  YN
 	 * @date    2019-4-23
 	 */
+	@ApiOperation(value="更新角色")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
+    })
 	@PostMapping("updateRolePermission")
 	public BaseVO updateRolePermission(@RequestBody @Valid UpdateMenuRoleDTO dto, @RequestHeader("X-User-Id") Long userId) {
 		return roleService.updateRolePermission(dto,userId);
