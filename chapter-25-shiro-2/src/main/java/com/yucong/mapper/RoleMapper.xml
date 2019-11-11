@@ -26,7 +26,7 @@
   
   <select id="findUserIdByRoleId" resultType="java.lang.Long">
   	  SELECT DISTINCT 
-  	    r.id 
+  	    u.id 
   	  FROM 
   	    sys_user_role ur 
   	  INNER JOIN sys_user u ON u.id = ur.user_id 
@@ -36,7 +36,7 @@
   
   <select id="findUserIdByRoleIds" resultType="java.lang.Long">
   	  SELECT DISTINCT 
-  	    r.id 
+  	    u.id 
   	  FROM 
   	    sys_user_role ur 
   	  INNER JOIN sys_user u ON u.id = ur.user_id 

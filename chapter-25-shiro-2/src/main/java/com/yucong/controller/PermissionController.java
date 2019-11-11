@@ -107,9 +107,10 @@ public class PermissionController {
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
 	@PostMapping("update")
-	public CommonVO<Object> updateMenu(@Valid @RequestBody UpdateMenuDTO dto, 
+	public BaseVO updateMenu(@Valid @RequestBody UpdateMenuDTO dto, 
 			@RequestHeader("X-User-Id") Long userId) {
-		return new CommonVO<Object>(permissionService.updateMenu(dto,userId));
+		permissionService.updateMenu(dto,userId);
+		return new BaseVO();
 	}
 
 	/**

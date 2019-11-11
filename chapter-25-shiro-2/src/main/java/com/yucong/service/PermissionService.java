@@ -88,9 +88,9 @@ public class PermissionService extends BaseService<Permission, PermissionMapper>
 	/**
 	 * 更新菜单
 	 */
-	public Object updateMenu(UpdateMenuDTO dto, Long userId) {
+	public void updateMenu(UpdateMenuDTO dto, Long userId) {
 		Permission menu = BeanMapper.map(dto, Permission.class);
-		return super.update(menu, userId);
+		super.update(menu, userId);
 	}
 
 	/**

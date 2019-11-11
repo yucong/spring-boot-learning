@@ -3,6 +3,7 @@ package com.yucong.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.yucong.BaseMapper;
 import com.yucong.entity.Role;
@@ -25,7 +26,7 @@ public interface RoleMapper  extends BaseMapper<Role> {
 	
 	List<Long> findUserIdByRoleId(Long roleId);
 	
-	List<Long> findUserIdByRoleIds(List<Long> roleIds);
+	List<Long> findUserIdByRoleIds(@Param("roleIds") List<Long> roleIds);
 	
 	List<Long> findRoleIdByPermissionId(Long permissionId);
 
