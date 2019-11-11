@@ -56,9 +56,6 @@ public class UserAuthManager {
 	}
 	
 	
-	public List<Long> findUsersByRoleId(Long roleId) {
-		return userMapper.findUsersByRoleId(roleId);
-	}
 	
 	
 	

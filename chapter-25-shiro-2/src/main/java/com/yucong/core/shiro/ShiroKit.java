@@ -77,7 +77,13 @@ public class ShiroKit {
     	String realmName = subject.getPrincipals().getRealmNames().iterator().next();
     	SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
     	shiroRealm.clearCachedAuthorizationInfo(principals);
-    	shiroRealm.clearCachedSession(userId);
+    	
+    	// 如果是当前用户无需清除session
+    	Long currentUserId = (Long) subject.getPrincipal();
+    	if(!currentUserId.equals(userId)) {
+    		shiroRealm.clearCachedSession(userId);
+    	}
+    	
     }
     
     
@@ -96,10 +102,16 @@ public class ShiroKit {
     	Subject subject = SecurityUtils.getSubject(); 
     	String realmName = subject.getPrincipals().getRealmNames().iterator().next();
     	
+    	
+    	
     	for(Long userId : userIds) {
     		SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
         	shiroRealm.clearCachedAuthorizationInfo(principals);
     	}
+    	
+    	// 当前登录用户的session无需清除
+    	Long currentUserId = (Long) subject.getPrincipal();
+    	userIds.remove(currentUserId);
     	shiroRealm.clearCachedSession(userIds);
     }
 

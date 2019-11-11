@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import com.yucong.core.base.service.BaseService;
 import com.yucong.core.base.vo.BaseVO;
 import com.yucong.core.base.vo.DataTableVO;
+import com.yucong.core.shiro.ShiroKit;
 import com.yucong.core.util.StringUtil;
 import com.yucong.dto.role.AddMenuRoleDTO;
 import com.yucong.dto.role.UpdateMenuRoleDTO;
@@ -141,10 +142,9 @@ public class RoleService extends BaseService<Role, RoleMapper> {
     	roleMapper.updateByPrimaryKeySelective(role);
         
     	
-        // 冻结用户，需要清除缓存
-        // ShiroKit.reloadAuthorizing(roleId);
-		
-		
+        // 冻结角色，需要清除缓存
+    	List<Long> userIds = roleMapper.findUserIdByRoleId(roleId);
+        ShiroKit.reloadAuthorizing(userIds);
 		
 	}
 

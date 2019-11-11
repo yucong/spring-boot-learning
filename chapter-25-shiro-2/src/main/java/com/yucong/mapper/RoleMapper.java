@@ -20,4 +20,7 @@ public interface RoleMapper  extends BaseMapper<Role> {
 	List<Role> findByUserId(Long userId);
 	
 	
+	List<Long> findUserIdByRoleId(Long roleId);
+	
+	
 }

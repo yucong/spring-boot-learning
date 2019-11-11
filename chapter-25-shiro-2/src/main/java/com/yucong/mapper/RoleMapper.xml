@@ -12,5 +12,9 @@
 		ur.user_id = #{userId} AND
 		r.available = true
   </select>
+  
+  <select id="findUserIdByRoleId" resultType="java.lang.Long">
+  	  SELECT DISTINCT r.id FROM sys_user_role ur INNER JOIN sys_user r ON r.id = ur.user_id WHERE r.locked = false AND ur.role_id = #{roleId}
+  </select>
 
 </mapper>
