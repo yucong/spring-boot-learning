@@ -18,12 +18,13 @@ import com.yucong.service.PermissionService;
 import com.yucong.service.RoleService;
 import com.yucong.vo.menu.PermissionVO;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
-
+@Api(tags = "05-主页")
 @RestController
 public class IndexController {
 

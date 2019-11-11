@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-@Api(tags = "01-用户登录")
+@Api(tags = "01-登录")
 public class LoginController {
 
 	@Autowired

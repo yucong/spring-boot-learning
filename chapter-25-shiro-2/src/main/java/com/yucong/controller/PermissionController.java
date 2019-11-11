@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiOperation;
 @Auth
 @RestController
 @RequestMapping("permission")
-@Api(tags = "03-权限管理")
+@Api(tags = "04-权限管理")
 public class PermissionController {
 
 	@Autowired

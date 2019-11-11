@@ -23,6 +23,7 @@ import com.yucong.dto.role.UpdateMenuRoleDTO;
 import com.yucong.entity.Role;
 import com.yucong.service.RoleService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,7 @@ import io.swagger.annotations.ApiOperation;
 @Auth
 @RestController
 @RequestMapping("role")
+@Api(tags = "03-角色管理")
 public class RoleController {
 
 	@Autowired
