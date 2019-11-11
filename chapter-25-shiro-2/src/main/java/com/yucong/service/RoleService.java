@@ -65,7 +65,7 @@ public class RoleService extends BaseService<Role, RoleMapper> {
     
     public List<Long> findRoleIdByUserId(Long userId) {
     	
-    	List<Role> roles = roleMapper.findByUserId(userId);
+    	List<Role> roles = roleMapper.findByUserIdAndAvailableTrue(userId);
     	List<Long> roleIds = new ArrayList<>();
     	for(Role role : roles) {
     		roleIds.add(role.getId());

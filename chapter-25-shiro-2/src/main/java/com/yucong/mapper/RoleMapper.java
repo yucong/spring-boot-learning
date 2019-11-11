@@ -17,6 +17,15 @@ public interface RoleMapper  extends BaseMapper<Role> {
 	 * @param userId
 	 * @return
 	 */
+	List<Role> findByUserIdAndAvailableTrue(Long userId);
+	
+	
+	/**
+	 * 根据用户ID获取角色
+	 * 
+	 * @param userId
+	 * @return
+	 */
 	List<Role> findByUserId(Long userId);
 	
 	
