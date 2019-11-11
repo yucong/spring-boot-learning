@@ -1,5 +1,7 @@
 package com.yucong.core.shiro;
 
+import java.util.List;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -76,6 +78,29 @@ public class ShiroKit {
     	SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
     	shiroRealm.clearCachedAuthorizationInfo(principals);
     	shiroRealm.clearCachedSession(userId);
+    }
+    
+    
+    /** 
+     * 重新赋值权限(在比如:给一个角色临时添加一个权限,需要调用此方法刷新权限,否则还是没有刚赋值的权限) 
+     * https://blog.csdn.net/jizhunboss/article/details/53606808
+     * 
+     * @param myRealm 自定义的realm 
+     * @param username 用户名 
+     */  
+    public static void reloadAuthorizing(List<Long> userIds){  
+    	
+    	RealmSecurityManager rsm = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+    	ShiroAuthRealm shiroRealm = (ShiroAuthRealm)rsm.getRealms().iterator().next();
+		
+    	Subject subject = SecurityUtils.getSubject(); 
+    	String realmName = subject.getPrincipals().getRealmNames().iterator().next();
+    	
+    	for(Long userId : userIds) {
+    		SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
+        	shiroRealm.clearCachedAuthorizationInfo(principals);
+    	}
+    	shiroRealm.clearCachedSession(userIds);
     }
 
 

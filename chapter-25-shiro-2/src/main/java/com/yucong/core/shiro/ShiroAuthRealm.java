@@ -115,6 +115,20 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     		}
     	}
     }
+    
+    public void clearCachedSession(List<Long> userIds) {
+    	Collection<Session> sessions = sessionDAO.getActiveSessions();
+    	for(Session session:sessions) {
+    		Object sessionKey = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+    		if(sessionKey == null) {
+    			continue;
+    		}
+    		Long sessionKeyVaue = Long.valueOf(sessionKey.toString());
+    		if(userIds.contains(sessionKeyVaue) ) {
+    			sessionDAO.delete(session);
+    		}
+    	}
+    }
 
     
     /**
