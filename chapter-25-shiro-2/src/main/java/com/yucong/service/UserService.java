@@ -10,11 +10,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yucong.core.base.vo.DataTableVO;
 import com.yucong.core.shiro.ShiroKit;
+import com.yucong.core.util.BeanMapper;
 import com.yucong.core.util.StringUtil;
+import com.yucong.entity.Role;
 import com.yucong.entity.User;
 import com.yucong.entity.UserRole;
+import com.yucong.mapper.RoleMapper;
 import com.yucong.mapper.UserMapper;
 import com.yucong.mapper.UserRoleMapper;
+import com.yucong.vo.user.ListUserVO;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
@@ -28,6 +32,8 @@ public class UserService {
     private PasswordHelper passwordHelper;
     @Autowired
     private UserRoleMapper userRoleMapper;
+    @Autowired
+    private RoleMapper roleMapper;
 
     /**
      * 创建用户
@@ -70,7 +76,7 @@ public class UserService {
         return userDao.selectByPrimaryKey(userId);
     }
 
-    public DataTableVO<User> findAll(String username,int pageNum,int pageSize) {
+    public DataTableVO<ListUserVO> findAll(String username,int pageNum,int pageSize) {
     	
     	Example example = new Example(User.class);
     	Criteria criteria = example.createCriteria();
@@ -83,7 +89,13 @@ public class UserService {
 		long allCount = page.getTotal();
 		int allPage = page.getPages();
 		int currentPage = page.getPageNum();
-		return new DataTableVO<User>(pageSize, allCount, allPage, currentPage, entitys);
+		
+		List<ListUserVO> userVOs = BeanMapper.mapList(entitys, ListUserVO.class);
+		for(ListUserVO user : userVOs) {
+			List<Role> roles = roleMapper.findByUserId(user.getId());
+			user.setRoles(roles);
+		}
+		return new DataTableVO<ListUserVO>(pageSize, allCount, allPage, currentPage, userVOs);
     }
 
 	public void updateUserRole(Long userId, List<Long> roleIds) {

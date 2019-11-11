@@ -21,6 +21,7 @@ import com.yucong.dto.user.UpdateUser;
 import com.yucong.dto.user.UserIdDTO;
 import com.yucong.entity.User;
 import com.yucong.service.UserService;
+import com.yucong.vo.user.ListUserVO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,8 +42,8 @@ public class UserController {
         @ApiImplicitParam(name = "Authorization", value = "用户令牌", required = true, dataType = "string", paramType = "header"),
     })
     @GetMapping(value = "list")
-    public CommonVO<DataTableVO<User>> list(ListUserDTO dto) {
-    	return new CommonVO<DataTableVO<User>>(userService.findAll(dto.getUsername(),dto.getPage(),dto.getSize()));
+    public CommonVO<DataTableVO<ListUserVO>> list(ListUserDTO dto) {
+    	return new CommonVO<DataTableVO<ListUserVO>>(userService.findAll(dto.getUsername(),dto.getPage(),dto.getSize()));
     }
 
     @ApiOperation(value="添加用户")

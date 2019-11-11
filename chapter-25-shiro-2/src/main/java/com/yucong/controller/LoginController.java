@@ -87,6 +87,15 @@ public class LoginController {
         }
         return commonVO;
     }
+	
+	
+	@ApiOperation(value="退出登录")
+    @PostMapping(value = "/logout")
+    public BaseVO logout() {
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		return new BaseVO();
+    }
     
     @GetMapping(value = "/unLogin")
     public BaseVO login() {
