@@ -9,7 +9,7 @@
 		sys_role_permission rp
 	INNER JOIN sys_role r ON r.id = rp.role_id
 	INNER JOIN sys_permission p ON p.id = rp.permission_id
-	WHERE p.type = 'button' AND r.id IN
+	WHERE p.type = 'button' AND p.available = true AND r.id IN
 		<foreach collection="roleIds" item="id" index="index" open="(" close=")" separator=",">
 		  #{id}
 		</foreach>
