@@ -107,6 +107,7 @@ public class ShiroAuthRealm extends AuthorizingRealm {
     	for(Session session:sessions) {
     		Object sessionKey = session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
     		if(sessionKey == null) {
+    			sessionDAO.delete(session);
     			continue;
     		}
     		Long sessionKeyVaue = Long.valueOf(sessionKey.toString());

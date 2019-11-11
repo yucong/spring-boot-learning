@@ -78,9 +78,11 @@ public class ShiroKit {
     	SimplePrincipalCollection principals = new SimplePrincipalCollection(userId,realmName);
     	shiroRealm.clearCachedAuthorizationInfo(principals);
     	
-    	// 如果是当前用户无需清除session
+    	// 如果是当前用户直接退出登录，因为角色发生变化，主页的菜单也很可能发生了变化
     	Long currentUserId = (Long) subject.getPrincipal();
-    	if(!currentUserId.equals(userId)) {
+    	if(currentUserId.equals(userId)) {
+    		subject.logout();
+    	} else {
     		shiroRealm.clearCachedSession(userId);
     	}
     	
@@ -107,9 +109,12 @@ public class ShiroKit {
         	shiroRealm.clearCachedAuthorizationInfo(principals);
     	}
     	
-    	// 当前登录用户的session无需清除
+    	// 如果是当前用户直接退出登录，因为角色发生变化，主页的菜单也很可能发生了变化
     	Long currentUserId = (Long) subject.getPrincipal();
-    	userIds.remove(currentUserId);
+    	if(userIds.contains(currentUserId)) {
+    		subject.logout();
+    		userIds.remove(currentUserId);
+    	}
     	shiroRealm.clearCachedSession(userIds);
     }
 
