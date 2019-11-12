@@ -117,4 +117,21 @@
     <appender-ref ref="WARN-OUT" />
     <appender-ref ref="ERROR-OUT" />
   </root>
+  
+  
+  <!-- 日志异步到数控库 -->
+  <!-- <appender name="DB" class="ch.qos.logback.classic.db.DBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
+           <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
+              <driverClass>com.mysql.jdbc.Driver</driverClass>
+              <url>jdbc:mysql://rm-wz936477ppnwe9zamfo.mysql.rds.aliyuncs.com:3306/shiro-web?characterEncoding=utf-8</url>
+              <user>syp_test</user>
+              <password>a123456!</password>
+            </dataSource>
+        </connectionSource>
+  </appender> -->
+  
+  
+  
+  
 </configuration>
