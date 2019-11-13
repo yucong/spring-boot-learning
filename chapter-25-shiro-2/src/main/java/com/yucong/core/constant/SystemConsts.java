@@ -3,7 +3,7 @@ package com.yucong.core.constant;
 /**
  * 系统常量
  * 
- * */
+ */
 public interface SystemConsts {
 
 	 
