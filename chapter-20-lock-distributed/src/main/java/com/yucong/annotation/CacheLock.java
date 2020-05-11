@@ -24,7 +24,7 @@ public @interface CacheLock {
      *
      * @return 轮询锁的时间
      */
-    int expire() default 5;
+    int expire() default 500;
 
     /**
      * 超时时间单位

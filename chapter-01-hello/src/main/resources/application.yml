@@ -1,4 +1,4 @@
 server:
-  port: 80
+  port: 7901
   servlet:
-    context-path: /chapter01
+    context-path: /

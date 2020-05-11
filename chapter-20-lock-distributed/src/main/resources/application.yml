@@ -5,6 +5,14 @@ server:
 
 spring:
   redis:
-    host: 192.168.0.10
+    host: r-uf6tknbhr9hzsfyzukpd.redis.rds.aliyuncs.com
+    password: LaiTest@2020
+    database: 1
     port: 6379
-    password: Bm2018
+    timeout: 6000
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 100
+        min-idle: 100  
