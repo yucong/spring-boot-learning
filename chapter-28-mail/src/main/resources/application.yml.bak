@@ -1,0 +1,19 @@
+server:
+  port: 7901
+  servlet:
+    context-path: /
+
+    
+    
+spring:
+  mail:
+    host: smtp.qq.com
+    username: --@qq.com
+    password: faa
+    properties:
+      mail:
+        stmp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
