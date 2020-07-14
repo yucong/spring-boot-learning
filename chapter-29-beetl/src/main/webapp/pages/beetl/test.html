@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+
+
+<body>
+	
+	<hr>
+	获取项目的context-path-->${ctxPath}
+	
+	<hr>
+	获取后台返回的数据--->${username}
+	
+	
+	@if(shiro.hasPermission("a")){
+    	<button>添加a</button>
+    @}
+    @if(shiro.hasPermission("b")){
+    	<button>添加b</button>
+    @}
+    @if(shiro.hasPermission("c")){
+    	<button>添加c</button>
+    @}
+	
+	
+	
+</body>
+
+
+</html>
