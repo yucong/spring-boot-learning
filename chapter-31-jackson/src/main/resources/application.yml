@@ -1,0 +1,11 @@
+# 开启swagger
+swagger:
+  enabled: true
+  
+  
+#spring:
+#  jackson:
+#    property-naming-strategy: SNAKE_CASE
+    
+
+    
